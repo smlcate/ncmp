@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      database: 'ncmp_2.0'
+      database: 'ncmp_2'
     }
   },
 
