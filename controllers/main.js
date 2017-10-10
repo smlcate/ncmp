@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 
 exports.getData = function(req, res, next) {
 
-  knex('people')
+  knex('table')
   .select('*')
   .then(function(data) {
     console.log(data);
