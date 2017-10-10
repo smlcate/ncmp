@@ -5,6 +5,15 @@ var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
 exports.getData = function(req, res, next) {
-  console.log('hit');
-  res.send('hellooooo')
+
+  knex('people')
+  .select('*')
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log(err)
+  })
+
 }
