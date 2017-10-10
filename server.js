@@ -7,8 +7,14 @@ var app = express();
 var knex = require('./db/knex');
 var bodyParser = require('body-parser');
 
+var server = require('./controllers/main.js')
+
+
 app.use(express.static('public'));
 app.use(bodyParser.json());
+
+app.get('/getData', server.getData)
+
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {
