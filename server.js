@@ -7,13 +7,15 @@ var app = express();
 var knex = require('./db/knex');
 var bodyParser = require('body-parser');
 
-var server = require('./controllers/main.js')
+var server = {
+  events: require('./controllers/events.js')
+}
 
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-app.get('/getData', server.getData)
+app.get('/getData', server.events.getData)
 
 
 app.set('port', process.env.PORT || 3000);

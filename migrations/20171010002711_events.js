@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('table', function(table) {
+  return knex.schema.createTable('events', function(table) {
     table.increments();
     table.string('name');
     table.integer('event_group_id');
@@ -18,5 +18,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('table');
+  return knex.schema.dropTable('events');
 };
