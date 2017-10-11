@@ -1,0 +1,36 @@
+/**/calendar styles
+#calendar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 777px;
+  height: 520px;
+
+}
+  #calendarHeader {
+    display: flex;
+    border-bottom: solid black 1px;
+  }
+    #calendarHeader li {
+      width: 130px;
+      display: flex;
+      justify-content: center;
+    }
+  #calendarContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .calendarCelltrue {
+    height: 100px;
+    width: 130px;
+    border: 1px solid black;
+    background: #f5f5f5;
+  }
+  .calendarCellfalse {
+    height: 100px;
+    width: 130px;
+    border: 1px solid black;
+    background: #E0E0E0;
+  }
+/**/
