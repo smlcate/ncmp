@@ -3,6 +3,12 @@
   <h1>calendar</h1>
   <a href="/">home</a>
 
+  <a ng-click="prevMonth()"><</a>
+  <a ng-click="nextMonth()">></a>
+
+
+  <h2>{{selectedMonth_text}}</h2>
+
   <div id="calendar">
 
     <ul id="calendarHeader">
@@ -19,15 +25,15 @@
 
       <div class="calendarCell{{day.curMonth}}" ng-repeat="day in month_events track by $index" ng-click="selectDay(day)">
 
-      {{ day.date }}
+        {{ day.date }}
 
-      <div class="eventCell" ng-repeat="event in day.events" style="background:{{event.color}}">
+        <div class="eventCell" ng-repeat="event in day.events" style="background:{{event.color}}">
 
-        {{event.name}}
+          {{event.name}}
+
+        </div>
 
       </div>
-
-    </div>
 
     </div>
 

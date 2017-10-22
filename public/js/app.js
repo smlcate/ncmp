@@ -15,5 +15,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/calendar',
       templateUrl: '../partials/calendar.html'
   })
+  .state('series', {
+      url: '/series',
+      templateUrl: '../partials/series.html'
+  })
+  .state('admin', {
+      url: '/admin',
+      templateUrl: '../partials/admin.html'
+  })
 
 })

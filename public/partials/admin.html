@@ -1,0 +1,34 @@
+<div class="parentDisplays" id="adminDisplay" ng-controller="adminCtrl">
+
+  <div class="adminControlGroups" id="adminPhotoControl">
+
+    <input type="file" id="input">
+    <button type="button" name="button" ng-click="sendInput()">Send</button>
+
+    <img src="" alt="" id="output">
+
+    <div id="photoGallery">
+
+      <div class="photoCell" ng-repeat="photo in photos">
+
+        <img src="{{photo.dataURL}}" alt="" id="">
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="adminControlGroups" id=adminEventControl>
+
+    <div class="eventCell" ng-repeat="event in events">
+
+      {{event}}
+
+    </div>
+
+  </div>
+
+
+
+</div>

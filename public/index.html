@@ -10,13 +10,35 @@
   crossorigin="anonymous"></script>
 
   <script defer src="./js/app.js" charset="utf-8"></script>
-  <script defer src="./js/controllers/calendarCtrl.js" charset="utf-8"></script>
   <script defer src="./js/controllers/mainCtrl.js" charset="utf-8"></script>
+  <script defer src="./js/controllers/calendarCtrl.js" charset="utf-8"></script>
+  <script defer src="./js/controllers/seriesCtrl.js" charset="utf-8"></script>
+  <script defer src="./js/controllers/adminCtrl.js" charset="utf-8"></script>
 
   <link rel="stylesheet" href="./styles/style.css">
 
 </head>
 <body ng-app='mainApp' ng-controller="mainCtrl">
+
+  <header id="mainHeader">
+
+    <div id="headerLogo">
+
+    </div>
+
+    <nav id="headerNav">
+
+      <a href="/#!/series">Series</a>
+      <a href="#">Events</a>
+      <a href="#">Kart Owners</a>
+      <a href="#">Rental Karts</a>
+      <a href="#">Corporate Events</a>
+      <a href="#">About</a>
+      <a href="#">Weather</a>
+
+    </nav>
+
+  </header>
 
    <div ui-view id="mainDisplay">
 

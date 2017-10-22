@@ -184,4 +184,155 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
   buildCalendar()
 
+  function getEvents() {
+
+    $http.get('getData')
+    .then(function(res) {
+      $scope.events = res.data;
+
+      console.log(res.data)
+
+      var today = new Date();
+
+      var current = {
+        year: today.getYear()+1900,
+        day: today.getDate(),
+        month: today.getMonth()+1
+      }
+
+      var eventful = false;
+
+      for (var i = 0; i < res.data.length; i++) {
+
+        var date = res.data[i].date.slice(0,-14);
+        var time = res.data[i].date.slice(11,-1);
+
+        var y = Number(date.slice(0,-6));
+        var d = Number(date.slice(8))
+        var m = Number(date.slice(5,-3))
+
+        var e = res.data[i]
+
+        if (e.start_time) {
+
+          var sn1 = Number(e.start_time.slice(0,-6));
+
+          var ss = e.start_time.slice(2);
+
+          sn1 = sn1 - 5;
+
+          var ns = sn1 + ss;
+
+          var en1 = Number(e.end_time.slice(0,-6));
+
+          var es = e.end_time.slice(2);
+
+          if (Number(e.end_time.slice(0,-6)) >= 0 && Number(e.end_time.slice(0,-6)) <= 4) {
+
+            en1 = 24 + en1 - 5
+
+          } else {
+
+            en1 = en1 - 5;
+
+          }
+
+          var ne = en1 + es;
+
+          e.start_time = ns;
+          e.end_time = ne;
+
+        }
+
+
+        if (y == current.year && d == current.day && m == current.month) {
+
+          eventful = true;
+
+          $scope.currentDaysEvents.push(e);
+
+        }
+
+        if (y == current.year && m >= current.month) {
+
+          if (m > current.month) {
+
+            $scope.eventsAfterToday.push(e);
+
+          } else if(d >= current.day) {
+
+            $scope.eventsAfterToday.push(e);
+
+          }
+        } else if (y > current.year) {
+
+          $scope.eventsAfterToday.push(e);
+
+        }
+
+      }
+
+      // if (eventful === false && $scope.currentDaysEvents.length === 0) {
+      //   if (today.getDay() === 1) {
+      //     $scope.currentDaysEvents.push({
+      //       name: 'Track Closed',
+      //       color: 'lightpink',
+      //       rentalKarts: false,
+      //       start_time: '10:00:00',
+      //       end_time: '19:00:00'
+      //     })
+      //   } else {
+      //     $scope.currentDaysEvents.push({
+      //       name: 'Open Practice',
+      //       color: 'lightgreen',
+      //       rentalKarts: true,
+      //       start_time: '10:00:00',
+      //       end_time: '19:00:00'
+      //     })
+      //   }
+      // }
+
+      buildCalendar();
+
+    })
+  }
+
+  $scope.nextMonth = function() {
+
+    if ($scope.selectedMonth == 11) {
+
+      $scope.selectedMonth = 0;
+      $scope.selectedYear ++;
+
+    } else {
+
+      $scope.selectedMonth ++;
+
+    }
+
+    $scope.selectedMonth_text = monthNames[$scope.selectedMonth];
+
+    getEvents();
+
+  }
+
+  $scope.prevMonth = function() {
+
+    if ($scope.selectedMonth == 0) {
+
+      $scope.selectedMonth = 11;
+      $scope.selectedYear --;
+
+    } else {
+
+      $scope.selectedMonth --;
+
+    }
+
+    $scope.selectedMonth_text = monthNames[$scope.selectedMonth];
+    getEvents();
+
+  }
+
+
 }]);

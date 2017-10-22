@@ -17,6 +17,9 @@ app.use(bodyParser.json());
 
 app.get('/getData', server.events.getData)
 
+app.post('/uploadImage', server.events.uploadImage)
+app.get('/getImages', server.events.getImages)
+
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {
