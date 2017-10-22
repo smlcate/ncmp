@@ -1,6 +1,7 @@
 app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   $scope.events = [];
+  $scope.sponsors = [];
 
   function init() {
     $http.get('getData')
@@ -15,7 +16,16 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   init();
 
-  
+  function pullSponsors() {
+    for (var i = 0; i < 10; i++) {
+      var s = {
+        img: '../images/topkartlogo.png',
+        url: 'www.topkartusa.com'
+      }
+      $scope.sponsors.push(s);
+    }
+
+  }
 
 
 }]);

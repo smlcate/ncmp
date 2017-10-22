@@ -8,7 +8,8 @@ var knex = require('./db/knex');
 var bodyParser = require('body-parser');
 
 var server = {
-  events: require('./controllers/events.js')
+  events: require('./controllers/events.js'),
+  images: require('./controllers/images.js')
 }
 
 
@@ -17,8 +18,8 @@ app.use(bodyParser.json());
 
 app.get('/getData', server.events.getData)
 
-app.post('/uploadImage', server.events.uploadImage)
-app.get('/getImages', server.events.getImages)
+app.post('/uploadImage', server.images.uploadImage)
+app.get('/getImages', server.images.getImages)
 
 
 app.set('port', process.env.PORT || 3000);
