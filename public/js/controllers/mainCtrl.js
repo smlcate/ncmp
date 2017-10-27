@@ -18,6 +18,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   function pullSponsors() {
     for (var i = 0; i < 10; i++) {
+      console.log(i);
       var s = {
         img: '../images/topkartlogo.png',
         url: 'www.topkartusa.com'
@@ -26,6 +27,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
   }
+  pullSponsors();
 
 
 }]);

@@ -86,6 +86,9 @@ a {
   height: 90px;
   background: white;
   border-bottom: 2px solid black;
+  overflow-x: hidden;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .sponsorCell img {
   height: 90px;
