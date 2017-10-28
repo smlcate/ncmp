@@ -32,6 +32,11 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
   }
 
+  $scope.changeAdminDisplay = function(d) {
+    $('.adminControlGroups').css('display','none');
+    $('#admin'+d+'Control').css('display','flex');
+  }
+
   $http.get('getImages')
   .then(function(res) {
     for (var i = 0; i < res.data.length; i++) {

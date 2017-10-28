@@ -1,6 +1,15 @@
 <div class="parentDisplays" id="adminDisplay" ng-controller="adminCtrl">
 
-  <div class="adminControlGroups" id="adminPhotoControl">
+  <div id="adminPageNav">
+
+    <a href="" ng-click="changeAdminDisplay('Events')">Events</a>
+    <a href="" ng-click="changeAdminDisplay('News')">News</a>
+    <a href="" ng-click="changeAdminDisplay('Images')">Images</a>
+    <a href="" ng-click="changeAdminDisplay('Results')">Results</a>
+
+  </div>
+
+  <div class="adminControlGroups" id="adminImagesControl">
 
     <input type="file" id="input">
     <button type="button" name="button" ng-click="sendInput()">Send</button>
@@ -24,9 +33,39 @@
     <span>Article Title<input type="text" name="" id="newsTitleInput" value=""></span>
     <span>Article Summary<input type="textarea" name="" id="newsSummaryInput" value=""></span>
     <span>Article<input type="textarea" name="" id="newsArticleInput" value=""></span>
+
   </div>
 
-  <div class="adminControlGroups" id=adminEventControl>
+
+
+  <div class="adminControlGroups" id=adminEventsControl>
+
+
+    <div class="">
+
+      <span>Series <input type="text" list="seriesName" value="">
+        <datalist id="seriesName">
+          <option value="New"></option>
+        </datalist>
+      </span>
+
+      <span>Title <input type="text" name="" value=""></span>
+      <span>Color <input type="color" name="" value=""></span>
+
+    </div>
+    <div class="">
+
+      <span>Summary <input type="textarea" name="" value=""></span>
+      <span>Desription <input type="textarea" name="" value=""></span>
+
+    </div>
+
+    <div class="">
+
+      <button type="button" name="button">Add</button>
+      <span>Date <input type="date" name="" value=""></span>
+
+    </div>
 
     <div class="eventCell" ng-repeat="event in events">
 

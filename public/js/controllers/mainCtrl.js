@@ -1,7 +1,10 @@
 app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
+  //Global $scope variables
   $scope.events = [];
+  $scope.eventsAfterToday = [];
   $scope.sponsors = [];
+  $scope.miniCells = [];
 
   function init() {
     $http.get('getData')
@@ -16,6 +19,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   init();
 
+  // Will pull from sponsors list
   function pullSponsors() {
     for (var i = 0; i < 10; i++) {
       console.log(i);
@@ -28,6 +32,8 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   }
   pullSponsors();
+
+
 
 
 }]);

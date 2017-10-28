@@ -297,6 +297,113 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
     })
   }
 
+  function buildMiniCalendar() {
+
+    var d = new Date();
+
+
+
+    // console.log(d)
+
+    var date = {
+      month: 0,
+      day: 0,
+      year: d.getYear()-100+2000
+    }
+
+    for (var i = 0; i < 12; i++) {
+
+      var monthStartDay = new Date(monthNames[date.month] + " 1," + date.year).getDay();
+      // console.log(monthStartDay);
+
+      date.month++;
+
+      var cell = {
+        month: i,
+        month_name: monthNames[i],
+        mcells: []
+      }
+
+      var precount = 0;
+
+      for (var j = 0; j < 35; j++) {
+
+        if (date.day === 35) {
+          date.day = 0;
+        }
+
+        date.day++;
+
+        var day = j - precount + 1;
+        var month = i + 1;
+
+        if (JSON.stringify(day).length === 1) {
+          day = '0'+ day.toString();
+        }
+        if (i.length === 1) {
+          month = '0'+ month.toString();
+        }
+
+        var mcell = {
+          color: 'white',
+          date: 'null'
+        }
+
+        if (day >= 1) {
+
+          mcell.date = date.year + '-' + month + '-' + day
+
+        }
+
+        if (j%7 === 1) {
+          mcell.color = 'lightpink';
+        }
+
+        if (day > monthDays[i]) {
+          mcell.date = null;
+        }
+
+        if (j < monthStartDay || j > monthDays[i] + precount-1) {
+          mcell.color = 'lightgrey';
+          mcell.date = null;
+        }
+        if (j < monthStartDay) {
+          precount ++;
+        }
+
+        for (var k = 0; k < $scope.events.length; k++) {
+          // console.log(mcell.date)
+          // console.log($scope.events[k].date.slice(0,-14))
+          if (mcell.date === $scope.events[k].date.slice(0,-14)) {
+            mcell.color = $scope.events[k].color
+          }
+        }
+
+        // console.log(mcell);
+
+        cell.mcells.push(mcell)
+
+      }
+
+      $scope.miniCells.push(cell)
+
+      // console.log(cell);
+
+    }
+
+  }
+
+  buildMiniCalendar();
+
+  $scope.changeCalendarView = function(v) {
+
+    console.log(v)
+
+    $('.calendarViews').css('display','none');
+    $('#calendar'+v+'View').css('display','flex');
+
+  }
+
   $scope.nextMonth = function() {
 
     if ($scope.selectedMonth == 11) {

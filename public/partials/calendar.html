@@ -1,43 +1,77 @@
 <div class="parentDisplays" id="calendarDisplay" ng-controller="calendarCtrl">
 
-  <h1>calendar</h1>
-  <a href="/">home</a>
+  <div id="calendarViewSelect">
 
-  <a ng-click="prevMonth()"><</a>
-  <a ng-click="nextMonth()">></a>
+    <button type="button" name="button" ng-click="changeCalendarView('List')">List</button>
+    <button type="button" name="button" ng-click="changeCalendarView('Minified')">Minified</button>
+    <button type="button" name="button"ng-click="changeCalendarView('Expanded')">Expanded</button>
+
+  </div>
+
+  <div class="calendarViews" id="calendarExpandedView">
+
+    <a ng-click="prevMonth()"><</a>
+    <a ng-click="nextMonth()">></a>
 
 
-  <h2>{{selectedMonth_text}}</h2>
+    <h2>{{selectedMonth_text}}</h2>
 
-  <div id="calendar">
+    <div id="calendar">
 
-    <ul id="calendarHeader">
-      <li>Sun</li>
-      <li>Mon</li>
-      <li>Tue</li>
-      <li>Wed</li>
-      <li>Thu</li>
-      <li>Fri</li>
-      <li>Sat</li>
-    </ul>
+      <ul id="calendarHeader">
+        <li>Sun</li>
+        <li>Mon</li>
+        <li>Tue</li>
+        <li>Wed</li>
+        <li>Thu</li>
+        <li>Fri</li>
+        <li>Sat</li>
+      </ul>
 
-    <div id="calendarContainer">
+      <div id="calendarContainer">
 
-      <div class="calendarCell{{day.curMonth}}" ng-repeat="day in month_events track by $index" ng-click="selectDay(day)">
+        <div class="calendarCell{{day.curMonth}}" ng-repeat="day in month_events track by $index" ng-click="selectDay(day)">
 
-        {{ day.date }}
+          {{ day.date }}
 
-        <div class="eventCell" ng-repeat="event in day.events" style="background:{{event.color}}">
+          <div class="eventCell" ng-repeat="event in day.events" style="background:{{event.color}}">
 
-          {{event.name}}
+            {{event.name}}
+
+          </div>
 
         </div>
 
       </div>
 
+
     </div>
 
+  </div>
+
+  <div class="calendarViews" id="calendarMinifiedView">
+
+    <div class="miniCalendarCell" ng-repeat="miniCell in miniCells">
+
+      <h3>{{miniCell.month_name}}</h3>
+      <div class="miniCellHeader">
+        <li>S</li>
+        <li>M</li>
+        <li>T</li>
+        <li>W</li>
+        <li>T</li>
+        <li>F</li>
+        <li>S</li>
+      </div>
+      <div class="miniCellContainer">
+        <div class="miniCellMiniCell" style="background:{{mcell.color}}" ng-repeat="mcell in miniCell.mcells">
+
+        </div>
+      </div>
+
+    </div>
 
   </div>
+
 
 </div>
