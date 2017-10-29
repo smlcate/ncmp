@@ -9,7 +9,8 @@ var bodyParser = require('body-parser');
 
 var server = {
   events: require('./controllers/events.js'),
-  images: require('./controllers/images.js')
+  images: require('./controllers/images.js'),
+  news: require('./controllers/news.js')
 }
 
 
@@ -20,6 +21,8 @@ app.get('/getData', server.events.getData)
 
 app.post('/uploadImage', server.images.uploadImage)
 app.get('/getImages', server.images.getImages)
+
+app.get('/getNews', server.news.getNews)
 
 
 app.set('port', process.env.PORT || 3000);

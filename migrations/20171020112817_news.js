@@ -2,6 +2,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('news', function(table) {
     table.increments();
+    table.integer('event_id');
     table.string('title');
     table.text('summary');
     table.text('article');
