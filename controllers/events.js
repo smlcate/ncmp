@@ -9,7 +9,7 @@ exports.getData = function(req, res, next) {
   knex('events')
   .select('*')
   .then(function(data) {
-    console.log(data);
+    // console.log(data);
     res.send(data);
   })
   .catch(function(err) {

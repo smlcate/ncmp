@@ -10,9 +10,30 @@
 
     <div id="homeNewsViewContainer">
 
-      <div id="homeNewsViewContent">
+      <div id="homeNewsViewContentContainer">
 
+        <div id='homeNewsViewContent'style="background-image:url({{selectedBit.imageUrl}})">
 
+          <div class="viewContentDiv" id="topViewContentDiv" >
+
+            <!-- <img src="{{selectedBit.imageUrl}}" alt=""> -->
+
+            <div class="" id="topViewContentInfo" style="background: {{selectedBit.color}};">
+
+              <h1>{{selectedBit.name}}</h1>
+              <h3>{{selectedBit.displayDate}}</h3>
+              <a href="#"><b>More...</b></a>
+
+            </div>
+
+          </div>
+          <div class="viewContentDiv" id="bottomViewContentDiv">
+
+            <p>{{selectedBit.summary}}</p>
+
+          </div>
+
+        </div>
 
       </div>
       <div id="homeNewsViewNav">
@@ -40,7 +61,7 @@
 
           </div>
 
-          <div class="homeNewsViewNavDivCell" ng-repeat="el in announcements.events" style="background:{{el.color}};">
+          <div class="homeNewsViewNavDivCell" ng-repeat="el in announcements.events" style="background:{{el.color}};" ng-click="thisBit(el)">
 
             <p >{{el.name}}</p>
 

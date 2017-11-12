@@ -1,11 +1,19 @@
 app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
+  var monthNames =  ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  var monthDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+  var daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+
   //Global $scope variables
   $scope.events = [];
   $scope.announcements;
   $scope.sponsors = [];
   $scope.miniCells = [];
   $scope.announcements;
+  $scope.selectedBit;
 
   function init() {
     $http.get('getData')
@@ -139,13 +147,90 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       announcements.events = newStack;
     }
 
+    function makeDatePretty(d) {
+
+      var month = monthNames[d.slice(5,-17)-1];
+      var date = d.slice(8,-14);
+      var day = daysOfWeek[new Date(d).getDay()];
+
+      return day + ', ' + month + ' ' + date;
+
+    }
+
+    for (var i = 0; i < announcements.events.length; i++) {
+
+      announcements.events[i].displayDate = makeDatePretty(announcements.events[i].date);
+
+    }
+
+    var i = 0;
+    function pairImages(e) {
+
+      i++;
+
+      $http.post('getImage', {id:e.image})
+      .then(function(res) {
+
+        if(res.data.length > 0) {
+
+          announcements.events[i-1].imageUrl = res.data[0].dataURL;
+
+        }
+
+        if (i < announcements.events.length) {
+
+          pairImages(announcements.events[i])
+
+        }
+      })
+
+    }
+
+    pairImages(announcements.events[i]);
+
     console.log(announcements);
 
     $scope.announcements = announcements;
 
+    $scope.selectedBit = announcements.events[0];
+
+    // var groupIds = [];
+    //
+    // var groups = [];
+    //
+    // for (var i = 0; i < announcements.events.length; i++) {
+    //
+    //   var push = true;
+    //
+    //   for (var j = 0; j < groupIds.length; j++) {
+    //     if (groupIds[j] === announcements.events[i].event_group_id) {
+    //       push = false;
+    //     }
+    //   }
+    //   if (push) {
+    //     console.log(i)
+    //     // console.log(announcements.events[i].event_group_id)
+    //     groupIds.push(announcements.events[i].event_group_id)
+    //     $http.post('getEventGroups', {id:announcements.events[i].event_group_id})
+    //     .then(function(res) {
+    //       console.log(res);
+    //     })
+    //     .catch(function(err) {
+    //       console.log(err);
+    //     })
+    //   }
+
+    // }
+
+
+
   }
 
+  $scope.thisBit = function(b) {
+    console.log(b);
+    $scope.selectedBit = b;
 
+  }
 
 
 

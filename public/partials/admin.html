@@ -11,16 +11,24 @@
 
   <div class="adminControlGroups" id="adminImagesControl">
 
-    <input type="file" id="input">
-    <button type="button" name="button" ng-click="sendInput()">Send</button>
+    <div id="adminImagesControlPanel">
 
-    <img src="" alt="" id="output">
+      <input type="file" multiple id="input">
+      <button type="button" name="button" ng-click="sendInput()">Send</button>
+
+      <!-- <div id="adminImagesControlPanelPreview">
+
+        <img src="{{photo}}" alt="" ng-repeat="photo in photoPreviews">
+
+      </div> -->
+
+    </div>
 
     <div id="photoGallery">
 
       <div class="photoCell" ng-repeat="photo in photos">
 
-        <img src="{{photo.dataURL}}" alt="" id="">
+        <img src="{{photo.dataURL}}" alt="" id="" ng-click="thisPhoto(photo)">
 
       </div>
 
@@ -40,6 +48,15 @@
 
   <div class="adminControlGroups" id=adminEventsControl>
 
+    <div id="eventGroupDisplay">
+
+      <div class="eventGroupCell" ng-repeat="group in eventGroups">
+
+        {{group}}
+
+      </div>
+
+    </div>
 
     <div class="">
 

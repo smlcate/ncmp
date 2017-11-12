@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 
 exports.getImages = function(req, res, next) {
 
+
   knex('images')
   .select('*')
   .then(function(data) {
@@ -16,11 +17,28 @@ exports.getImages = function(req, res, next) {
   })
 
 }
+exports.getImage = function(req, res, next) {
+
+  // console.log(req.body);
+
+  knex('images')
+  .select('dataURL')
+  .where({id:req.body.id})
+  .then(function(data) {
+    // console.log(data);
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+
+}
 exports.uploadImage = function(req, res, next) {
 
-  var i = {
-    dataURL: req.body.data
-  }
+    var i = {
+      dataURL: req.body.data
+    }
+
 
   knex('images')
   .insert(i)

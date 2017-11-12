@@ -1,35 +1,62 @@
 app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
   $scope.photos = [];
+  // $scope.photoPreviews = [];
+  $scope.groupEvents = [];
 
   $scope.sendInput = function() {
 
-    var file = $('#input')[0].files[0];
+    var files = $('#input')[0].files;
 
     // console.log(file);
 
     var reader = new FileReader();
 
-    reader.onload = function(){
+    var urls = [];
 
-      // take dataURL and push onto preview
-      var dataURL = reader.result;
-      var output = document.getElementById('output'); //select preview location
-      output.src = dataURL;
+    var i = 0;
 
-      console.log(dataURL);
+    function readUrl(file) {
 
-      $http.post('uploadImage', {data:dataURL})
-      .then(function(res) {
-        console.log(res.data);
-      })
+      reader.onload = function(){
 
-    };
-    reader.readAsDataURL(file);
+        // take dataURL and push onto preview
+        var dataURL = reader.result;
 
+
+        // console.log(dataURL);
+
+        // urls.push(dataURL);
+
+
+
+        $http.post('uploadImage', {data:dataURL})
+        .then(function(res) {
+          console.log(res.data);
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+
+        if (urls.length < files.length) {
+          i++;
+          readUrl(files[i])
+        }
+
+      };
+
+      reader.readAsDataURL(file);
+
+    }
+
+    readUrl(files[i])
 
     console.log(reader);
 
+  }
+
+  $scope.thisPhoto = function(p) {
+    console.log(p);
   }
 
   $scope.changeAdminDisplay = function(d) {
@@ -37,13 +64,25 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     $('#admin'+d+'Control').css('display','flex');
   }
 
+  $http.get('getAllEventGroups')
+  .then(function(res) {
+    $scope.eventGroups = res.data;
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+
   $http.get('getImages')
   .then(function(res) {
+
     for (var i = 0; i < res.data.length; i++) {
-      var photo = {
-        dataURL: res.data[i].dataURL
-      }
+
+      var photo = res.data[i];
+
+      photo.dataURL = res.data[i].dataURL;
+
       $scope.photos.push(photo);
+
     }
   })
 
