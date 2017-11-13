@@ -183,7 +183,8 @@ a {
   width: 200px;
   padding: 10px;
   height: 100px;
-  box-shadow: 0px 2px 3px 0px;
+  color: black;
+  /*box-shadow: 0px 2px 3px 0px;*/
   border-radius: 4px;
   /*border-radius: 70px;*/
   /*margin-top: 0px;*/
