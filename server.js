@@ -7,7 +7,7 @@ var app = express();
 var knex = require('./db/knex');
 var bodyParser = require('body-parser');
 
-var bcrypt = require('bcrypt');
+// var bcrypt = require('bcrypt');
 
 var server = {
   events: require('./controllers/events.js'),
