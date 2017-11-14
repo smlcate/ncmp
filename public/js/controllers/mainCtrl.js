@@ -127,7 +127,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
     var newStack = [];
 
-    if (sortedStack.length) {
+    if (sortedStack) {
 
       for (var i = 0; i < sortedStack.length; i++) {
         if (sortedStack[i].event_key) {
