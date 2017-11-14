@@ -127,111 +127,116 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
     var newStack = [];
 
-    for (var i = 0; i < sortedStack.length; i++) {
-      if (sortedStack[i].event_key) {
-        if (eventKeys.length > 0) {
-          var keep = true;
-          for (var j = 0; j < eventKeys.length; j++) {
-            if (eventKeys[j] == sortedStack[i].event_key) {
-              keep = false;
-              j = eventKeys.length;
+    if (sortedStack.length) {
+
+      for (var i = 0; i < sortedStack.length; i++) {
+        if (sortedStack[i].event_key) {
+          if (eventKeys.length > 0) {
+            var keep = true;
+            for (var j = 0; j < eventKeys.length; j++) {
+              if (eventKeys[j] == sortedStack[i].event_key) {
+                keep = false;
+                j = eventKeys.length;
+              }
             }
+          } else {
+            eventKeys.push(sortedStack[i].event_key);
+            newStack.push(sortedStack[i]);
           }
+          // eventKeys.push(sortedStack[i].event_key)
         } else {
-          eventKeys.push(sortedStack[i].event_key);
           newStack.push(sortedStack[i]);
         }
-        // eventKeys.push(sortedStack[i].event_key)
+      }
+
+      if (newStack.length > 10) {
+        newStack = newStack.slice(0,newStack.length - 10)
+        announcements.events = newStack;
       } else {
-        newStack.push(sortedStack[i]);
+        announcements.events = newStack;
+      }
+
+      function makeDatePretty(d) {
+
+        var month = monthNames[d.slice(5,-17)-1];
+        var date = d.slice(8,-14);
+        var day = daysOfWeek[new Date(d).getDay()];
+
+        return day + ', ' + month + ' ' + date;
+
+      }
+
+
+
+      for (var i = 0; i < announcements.events.length; i++) {
+
+        announcements.events[i].displayDate = makeDatePretty(announcements.events[i].date);
+
+      }
+
+      var i = 0;
+      function pairImage(e, r) {
+
+        i++;
+
+        $http.post('getImage', {id:e.image})
+        .then(function(res) {
+
+          if (r === 'single') {
+            $scope.todaysEvent.imageUrl = res.data[0].dataURL;
+            return;
+          }
+
+          if(res.data.length > 0) {
+
+            announcements.events[i-1].imageUrl = res.data[0].dataURL;
+
+          }
+
+          if (i < announcements.events.length) {
+
+            pairImage(announcements.events[i])
+
+          }
+        })
+
+      }
+
+
+
+      pairImage(announcements.events[i], 'repeat');
+
+
+      console.log(announcements);
+
+      $scope.announcements = announcements;
+
+      if ($scope.todaysEvent === undefined) {
+        if (date.getDay() != 2) {
+          $scope.todaysEvent = {
+            name:'Open Practice',
+            color:'lightgreen'
+          }
+        } else {
+          $scope.todaysEvent = {
+            name:'Track Closed',
+            color:'lightpink'
+          }
+        }
+      }
+
+
+      if ($scope.todaysEvent.date) {
+
+        $scope.todaysEvent.displayDate = makeDatePretty($scope.todaysEvent.date);
+        pairImage($scope.todaysEvent, 'single')
+
+      } else {
+        $scope.selectedBit = announcements.events[0]
       }
     }
 
-    if (newStack.length > 10) {
-      newStack = newStack.slice(0,newStack.length - 10)
-      announcements.events = newStack;
-    } else {
-      announcements.events = newStack;
-    }
 
-    function makeDatePretty(d) {
-
-      var month = monthNames[d.slice(5,-17)-1];
-      var date = d.slice(8,-14);
-      var day = daysOfWeek[new Date(d).getDay()];
-
-      return day + ', ' + month + ' ' + date;
-
-    }
-
-
-
-    for (var i = 0; i < announcements.events.length; i++) {
-
-      announcements.events[i].displayDate = makeDatePretty(announcements.events[i].date);
-
-    }
-
-    var i = 0;
-    function pairImage(e, r) {
-
-      i++;
-
-      $http.post('getImage', {id:e.image})
-      .then(function(res) {
-
-        if (r === 'single') {
-          $scope.todaysEvent.imageUrl = res.data[0].dataURL;
-          return;
-        }
-
-        if(res.data.length > 0) {
-
-          announcements.events[i-1].imageUrl = res.data[0].dataURL;
-
-        }
-
-        if (i < announcements.events.length) {
-
-          pairImage(announcements.events[i])
-
-        }
-      })
-
-    }
-
-
-
-    pairImage(announcements.events[i], 'repeat');
-
-
-    console.log(announcements);
-
-    $scope.announcements = announcements;
-
-    if ($scope.todaysEvent === undefined) {
-      if (date.getDay() != 2) {
-        $scope.todaysEvent = {
-          name:'Open Practice',
-          color:'lightgreen'
-        }
-      } else {
-        $scope.todaysEvent = {
-          name:'Track Closed',
-          color:'lightpink'
-        }
-      }
-    }
-
-
-    if ($scope.todaysEvent.date) {
-
-      $scope.todaysEvent.displayDate = makeDatePretty($scope.todaysEvent.date);
-      pairImage($scope.todaysEvent, 'single')
-
-    } else {
-      $scope.selectedBit = announcements.events[0]
-    }
 
     // var groupIds = [];
     //
