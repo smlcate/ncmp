@@ -52,7 +52,7 @@
 
       <div class="eventGroupCell" ng-repeat="group in eventGroups">
 
-        {{group}}
+        <h2>{{group.name}}</h2>
 
       </div>
 
@@ -60,10 +60,11 @@
 
     <div class="">
 
-      <span>Series <input type="text" list="seriesName" value="">
-        <datalist id="seriesName">
-          <option value="New"></option>
-        </datalist>
+      <span>Series <button type="" list="seriesName" value="" ng-click="dropdown()">{{selectedSeries.name}}</button>
+        <div id="seriesName">
+          <a value="New" ng-click="selectSeries('new')">New</a>
+          <a value="{{group.name}}"ng-repeat="group in eventGroups" ng-click="selectSeries(group)">{{group.name}}</a>
+        </div>
       </span>
 
       <span>Title <input type="text" name="" value=""></span>
@@ -73,8 +74,8 @@
     <div class="">
 
       <span>Summary <input type="textarea" name="" value=""></span>
-      <span>Desription <input type="textarea" name="" value=""></span>
-
+      <textarea name="textarea"
+         rows="10" cols="50">Write something here</textarea>
     </div>
 
     <div class="">
@@ -83,12 +84,17 @@
       <span>Date <input type="date" name="" value=""></span>
 
     </div>
+    <div id="eventCellContainer">
 
-    <div class="eventCell" ng-repeat="event in events">
+      <div class="eventCell" ng-repeat="event in events" style="background:{{event.color}}">
 
-      {{event}}
+        <h1>{{event.displayDate}}</h1>
+        <h1>{{event.name}}</h1>
+
+      </div>
 
     </div>
+
 
   </div>
 

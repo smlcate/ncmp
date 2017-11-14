@@ -42,6 +42,31 @@
 
           <div class="homeNewsViewNavDivHeader">
 
+            <h3>Today</h3>
+
+          </div>
+          <div class="homeNewsViewNavDivCell" style="background:{{todaysEvent.color}};" ng-click="thisBit(todaysEvent)">
+
+            <p>{{todaysEvent.name}}</p>
+
+          </div>
+
+          <div class="homeNewsViewNavDivHeader">
+
+            <h3>This Month</h3>
+
+          </div>
+
+          <div class="homeNewsViewNavDivCell" ng-repeat="el in announcements.events" style="background:{{el.color}};" ng-click="thisBit(el)">
+
+            <p >{{el.name}}</p>
+
+          </div>
+
+        </div>
+        <div class="homeNewsViewNavDiv">
+          <div class="homeNewsViewNavDivHeader">
+
             <h3>News</h3>
 
           </div>
@@ -52,20 +77,6 @@
 
           </div>
 
-        </div>
-        <div class="homeNewsViewNavDiv">
-
-          <div class="homeNewsViewNavDivHeader">
-
-            <h3>Events</h3>
-
-          </div>
-
-          <div class="homeNewsViewNavDivCell" ng-repeat="el in announcements.events" style="background:{{el.color}};" ng-click="thisBit(el)">
-
-            <p >{{el.name}}</p>
-
-          </div>
 
         </div>
 

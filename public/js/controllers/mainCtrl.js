@@ -12,8 +12,8 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.announcements;
   $scope.sponsors = [];
   $scope.miniCells = [];
-  $scope.announcements;
   $scope.selectedBit;
+  $scope.todaysEvent;
 
   function init() {
     $http.get('getData')
@@ -73,7 +73,14 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
         if ($scope.events[i].date.slice(8,-14) >= day) {
 
-          stack.push($scope.events[i])
+          if ($scope.events[i].date.slice(8,-14) == day) {
+            $scope.todaysEvent = $scope.events[i]
+            $scope.selectedBit = $scope.events[i];
+          } else {
+
+            stack.push($scope.events[i])
+
+          }
 
         }
 
@@ -157,6 +164,8 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
     }
 
+
+
     for (var i = 0; i < announcements.events.length; i++) {
 
       announcements.events[i].displayDate = makeDatePretty(announcements.events[i].date);
@@ -164,12 +173,17 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     var i = 0;
-    function pairImages(e) {
+    function pairImage(e, r) {
 
       i++;
 
       $http.post('getImage', {id:e.image})
       .then(function(res) {
+
+        if (r === 'single') {
+          $scope.todaysEvent.imageUrl = res.data[0].dataURL;
+          return;
+        }
 
         if(res.data.length > 0) {
 
@@ -179,20 +193,45 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
         if (i < announcements.events.length) {
 
-          pairImages(announcements.events[i])
+          pairImage(announcements.events[i])
 
         }
       })
 
     }
 
-    pairImages(announcements.events[i]);
+
+
+    pairImage(announcements.events[i], 'repeat');
+
 
     console.log(announcements);
 
     $scope.announcements = announcements;
 
-    $scope.selectedBit = announcements.events[0];
+    if ($scope.todaysEvent === undefined) {
+      if (date.getDay() != 2) {
+        $scope.todaysEvent = {
+          name:'Open Practice',
+          color:'lightgreen'
+        }
+      } else {
+        $scope.todaysEvent = {
+          name:'Track Closed',
+          color:'lightpink'
+        }
+      }
+    }
+
+
+    if ($scope.todaysEvent.date) {
+
+      $scope.todaysEvent.displayDate = makeDatePretty($scope.todaysEvent.date);
+      pairImage($scope.todaysEvent, 'single')
+
+    } else {
+      $scope.selectedBit = announcements.events[0]
+    }
 
     // var groupIds = [];
     //
