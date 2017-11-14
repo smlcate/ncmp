@@ -15,6 +15,12 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.selectedBit;
   $scope.todaysEvent;
 
+  $scope.date = new Date();
+  $scope.headerInfo = {}
+
+  $scope.weather;
+  $scope.tenDayForecast;
+
   function init() {
     $http.get('getData')
     .then(function(data) {
@@ -26,9 +32,25 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       console.log(err);
     })
 
+    function makeDatePretty(d) {
+
+      var month = monthNames[d.getMonth()];
+      var date = d.getDate();
+      var day = daysOfWeek[d.getDay()];
+
+      console.log(day + ', ' + month + ' ' + date)
+
+      return day + ', ' + month + ' ' + date;
+
+    }
+    console.log($scope.date);
+    $scope.headerInfo.displayDate = makeDatePretty($scope.date);
+
   }
 
   init();
+
+
 
   // Will pull from sponsors list
   function pullSponsors() {
@@ -271,6 +293,24 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   }
 
+  $http.get('https://api.wunderground.com/api/7c8eaaf84b5e5dd0/conditions/q/IN/New_Castle.json')
+  .then(function(res) {
 
+    var weather = res.data.current_observation;
+    var url = weather.icon_url.slice(4);
+
+    weather.icon_url = "https" + url;
+
+    $scope.weather = weather;
+
+    console.log($scope.weather);
+
+  })
+  $http.get('https://api.wunderground.com/api/7c8eaaf84b5e5dd0/forecast10day/q/IN/New_Castle.json')
+  .then(function(res) {
+
+    $scope.tenDayForecast = res.data.forecast.simpleforecast.forecastday;
+
+  })
 
 }]);

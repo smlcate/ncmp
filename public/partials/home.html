@@ -1,12 +1,32 @@
 <div class="parentDisplays" id="homeDisplay">
 
-  <div id="homeNewsView">
-    <div id="homeNewsViewHeader">
+  <div id="homeWelcomeView">
 
-      <!-- Shows each sponsor with link to page -->
-      <img src="{{sponsor.img}}" class="sponsorCell" ng-repeat="sponsor in sponsors">
+    <div id="welcomeViewContentContainer">
+
+      <img src="./images/NCMP-Logo-2017-FINAL.GIF" alt="">
 
     </div>
+
+    <div id="welcomeViewNav">
+
+      <a href="#">Kart Owners</a>
+      <a href="#">Rental Karts</a>
+      <a href="#">Events</a>
+      <a href="#">KRA Series</a>
+
+    </div>
+
+  </div>
+
+  <div id="homeSponsorContainer">
+
+    <!-- Shows each sponsor with link to page -->
+    <img src="{{sponsor.img}}" class="sponsorCell" ng-repeat="sponsor in sponsors">
+
+  </div>
+
+  <div id="homeNewsView">
 
     <div id="homeNewsViewContainer">
 
@@ -53,7 +73,7 @@
 
           <div class="homeNewsViewNavDivHeader">
 
-            <h3>This Month</h3>
+            <h3>Coming Up</h3>
 
           </div>
 

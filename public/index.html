@@ -23,28 +23,46 @@
 
   <header id="mainHeader">
 
+
+
     <a href="/#!/home"><img src="./images/NCMP-Logo-2017-FINAL.GIF" alt="" id="headerLogo"><a>
 
-    <nav id="headerNav">
+      <div id="headerSideContainer">
 
+        <div id="headerInfoDisplay">
 
+          <div class="headerInfoCell">
 
-        <a href="/#!/series">Series</a>
-        <a href="#">News</a>
-        <a href="#">Events</a>
-        <a href="#">Kart Owners</a>
+            <p>NewCastle, IN</p>
+            <p>{{headerInfo.displayDate}}</p>
+            <p style="color:{{todaysEvent.color}};background:rgba(0,0,0,0.5);padding:0 5 0 5px;">{{todaysEvent.name}}</p>
+          </div>
+          <div class="headerInfoCell">
 
-        <a href="#">Rental Karts</a>
-        <a href="#">Corporate Events</a>
-        <a href="#">About</a>
-        <a href="#">Weather</a>
+            <a>Track Weather</a>
+            <p>{{ weather.feelslike_f }}°f / {{ weather.feelslike_c }}°c</p>
+            <p>{{ weather.weather }}</p>
+            <img ng-src="{{weather.icon_url}}" alt="">
 
+          </div>
 
+        </div>
 
+        <nav id="headerNav">
 
+          <a href="/#!/series">Series</a>
+          <a href="#">News</a>
+          <a href="#">Events</a>
+          <a href="#">Kart Owners</a>
 
+          <a href="#">Rental Karts</a>
+          <a href="#">Corporate Events</a>
+          <a href="#">About</a>
+          <a href="#">Weather</a>
 
-    </nav>
+        </nav>
+      </div>
+
 
   </header>
 
