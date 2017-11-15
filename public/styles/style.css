@@ -1,3 +1,7 @@
+@font-face {
+  font-family: "bebasneue";
+  src: url("../bebas_neue/BebasNeue.otf") format("truetype");
+}
 body {
   width: 100vw;
   margin-left: 0px;
@@ -6,8 +10,8 @@ body {
   flex-direction: column;
   align-items: center;
   align-self: center;
-  font-family: helvetica;
-  /*border: 1px solid black;*/
+  /*border: 1px solid #212121;*/
+  font-family: "bebasneue";
 }
 
 a {
@@ -35,7 +39,7 @@ a {
 #seriesName {
   width: 50px;
   background: white;
-  border: 1px solid black;
+  border: 1px solid #212121;
   display: none;
   flex-direction: column;
   position: fixed;
@@ -48,7 +52,7 @@ a {
 #mainHeader {
   background: #E1F5FE;
   border-bottom: 3px solid #212121;
-  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.7);
   color: white;
   height: 80px;
   width: 100%;
@@ -78,7 +82,7 @@ a {
   justify-content: space-around;
   padding: 10px;
   width: 450px;
-  color: black;
+  color: #212121;
 }
 #headerNav {
   width: 100%;
@@ -99,7 +103,7 @@ a {
 .headerNavSide {
   width: 35vw;
   font-size: 80%;
-  /*border: 1px solid black;*/
+  /*border: 1px solid #212121;*/
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -119,12 +123,101 @@ a {
   overflow-x: none;
 }
 
+/*kart owners styles*/
+#kartOwnersPageHeader {
+  width: 100%;
+  height: 100px;
+  background: white;
+  border-top: 4px solid #154498;
+  border-bottom: 4px solid #154498;
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 400%;
+
+}
+#kartOwnersPageHeader p {
+
+}
+.pageInfoCells {
+  width: 100%;
+  padding: 30 0 30 0px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.7);
+
+}
+.pageInfoSplitters {
+  width: 100%;
+  height: 80px;
+  font-size: 300%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#kartOwnersIntroCell {
+  background: #154498;
+  /*margin-top: 20px;*/
+}
+#kartOwnersPricesInfoCell {
+  background: #E1F5FE;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.7);
+}
+#kartOwnersHoursInfoCell {
+  background: #154498;
+}
+.pageInfoTextContainers {
+  max-width: 650px;
+  padding: 20px;
+  font-size: 140%;
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.7);
+}
+.pageInfoTextContainerDivs {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  font-size: 160%;
+}
+#kartOwnersIntroTextContainer {
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+}
+#kartOwnersIntroTextContainer a {
+  color: #2196F3;
+}
+#kartOwnersPricesTextContainer {
+  background: rgba(0,0,0,0.5);
+  color: white;
+}
+#kartOwnersHoursTextContainer {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+.pageInfoImageContainers {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  /*align-items: center;*/
+  justify-content: space-between;
+}
+#kartOwnersIntroImageContainer {
+  /*width: 300px;*/
+}
+.pageInfoImageContainers img{
+  box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.7);
+  height:330px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
 /*series styles*/
 #seriesDisplay {
   background: #154498;
   height: 550px;
   width: 1100px;
-  box-shadow: 0px 0px 4px 2px black;
+  box-shadow: 0px 0px 4px 2px #212121;
   display: flex;
   flex-direction: column;
 
@@ -158,7 +251,7 @@ a {
   background-repeat: no-repeat;
   background-size: cover;
   margin-top:20px;
-  box-shadow: 0px 0px 4px 0px black;
+  box-shadow: 0px 0px 4px 0px #212121;
   height: 80vh;
   width: 1100px;
   display: flex;
@@ -193,7 +286,7 @@ a {
   text-align: center;
   background: #154498;
   color: white;
-  box-shadow: 0px 2px 4px 0px black;
+  box-shadow: 0px 2px 4px 0px #212121;
 }
 #homeSponsorContainer {
   width: 100%;
@@ -201,8 +294,8 @@ a {
   /*padding: 10px;*/
   background: #154498;
   margin-top: 20px;
-  /*border-bottom: 2px solid black;*/
-  box-shadow: 0px 2px 5px 0px black;
+  /*border-bottom: 2px solid #212121;*/
+  box-shadow: 0px 2px 5px 0px #212121;
   overflow-x: hidden;
   display: flex;
   flex-wrap: nowrap;
@@ -216,7 +309,7 @@ a {
   background: #154498;
   height: 480px;
   width: 1100px;
-  box-shadow: 0px 0px 4px 0px black;
+  box-shadow: 0px 0px 4px 0px #212121;
   display: flex;
   flex-direction: column;
   margin-top: 20px;
@@ -272,7 +365,7 @@ a {
   width: 200px;
   padding: 10px;
   height: 100px;
-  color: black;
+  color: #212121;
   /*box-shadow: 0px 2px 3px 0px;*/
   border-radius: 4px;
   /*border-radius: 70px;*/
@@ -284,7 +377,7 @@ a {
   /*height: 40px;*/
   display: flex;
   align-items: center;
-  /*border: 1px solid black;*/
+  /*border: 1px solid #212121;*/
   font-size: 180%;
 }
 #topViewContentInfo h3 {
@@ -292,7 +385,7 @@ a {
 display: flex;
 align-items: center;
 /*margin-top: 0px;*/
-/*border: 1px solid black;*/
+/*border: 1px solid #212121;*/
 }
 #topViewContentDiv img {
   /*max-width: 250px;*/
@@ -327,7 +420,10 @@ align-items: center;
   height: 40px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #154498;
+  /*border-bottom: 1px solid #154498;*/
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  background: white;
 }
 .homeNewsViewNavDivCell p {
   /*height: 100%;
@@ -347,7 +443,7 @@ align-items: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /*border: 1px solid black;*/
+  /*border: 1px solid #212121;*/
   /*background: blue;*/
   width: 80vw;
   /*height: 520px;*/
@@ -355,7 +451,7 @@ align-items: center;
 }
   #calendarHeader {
     display: flex;
-    border-bottom: solid black 1px;
+    border-bottom: solid #212121 1px;
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -370,21 +466,21 @@ align-items: center;
     /*justify-content: center;*/
     width: 917px;
     /*height: 500px;*/
-    border-left: 1px solid black;
-    border-top: 1px solid black;
+    border-left: 1px solid #212121;
+    border-top: 1px solid #212121;
   }
   .calendarCelltrue {
     height: 100px;
     width: 130px;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    border-right: 1px solid #212121;
+    border-bottom: 1px solid #212121;
     background: #f5f5f5;
   }
   .calendarCellfalse {
     height: 100px;
     width: 130px;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    border-right: 1px solid #212121;
+    border-bottom: 1px solid #212121;
     background: #E0E0E0;
   }
 
@@ -399,7 +495,7 @@ align-items: center;
   .miniCalendarCell {
     width: 134px;
     height: 130px;
-    border: 1px solid black;
+    border: 1px solid #212121;
     padding: 5px;
     display: flex;
     flex-direction: column;
@@ -416,11 +512,11 @@ align-items: center;
     /*padding: 1px;*/
     width: 100%;
     /*height: 20px;*/
-    /*border: 1px solid black;*/
+    /*border: 1px solid #212121;*/
   }
   .miniCellHeader li {
     /*height: 20px;*/
-    /*border: 1px solid black;*/
+    /*border: 1px solid #212121;*/
     /*margin-right: 1px;*/
     width: 18px;
     text-align: center;
@@ -428,8 +524,8 @@ align-items: center;
   .miniCellContainer {
     /*width:auto;*/
     /*height: 100%;*/
-    border-left: 1px solid black;
-    border-top: 1px solid black;
+    border-left: 1px solid #212121;
+    border-top: 1px solid #212121;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -437,7 +533,7 @@ align-items: center;
   .miniCellMiniCell {
     height: 13px;
     width: 18px;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
+    border-bottom: 1px solid #212121;
+    border-right: 1px solid #212121;
   }
 /**/

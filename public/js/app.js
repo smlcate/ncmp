@@ -23,9 +23,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/admin',
       templateUrl: '../partials/admin.html'
   })
-  .state('login', { 
+  .state('login', {
       url: '/login',
       templateUrl: '../partials/login.html'
   })
-
+  .state('kartOwners', {
+      url: '/kartowners',
+      templateUrl: '../partials/kartOwners.html'
+  })
+  .state('rentalkarts', {
+      url: '/rentalkarts',
+      templateUrl: '../partials/rentalkarts.html'
+  })
 })
