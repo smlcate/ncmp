@@ -21,6 +21,12 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.weather;
   $scope.tenDayForecast;
 
+  $('.headerNavAnc').on('click', function() {
+      $('.headerNavAnc').css({'background':'#E1F5FE','color':'#154498'});
+    $(this).css({'background':'#154498','color':'white'});
+    console.log('hit');
+  })
+
   function init() {
     $http.get('getData')
     .then(function(data) {
