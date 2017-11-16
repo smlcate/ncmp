@@ -25,6 +25,8 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
   $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
 
+  $('.calendarViews').css('display','none');
+  $('#calendarExpandedView').css('display','flex');
 
   function buildCalendar() {
 
