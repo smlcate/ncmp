@@ -48,6 +48,11 @@ a {
   display: flex;
   flex-direction: column;
 }
+.eventCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /*header styles*/
 #mainHeader {
   background: #E1F5FE;
@@ -183,7 +188,7 @@ a {
   background: #E1F5FE;
 }
 .pageInfoTextContainers {
-  max-width: 650px;
+  width: 650px;
   padding: 20px;
   margin:10px;
   font-size: 140%;
@@ -569,6 +574,7 @@ align-items: center;
     /*height: 500px;*/
     border-left: 1px solid #212121;
     border-top: 1px solid #212121;
+    color: black;
   }
   .calendarCelltrue {
     height: 100px;
@@ -576,6 +582,8 @@ align-items: center;
     border-right: 1px solid #212121;
     border-bottom: 1px solid #212121;
     background: #f5f5f5;
+    text-align: center;
+
   }
   .calendarCellfalse {
     height: 100px;
@@ -583,9 +591,63 @@ align-items: center;
     border-right: 1px solid #212121;
     border-bottom: 1px solid #212121;
     background: #E0E0E0;
+    text-align: center;
+
   }
 
   /*minified calendarView*/
+  #calendarPageHeader {
+    justify-content: space-around;
+  }
+
+  #calendarPageHeaderEventDisplay {
+    display:flex;
+
+  }
+  #calendarViewSelect {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    padding: 20px;
+  }
+  #calendarViewSelect img {
+    height: 28px;
+  }
+  #calendarExpandedView {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    background: #154498;
+  }
+  #calendarExpandedViewInfoCell {
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 30px;
+    align-items: center;
+    /*background: rgba(0, 0, 0, 0.5);*/
+  }
+  #calendarExpandedViewTextContainer {
+    width: 80%;
+
+  }
+  #calendarExpandedViewHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  #calendarExpandedViewHeader h2 {
+    margin: 20px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+  }
+  #calendarExpandedViewHeader a {
+    color: #2196F3;
+  }
   #calendarMinifiedView {
     display: flex;
     flex-wrap: wrap;

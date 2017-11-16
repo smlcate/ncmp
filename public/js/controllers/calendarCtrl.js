@@ -22,6 +22,9 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.selectedDate = $scope.date.date;
   $scope.selectedDay = $scope.date.day;
   $scope.selectedMonth_text = monthNames[$scope.selectedMonth];
+  $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
+  $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
+
 
   function buildCalendar() {
 
@@ -411,9 +414,17 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
       $scope.selectedMonth = 0;
       $scope.selectedYear ++;
 
+      $scope.prevMonth_text = monthNames[11];
+      $scope.nextMonth_text = monthNames[1];
+
+
     } else {
 
       $scope.selectedMonth ++;
+
+      $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
+      $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
+
 
     }
 
@@ -430,9 +441,16 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
       $scope.selectedMonth = 11;
       $scope.selectedYear --;
 
+      $scope.prevMonth_text = monthNames[10];
+      $scope.nextMonth_text = monthNames[0];
+
+
     } else {
 
       $scope.selectedMonth --;
+
+      $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
+      $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
 
     }
 
