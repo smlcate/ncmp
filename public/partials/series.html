@@ -1,226 +1,120 @@
-<div id="seriesDisplay" ng-controller="seriesCtrl">
+<div id="seriesParentDisplay" ng-controller="seriesCtrl">
 
-  <div id="seriesNavBar">
+  <div class="pageHeaders">
 
-    <a href="" ng-click="selectSeriesInfo('info')">About KRA</a>
-    <a href="" ng-click="selectSeriesInfo('news')">Results</a>
-    <a href="" ng-click="selectSeriesInfo('points')">Points</a>
-    <a href="" ng-click="selectSeriesInfo('schedule')">Schedule</a>
+    <p>Kart Racers of America</p>
 
   </div>
 
-  <div id="seriesInfoDisplay">
+  <div id="seriesNavBar">
 
-    <div id="seriesInfoContainer">
+    <a class="seriesNavAncs" id="seriesNavMainAnc" href="" ng-click="selectSeriesInfo('About')">About KRA</a>
+    <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('Classes')">Classes & Rules</a>
+    <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('News')">News</a>
+    <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('Schedule')">Schedule</a>
+    <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('Points')">Points</a>
 
-      <div section="parallax" id="ownersPage">
+  </div>
+
+  <div class="seriesPageInfoContainers" id="seriesAboutPageInfoContainer">
+
+    <div class="pageInfoSplitters">
+
+      <p>KRA Pricing</p>
+
+    </div>
+
+    <div class="pageInfoCells" id="seriesAboutInfoCell">
+
+      <div class="pageInfoTextContainers" id="seriesAboutInfoTextContainer">
+
+        <h2>
+          Pre-Entries
+        </h2>
+
+        <p>
+          NCMP offers 2-day pit passes for karters competing in the KRA Series who would like to practice with us on Saturday and race with us on Sunday.
+        </p>
+        <p>
+          If you plan to practice on Saturday there is no need to include a pit pass on your pre-entry form since you can pick up a 2-day pass on Saturday (or Friday for a Saturday race).
+        </p>
+        <p>
+          In doing this we will be able to lower the price $2.00 for a racer or a crewmember who plans on being at our facility for 2 days. All rates are listed below!
+        </p>
+
+      </div>
+      <div class="pageInfoImageContainers" id="seriesAboutInfoImageContainer">
+
+        <img src="../images/Operation-Grassroots-New-Castle-2014.jpg" alt="">
+
+      </div>
+      <div class="pageInfoImageContainers" id="seriesAboutInfoImageContainerB">
+
+        <img src="../images/SKUSA-SummerNats-2016-P-IAME.jpg" alt="">
+        <img src="../images/Route66-06-New-Castle.jpg" alt="">
+
+      </div>
+      <div class="pageInfoTextContainers" id="seriesAboutInfoTextContainerB">
 
 
-        <div class="parallax-inner" id="ownersPageInfo">
+        <div class="pageInfoTextContainerDivs">
 
-          <h1>Kart Owners</h1>
+          <div class="">
+
+            <h5>Practice Passes</h5>
+            <ul>
+              <li>KRA Members: <b>$27.00</b></li>
+              <li>Non Members: <b>$32.00</b></li>
+            </ul>
+
+          </div>
+          <div class="">
+
+            <h5>Pit Passes</h5>
+            <ul>
+              <li>1-Day: <b>$12.00</b></li>
+              <li>2-Day: <b>$22.00</b></li>
+            </ul>
+
+          </div>
 
         </div>
 
+        <h5>Pre-Entries (Pit Passes NOT Included)</h5>
+        <ul>
+          <li>Adult/Junior: <b>$40.00</b> for First Entry, <b>$35.00</b> for Additional Classes</li>
+          <li>Kid Kart: <b>$30.00</b></li>
+        </ul>
 
-      </div>
-      <div class="contentDiv" id="ownersContentDiv">
+        <h5>Race Day Entries (Pit Passes NOT Included)</h5>
+        <ul>
+          <li>Per Class: <b>$45.00</b></li>
+          <li>Kid Kart Class: <b>$30.00</b></li>
+        </ul>
 
-        <div class="textContainer">
+        <p>Additional Pit Passes are <b>$12.00</b> each</p>
 
-          <h3>Own your own kart?</h3>
+        <p>Children 5 and Under are Free, but <b>MUST</b> be signed in up front and have a wristband.</p>
 
-          <p>
-            New Castle Motorsports Park is located an hour from Indianapolis, and is directly off of I-70.
-          </p>
-          <p>
-            NCMP's state of the art track hosts a variety of layouts, with the normal layout being 1.0 miles long. The track sees a
-          </br>
-            number of national races, and also has its own very competetive and fun local series.
-          </p>
-          <p>
-            Ready to join us? If you own a kart, you can come join us during any open practice or race weekend!
-          </p>
-
-        </div>
-
-      </div>
-      <div section="parallax" id="pricesPar">
-
-        <div class="parallax-inner" id="pricesParInfo">
-
-          <h3>
-            KRA Series Entry Fees
-          </h3>
-
-          <h4>
-            Pre-Entries
-          </h4>
-
-          <p>
-            NCMP offers 2-day pit passes for karters competing in the KRA Series who would like to practice with us on Saturday and race with us on Sunday. If you plan to practice on Saturday there is no need to include a pit pass on your pre-entry form since you can pick up a 2-day pass on Saturday (or Friday for a Saturday race). All rates are listed below. In doing this we will be able to lower the price $2.00 for a racer or a crewmember who plans on being at our facility for 2 days.
-          </p>
-
-          <p>
-            Once again this does not raise the price of a race day entry and it actually lowers the price if you plan on spending 2 days at our facility.
-          </p>
-
-          <p>
-            Due to insurance requirements, all crew members must have a pit pass in the trailer area, garage area or anywhere in the pit area during practice or racedays. Anyone caught without a pitpass will be asked to leave immediately. Pit passes on practice days are $12.00 per person for anyone over the age of 5. Kids 5 and under are free but MUST be signed in and have a pit pass.
-          </p>
-
-          <ul>
-
-            <li>
-              <h5>Practice Passes</h5>
-              <ul>
-                <li>KRA Members: <b><b>$27.00</b></b></li>
-                <li>Non Members: <b>$32.00</b></li>
-              </ul>
-            </li>
-
-            <li>
-              <h5>Pit Passes</h5>
-              <ul>
-                <li>1-Day: <b>$12.00</b></li>
-                <li>2-Day: <b>$22.00</b></li>
-              </ul>
-            </li>
-
-            <li>
-              <h5>Pre-Entries (Pit Passes NOT Included)</h5>
-              <ul>
-                <li>Adult/Junior: <b>$40.00</b> for First Entry, <b>$35.00</b> for Additional Classes</li>
-                <li>Kid Kart: <b>$30.00</b></li>
-              </ul>
-            </li>
-
-            <li>
-              <h5>Race Day Entries (Pit Passes NOT Included)</h5>
-              <ul>
-                <li>Per Class: <b>$45.00</b></li>
-                <li>Kid Kart Class: <b>$30.00</b></li>
-              </ul>
-            </li>
-
-          </ul>
-
-          <p>Additional Pit Passes are <b>$12.00</b> each</p>
-
-          <p>Children 5 and Under are Free</p>
-
-          <p>Transponder Rental: <b>$16.05</b> (Plus Tax)</p>
-
-          <h3>Practice Hours</h3>
-          <ul>
-            <li>Open: Tuesday-Sunday, 10am-7pm</li>
-            <li>Closed Monday</li>
-          </ul>
-
-          <h4>Kid Kart Practice</h4>
-          <ul>
-            <li>Wednesday: 4pm-7pm</li>
-            <li>Weekends (If Open Practice Is Available): 12:30pm-1:30pm & 3pm-3:45pm</li>
-          </ul>
-
-          <h4>Paved Oval Practice at NCMP</h4>
-          <p>
-            The paved oval at NCMP does not have set practice hours. If you are interested in practicing on the oval please contact us to setup a date and time, otherwise we will not guarantee the oval track will be available. If you are a club or organization that wishes to rent the oval track for an event, please contact us.
-          </p>
-
-          <p>
-            *NCMP will not be available for open practice on racedays and we also have corporate events that will close the track at times. Please check the schedule and the homepage. If in doubt you are always welcome to contact us for clarification and availability.
-          </p>
-
-        </div>
+        <p>Transponder Rental: <b>$16.05</b> (Plus Tax)</p>
 
       </div>
 
-      <div class="contentDiv" id="practiceRulesDiv">
+    </div>
+    <div class="pageInfoSplitters">
 
-        <div class="textContainer">
+      <p>KRA Race Day Format</p>
 
-          <h3>Practice Rules</h3>
+    </div>
+    <div class="pageInfoCells" id="seriesAboutFormatInfoCell">
 
-          <ul>
-            <li>
-              *Airboxes MANDATORY for all Two Cycles and Shifters
-            </li>
-            <li>
-              *RLV Exhaust Mufflers MANDATORY for all Four Cycle Engines
-            </li>
-            <li>
-              *Snell 2010 or Better Helmet, Abrasion Resistant Jacket or Suit/Neckcollar/Gloves are Mandatory at all Times
-            </li>
-            <li>
-              *Racing Karts Only, No Yard/Fun Karts Allowed, NCMP reserves the right to deny track admission to any kart not deemed proper
-            </li>
-            <li>
-              *All Lead Weights must be cotter keyed and all brakes and steering bolts/nuts
-            </li>
-            <li>
-              *Junior Drivers Ages 5-12 Must Use an SFI Approved Ribvest at All Times While On Track
-            </li>
-            <li>
-              *All MINORS must have MINOR RELEASE on file and signed by Parent/Legal Guardian before they can be allowed to practice or race. NO EXCEPTIONS. (Form Available at Track) Make sure you take care of this ahead of time!
-            </li>
-          </ul>
-
-        </div>
-
-      </div>
-
-      <div section="parallax" id="pitSpotPar">
-
-        <div class="parallax-inner" id="pitSpotParInfo">
-
-          <h3>KRA Reserved Pit Spaces</h3>
-
-          <p>
-            Reserved Pit Spots for KRA MEMBERS for the Kart Racers of America Series are available for <b>$135.00</b> for the year (64ft x 15ft each). You can send your request with your membership application or you can send a check for pit spots seperately or use a credit card. If you wish to have more than one pit spot, each additional spot is <b>$135.00</b> per year.
-          </p>
-          <p>
-            Non KRA Members can reserve pitspots for the KRA Series for <b>$180.00</b> per spot per year.
-          </p>
-          <p>
-            Camper spots are available with electrical hookups for <b>$35.00</b> per day. Showers are also available on site. Camper spots for the KRA Race Series are available for <b>$350.00</b> a season, this covers race days only.
-          </p>
-
-        </div>
-
-
-      </div>
-
-      <div class="contentDiv" id="seriesFormatInfoDiv">
+      <div class="pageInfoTextContainers" id="seriesAboutFormatTextContainer">
 
         <h2>Kart Racers of America Series Raceday Format</h2>
 
-        <h4>Practice - 8-10 Minutes Per Class, No Kid Karts (Two Rounds)</h4>
+        <h4>Practice: 8-10 Minutes Per Class, No Kid Karts (Two Rounds)</h4>
 
-        <h4>Qualifying - 1 Round, 6 Minutes Per Class, No Kid Karts</h4>
-
-        <a href="../pdfs/ScheduleRotation1-16.pdf">Class Rotation PDF</a>
-
-        <a href="../pdfs/Untitled 3.xlsx">Series Points</a>
-
-        <a href="../pdfs/2017KRAmembership.pdf">2017 KRA Membership Form PDF</a>
-
-
-        <!-- <a ng-click="goToPage('rulesDiv')">KRA Series Rules 202</a> -->
-
-        <a ng-click="goToPage('rulesDiv')">KRA Series Rules</a>
-
-        <h4><b>KRA members are eligible for season end points awards</b></h4>
-        <h4><b>  Non-Members are eligible for raceday awards but are not eligible for year end points awards.</b></h4>
-        <h4><b>If you plan to mail your membership form please mail to the addres below.</b></h4>
-
-        <ul>
-          <li>Kart Racers of America</li>
-          <li>2650 West Main Street</li>
-          <li>Greenfield, IN 46140</li>
-        </ul>
-
-        <h3><b>The track does NOT have a mailbox</b></h3>
+        <h4>Qualifying: 1 Round, 6 Minutes Per Class, No Kid Karts</h4>
 
         <h3>Features</h3>
 
@@ -232,144 +126,118 @@
           <li>We will be running a number of track layouts at KRA events, lap numbers may change depending on the length of track, time will be used in the event of a red flag to remain on a time certain schedule.</li>
         </ul>
 
+        <h4>Classes are ordered here: <a href="../pdfs/ScheduleRotation1-16.pdf">Class Rotation PDF</a></h4>
+
+
+          <!-- <a href="../pdfs/Untitled 3.xlsx">Series Points</a> -->
+
+
+          <a ng-click="goToPage('rulesDiv')">KRA Series Class List & Rules</a>
+        <!-- <a ng-click="goToPage('rulesDiv')">KRA Series Rules 202</a> -->
+
+
+        <h4><b>KRA members are eligible for season end points awards</b></h4>
+        <h4><b>  Non-Members are eligible for raceday awards but are not eligible for year end points awards.</b></h4>
+        <h4><b>If you plan to mail your membership form please mail to the addres below.</b></h4>
+
+        <ul>
+          <p>Kart Racers of America<p>
+          <p>2650 West Main Street<p>
+          <p>Greenfield, IN 46140<p>
+        </ul>
+
+        <a href="../pdfs/2017KRAmembership.pdf">2017 KRA Membership Form PDF</a>
+
+        <h3><b>The track does NOT have a mailbox</b></h3>
+
+      </div>
+      <div class="pageInfoImageContainers" id="seriesAboutFormatImageContainer">
+
+        <img src="../images/9430815_orig.jpg" alt="">
+        <img src="../images/unnamed.jpg" alt="">
+        <img src="../images/maxresdefault (3).jpg" alt="">
+
       </div>
 
-      <div section="parallax" id="classInfoPar">
+    </div>
+    <div class="pageInfoSplitters">
 
-        <div class="parallax-inner" id="classInfoParInfo">
+      <p>Reserved Pit Spaces</p>
 
-          <h1>KRA Series Class List</h1>
+    </div>
+    <div class="pageInfoCells" id="seriesAboutRentalSpacesInfoCell">
 
-          <h4>*Spec tires are <b>Mandatory</b> for all classes whether the driver is running for points or not.</h4>
+      <div class="pageInfoImageContainers" id="seriesAboutRentalSpacesImageContainer">
 
-          <div id="classInfoDivContainer">
+        <img src="../images/WKA-2016-New-Castle-1-Fri-Paddock.jpg" alt="">
 
-            <div class="classInfoDiv" ng-repeat="info in classInfo">
+      </div>
 
-              <h3><b>{{info.name}}</b></h3>
-              <h4><b>Weight: </b>{{info.weight}}</h4>
-              <h4><b>Tires: </b>{{info.tires}}</h4>
-              <p>{{info.notes}}</p>
+      <div class="pageInfoTextContainers" id="seriesAboutRentalSpacesTextContainer">
 
-            </div>
+        <p>
+          Reserved Pit Spots for <b>KRA MEMBERS</b> for the Kart Racers of America Series are available for <b>$135.00</b> for the year (64ft x 15ft each). You can send your request with your <a href="../pdfs/2017KRAmembership.pdf">Membership application</a> or you can send a check for pit spots seperately or use a credit card. If you wish to have more than one pit spot, each additional spot is <b>$135.00</b> per year.
+        </p>
+        <p>
+          <b>Non KRA Members</b> can reserve pitspots for the KRA Series for <b>$180.00</b> per spot per year.
+        </p>
+        <p>
+          Camper spots are available with electrical hookups for <b>$35.00</b> per day. Showers are also available on site. Camper spots for the KRA Race Series are available for <b>$350.00</b> a season, this covers race days only.
+        </p>
 
-          </div>
 
+      </div>
 
-          <h3>KRA LO206 Class</h3>
-          <ul>
-            <li>LO206 Engine Rules: Must run RLV 5507 Exhaust Header with 4104 Silencer. All engines must run Factory Briggs rules only. No disc clutches, shoe type only.</li>
-            <li>NCMP track 100 octane LO206 race gas only, must pass tech</li>
-            <li>Shoe Type Clutch Only, No Disc Clutches</li>
-          </ul>
+    </div>
 
-          <h3>KRA Briggs LO206 Senior (This is the NON-CIK class)</h3>
-          <ul>
-            <li>Seat - Laydown and Sprint Style seats allowed</li>
-            <li>Bodywork - Bodywork can be European CIK bodywork or traditional 4 cycle bodywork</li>
-            <li>Front Wheel Width - 6 1/4" Wide Outside to Outside Max. Rear Wheel Width - 9" Rear Outside to Outside Max</li>
-          </ul>
+  </div>
 
-          <h3>KRA Briggs LO206 CIK and Masters Class Rules</h3>
-          <ul>
-            <li>Seat - Must use sprint style kart seat</li>
-            <li>Bodywork - Must use any CIK approved European style bodywork. Rear plastic bumper is optional</li>
-            <li>Front Wheel Width - 5 1/2" x 5" Max Overall Width, Outside to Outside.  Rear Wheel Width - 8 3/8" x 5" Max Overall Width, Outside to Outside</li>
-          </ul>
+  <div class="seriesPageInfoContainers" id="seriesClassesPageInfoContainer">
 
-          <h3>KRA TaG Class Weight Structure</h3>
-          <ul>
-            <li>
-              <h4>TaG Super Lite</h4>
-              <ul>
-                <li>PRD, Easy Kart - 325 lbs.</li>
-                <li>Leopard, Rotax, X30 - 335 lbs.</li>
-                <li>All Other Engines - 345 lbs.</li>
-              </ul>
-            </li>
-            <li>
-              <h4>TaG Senior Class</h4>
-              <ul>
-                <li>PRD, Easy Kart - 350 lbs.</li>
-                <li>Leopard, Rotax, X30 - 360 lbs.</li>
-                <li>All Other Engines - 370 lbs.</li>
-              </ul>
-            </li>
-            <li>
-              <h4>TaG Heavy</h4>
-              <ul>
-                <li>PRD, Easy Kart Leopard - 395 lbs.</li>
-                <li>X30 - 405 lbs.</li>
-                <li>All Other Engines - 415 lbs.</li>
-              </ul>
-            </li>
-            <li>Add 20 lbs to the minimum weight if you are running front brakes in any single speed class (does not include shifter class, no additional weight needed)</li>
-            <li>The Motori 7 engine is NOT allowed in any KRA TaG Class.</li>
-            <li>
-              <h4>Unlimited Class Weight Structure</h4>
-              <ul>
-                <li>Any Bridgestone Tire, No minimum weight. Any single speed purpose built kart engine gas or alcohol (The two speed Rotax DD2 is allowed) is permitted. Carburetor or fuel injection is allowed. Any motor that is deemed possible to produce 40hp or more will be required to use front and rear brakes.</li>
-                <li>Twin or single engine formulas are permitted. In this day of spec classes in all forms of motorsports this class offers innovation and creativity to the racers. This class is truly UNLIMITED, have fun!</li>
-              </ul>
-            </li>
-          </ul>
+    <div class="pageInfoSplitters">
+
+      <p>Class List</p>
+
+    </div>
+    <div class="pageInfoCells" id="seriesClassesInfoCell">
+
+      <div class="" id="classListAndRulesDisplay">
+
+        <nav class="" id="classListAndRulesNav">
+          <a href="" ng-repeat="class in classInfo" ng-click="thisClass(class)">{{class.displayName}}</a>
+        </nav>
+        <div class="pageInfoTextContainers" id="classListAndRulesDisplayTextContainer">
+
+          <h3><b>{{selectedClass.name}}</b></h3>
+          <h4 ng-if="selectedClass.weight.length === 1"><b>Weight: </b> {{selectedClass.weight[0]}}</h4>
+          <h4 ng-repeat="w in selectedClass.weight" ng-if="selectedClass.weight.length > 1">{{w}}</h4>
+          <h4><b>Tires: </b>{{selectedClass.tires}}</h4>
+          <p>{{selectedClass.notes}}</p>
+          <h4 ng-if="selectedClass.rules" ng-repeat="rule in selectedClass.rules">{{rule}}</h4>
 
         </div>
 
       </div>
-      <div id="op">
 
-        <div id="pointsListSider">
+    </div>
+    <div class="pageInfoSplitters">
 
-          <ul>
+      <p>Rules</p>
 
-            <li ng-repeat="list in pointsList" ng-click="selectClass(list)"><a>{{list.name}}</a></li>
+    </div>
+    <div class="pageInfoCells" id="seriesRulesInfoCell">
 
-          </ul>
+      <div class="pageInfoImageContainers" id="seriesRulesImageContainer">
 
-        </div>
+        <img src="../images/From-the-Tower-USPKS-New-Castle.jpg" alt="">
 
+        <img src="../images/IMG_8521.JPG" alt="">
 
-        <div class="pointsCell">
-
-          <h2>{{ selectedClass.name }}</h2>
-          <div class="pointsCellTable">
-
-            <div id="pointsCellTableHeader">
-
-              <ul id="pointsDates">
-                <li ng-repeat="date in selectedClass.dates">
-                  <p>{{date}}</p>
-                </li>
-              </ul>
-
-            </div>
-            <div class="pointsCellTableRow" ng-repeat="driver in selectedClass.drivers">
-
-              <h3>{{driver.name}}</h3>
-              <div class="driverPoints">
-                <div class="driverPointsCell">
-                  <h5>Pos: </h5>
-                  <p ng-repeat="score in driver.positions track by $index" style="color:{{score.color}};font-weight:{{score.bold}};font-size:{{score.font}}"> {{ score.pos }}</p>
-
-                </div>
-                <div class="driverPointsCell">
-                  <h5>Points: </h5>
-                  <p ng-repeat="point in driver.points track by $index" >{{point}}</p>
-                  <h5 class="driverPointTotal">Total: {{ driver.totalPoints }}</h5>
-
-                </div>
-              </div>
-
-
-            </div>
-
-          </div>
-
-        </div>
+        <img src="../images/jimrussellmem.JPG" alt="">
 
       </div>
-      <div class="contentDiv" id="rulesDiv">
+
+      <div class="pageInfoTextContainers" id="seriesRulesTextContainer">
 
         <h1 id="rulesHeader">KRA Rules</h1>
 
@@ -392,6 +260,16 @@
           <li>*KRA will not use onboard video or photos to decide any protests.</li>
           <li>*Video cameras are allowed, video cameras must be mounted to the chassis or the bodywork using bolts and securely in place. Cameras can not be attached to the driver or the helmet. In the event of a flip or contact the camera could cause injury.</li>
         </ul>
+
+
+        <!-- <h1>KRA Series Class List</h1>
+
+        <h4>*Spec tires are <b>Mandatory</b> for all classes whether the driver is running for points or not.</h4> -->
+
+
+      </div>
+      <div class="pageInfoTextContainers" id="seriesRulesTextContainer">
+
         <h3><b>Kart Racers of America Kid Kart Rules</b></h3>
         <ul>
           <li>If you need clarification on a rule please contact us.</li>
@@ -403,67 +281,32 @@
           <li>*KID KART RULES WILL BE STRICTLY ENFORCED! ANY KARTS OUT OF SPECIFICATIONS WILL BE DISQUALIFIED. ANY PARENTS DISPLAYING UNSPORTSMAN LIKE CONDUCT OR FOUL LANGUAGE WILL BE ASKED TO LEAVE AND THEIR ENTRY FORFEITED.</li>
           <li>*The kid kart class is for the enjoyment of the children, we ask that all parents please set a good example for all the kids in the class.</li>
         </ul>
-        <h3><b>Kid Kart Comer C50-C51 Engine Tech</b></h3>
-        <ul>
-          <li>*Tech Items may be subject to comparison to known stock parts.</li>
-          <li>*Carb - Dellorto SHA 14-12L, .475 No Go Venturi, Jet Sizes Allowed #54 thru #58</li>
-          <li>*Air Filter is non-tech.</li>
-          <li>*Intake manifold may not be modified.</li>
-          <li>*Intake Gasket must be properly installed. Only one gasket allowed (you are allowed to trim intake gasket to match intake port opening).</li>
-          <li>*Cylinder - Head and ports must be stock. NO porting, polishing or metal removal from dome or squish area. Spark plug hole repair allowed using full thread heli coil or thread insert, it must be full length as intended by the manufacturer.</li>
-          <li>*Spark Plug - OEM reach spark plugs only.</li>
-          <li>*CC Rule - 7.0cc, checked at TDC without head CC insert.</li>
-          <li>*All bearings non-tech.</li>
-          <li>*Seals - non-tech, must be installed as OEM.</li>
-          <li>*Crank Pin and Wrist Pin must be OEM.</li>
-          <li>*Piston - Skirt length 1.210 minimum as measured from the bottom of bottom ring land to bottom of skirt on intake side of the piston, the top of the piston must remain stock.</li>
-          <li>*Rings - Must run both rings, rings can not fall through cylinder.</li>
-          <li>*Exhaust - New or old style mufflers allowed, must be unaltered, one exhaust gasket, no cut gaskets, exhaust system must be tight.</li>
-          <li>*Clutch - Must run comer clutch shoes but non tech on size.</li>
-          <li>*Clutch Springs - Non Tech</li>
-          <li>*Clutch Drum - 10 tooth 219 only</li>
-          <li>*Rear Axle Sprocket - 89 tooth 219 only</li>
-          <li>*Coil - Blue or Black Coil -  Must be unaltered</li>
-          <li>*Coil Bolts - Must be unaltered</li>
-          <li>*Flywheel - Must be unaltered. Flywheel key slot must reamin in stock location, no cut or broken fins allowed.</li>
-          <li>*Taping of Flywheel Shroud is allowed.</li>
-          <li>*Flywheel key must be OEM and installed properly, flywheel key slot must remain in stock location.</li>
-        </ul>
-        <h3><b>Parilla Leopard and Yamaha KT100 Supplemental Engine Rules</b></h3>
-        <ul>
-          <li>KRA will be implementing new engine tech rules for the Parilla Leopard and Yamaha KT100 in 2013. These new rules will address an ongoing issue with cylinders that have been modified in the port area. Even though this rule may make it necessary for a handful of racers to purchase new cylinders, it will most definately prevent hundreds from ever needing to have modifications done that will cost each racer hundreds per cylinder. This rule change will not impact the majority of racers.</li>
-          <li>KRA will not be the only series putting "blowdown" rules into effect, as a number of regional and national series are also adopting similar rules. These rules are in place to eliminate any Leopard or Yamaha cylinder from having an advantage over another and puts the emphasis on driving, experience and chassis tuning. KRA may also apply this rule to other engine types in the future if deemed necessary.</li>
-          <li><b>Parilla Leopard</b> - Transfers checked with LAD tool - Minimum blowdown .395", Maximum .405".</li>
-          <li>Exhaust checked with LAD tool - Minimum blowdown .235", Maximum .265" (boost port checked with controlling edge of ring).</li>
-          <li>To check Transfer Blowdown - Subtract highest exhaust port height from highest transfer port using LAD tool.</li>
-          <li>To check Boost Blowdown - (From TDC) Rotate piston past boost port opening .100", rotate back up until controlling edge of ring closes boost port.</li>
-          <li>Subtract highest boost port height from highest exhaust port height.</li>
-          <li><b>*Parilla Leopard must run OEM IAME stock reeds only</b></li>
-          <li><b>Yamaha KT100</b> - Minimum blowdown .380", maximum .410" as measured with LAD tool.</li>
 
-        </ul>
-        <h3><b>Spec TaG Rules</b></h3>
-        <ul>
-          <li>*Two Additional Seat Struts (2 on frame, 2 going to bearing hangers, 4 total) will be permitted to avoid seat breakage.</li>
-          <li>*385 lbs Minimum with Leopard Engine, 365 lbs with PRD Engine</li>
-          <li>*11-77 gear Maximum</li>
-          <li>*OEM Airboxes only, Inner and Outer Air Filter allowed.</li>
-          <li>*Solid Pipe or Flex Pipe is allowed, Pipe Length is non-tech item.</li>
-          <li>*Only Douglas Spun Aluminum Wheels as equipped allowed, DSM front wheel only.</li>
-          <li>*OEM Long Rear Hubs only.</li>
-          <li>*40mm B Stiffness Axle only.</li>
-          <li>*Adjustable Top Pills allowed.</li>
-          <li>*Motor and Carb must be Box Stock only! Any attempt to do otherwise will result in disqualification and loss of ALL points up to that disqualification.</li>
-          <li>*Any Blendzall Oil is permitted</li>
-          <li>*NCMP race gas only</li>
-          <li>*Any Spark Plug is allowed</li>
-          <li>*American Brake System only - MCP or Enginetics</li>
-          <li>*Aftermarket throttle linkage is allowed in Spec TaG and TaG USA</li>
-          <li>*Radiator Placement must remain stock as supplied, Aftermarket Radiator is allowed</li>
-          <li>*For every 20 pounds over a driver/kart combination is, you can add an additional tooth. (e.g. You weigh 405 lbs going across the scales after Spec TaG, you can run an 11-78 gear in Spec Tag instead of 11-77. If you weigh in at 404 lbs, you would be DQ'ed if you had on an 11-78 in Spec TaG).</li>
-        </ul>
+      </div>
+      <div class="pageInfoImageContainers" id="">
+
+        <img src="../images/Karamdavis8x10.jpg" alt="">
+
+      </div>
+
+    </div>
+    <div class="pageInfoSplitters">
+
+      <p>Transponders</p>
+
+    </div>
+    <div class="pageInfoCells" id="seriesTranspondersInfoCell">
+
+      <div class="pageInfoImageContainers" id="seriesTranspondersImageContainer">
+
+        <img src="../images/download.jpeg" alt="">
+
+      </div>
+      <div class="pageInfoTextContainers" id="seriesTranspondersTextContainer">
+
         <h3><b>Transponders</b></h3>
         <ul>
+
           <li>*Transponders will be used in all classes for qualifying and racing.</li>
           <li>*Transponders are available for rent for $16.05.</li>
           <li>*Transponders and Brackets are available for purchase at NCMP.</li>
@@ -471,31 +314,9 @@
           <li>*It is the DRIVER'S responsibility, not KRA's that the transponder is installed correctly and functioning properly on the kart. Failure to do so will result in not being scored during qualifying or races.</li>
           <li>*Transponders and Holders can also be bought online through Comet Kart Sales.</li>
 
-
-
-
         </ul>
 
       </div>
-
-
-    </div>
-
-    <div id="seriesNewsContainer">
-
-      <h2>Results</h2>
-
-    </div>
-
-    <div id="seriesPointsContainer">
-
-      <h2>Points</h2>
-
-    </div>
-
-    <div id="seriesScheduleContainer">
-
-      <h2>Schedule</h2>
 
     </div>
 
