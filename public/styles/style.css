@@ -594,6 +594,24 @@ align-items: center;
     text-align: center;
 
   }
+  .calendarCellContainer {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: lighten;
+    display: flex;
+    flex-direction: column;
+  }
+  .calendarCellHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 20px;
+    align-items: center;
+  }
+  .calendarCellHeader img {
+    height: 20px;
+    opacity: 0.5;
+  }
 
   /*minified calendarView*/
   #calendarPageHeader {

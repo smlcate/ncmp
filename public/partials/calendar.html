@@ -46,13 +46,21 @@
 
           <div id="calendarContainer">
 
-            <div class="calendarCell{{day.curMonth}}" ng-repeat="day in month_events track by $index" ng-click="selectDay(day)">
+            <div class="calendarCell{{day.curMonth}}" ng-repeat="day in month_events track by $index" ng-click="selectDay(day)" style="background:{{day.backgroundColor}}">
+              <div class="calendarCellContainer">
 
-              {{ day.date }}
+                <div class="calendarCellHeader">
 
-              <div class="eventCell" ng-repeat="event in day.events" style="background:{{event.color}}">
+                  <!-- <img src="" alt=""> -->
+                  <p>{{ day.date }}</p>
 
-                {{event.name}}
+                </div>
+
+                <div class="eventCell" ng-repeat="event in day.events" style="background:{{event.color}}">
+
+                  {{event.name}}
+
+                </div>
 
               </div>
 

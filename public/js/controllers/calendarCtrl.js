@@ -81,7 +81,16 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
         day: dayOfWeek,
         month: $scope.selectedMonth+1,
         curMonth: false,
+        backgroundColor: '',
         events: []
+      }
+
+      if (cellBody.date === $scope.date.date && cellBody.month === $scope.date.month+1) {
+
+        console.log('GOOTTTAAA BEEEEEE')
+
+        cellBody.backgroundColor = 'lightgreen';
+
       }
 
       if(dayOfWeek == 1) {
@@ -125,6 +134,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
         cellBody.date = calendarDay;
         cellBody.day = dayOfWeek;
         cellBody.curMonth = true;
+        cellBody.backgroundColor = 'lightgrey';
 
         month_events.push(cellBody)
 
@@ -138,6 +148,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
         cellBody.date = calendarDay;
         cellBody.day = dayOfWeek;
         cellBody.curMonth = false;
+        cellBody.backgroundColor = 'lightgrey';
 
         calendarDay ++;
 
