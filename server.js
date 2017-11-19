@@ -14,7 +14,8 @@ var server = {
   event_groups: require('./controllers/eventGroups.js'),
   images: require('./controllers/images.js'),
   news: require('./controllers/news.js'),
-  login: require('./controllers/login.js')
+  login: require('./controllers/login.js'),
+  calendar: require('./controllers/calendar.js')
 }
 
 
@@ -31,6 +32,8 @@ app.get('/getNews', server.news.getNews)
 
 app.get('/getAllEventGroups', server.event_groups.getAllEventGroups)
 app.post('/getEventGroups', server.event_groups.getEventGroups)
+
+app.get('/getScheduleControllers', server.calendar.getScheduleControllers)
 
 app.post('/signUp', server.login.signUp)
 

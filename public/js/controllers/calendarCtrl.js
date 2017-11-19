@@ -25,8 +25,40 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
   $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
 
+  $scope.scheduleInfo = {
+    controllers: []
+  }
+
+  function getScheduleInfo() {
+    var scheme = {};
+    $http.get('getScheduleControllers')
+    .then(function(data) {
+
+      for (var i = 0; i < data.data.length; i++) {
+
+        if (data.data[i].year === $scope.date.year) {
+
+          $scope.scheduleInfo.openDate = data.data[i].open_date;
+          $scope.scheduleInfo.closeDate = data.data[i].close_date;
+          $scope.scheduleInfo.controllers = data.data;
+          buildCalendar();
+          buildMiniCalendar();
+          return scheme;
+        }
+      }
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+
+
+  }
+
+  getScheduleInfo();
+
   $('.calendarViews').css('display','none');
   $('#calendarExpandedView').css('display','flex');
+
 
   function buildCalendar() {
 
@@ -87,13 +119,60 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
       if (cellBody.date === $scope.date.date && cellBody.month === $scope.date.month+1) {
 
-        console.log('GOOTTTAAA BEEEEEE')
-
         cellBody.backgroundColor = 'lightgreen';
 
       }
 
-      if(dayOfWeek == 1) {
+      var curOpen = true;
+
+      if ($scope.selectedMonth+1 < $scope.scheduleInfo.openDate.slice(5,-17) || $scope.selectedMonth+1 > $scope.scheduleInfo.closeDate.slice(5,-17)) {
+
+        console.log('hit1')
+
+        curOpen = false;
+
+        cellBody.events.push(
+          {
+            name:'Track Closed',
+            color: 'lightpink'
+          }
+        )
+
+      } else if ($scope.selectedMonth+1 == $scope.scheduleInfo.openDate.slice(5,-17) || $scope.selectedMonth+1 == $scope.scheduleInfo.closeDate.slice(5,-17)) {
+        if (calendarDay < $scope.scheduleInfo.openDate.slice(8,-14) || activeMonth == false ) {
+          if ($scope.selectedMonth+1 == $scope.scheduleInfo.openDate.slice(5,-17)) {
+
+            curOpen = false;
+
+            cellBody.events.push(
+              {
+                name:'Track Closed',
+                color: 'lightpink'
+              }
+            )
+
+          }
+        } else if ($scope.selectedMonth+1 == $scope.scheduleInfo.closeDate.slice(5,-17) && calendarDay > $scope.scheduleInfo.closeDate.slice(8,-14)) {
+
+          curOpen = false;
+          cellBody.events.push(
+            {
+              name:'Track Closed',
+              color: 'lightpink'
+            }
+          )
+        } else if ($scope.selectedMonth+1 == $scope.scheduleInfo.closeDate.slice(5,-17) && calendarDay > $scope.scheduleInfo.closeDate.slice(8,-14) && activeMonth == false) {
+          curOpen = false;
+          cellBody.events.push(
+            {
+              name:'Track Closed',
+              color: 'lightpink'
+            }
+          )
+        }
+      }
+
+      if(dayOfWeek == 1 && curOpen === true) {
         // dayOfWeek = 1;
         cellBody.events.push(
           {
@@ -101,7 +180,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
             color: 'lightpink'
           }
         )
-      } else if (dayOfWeek === 6) {
+      } else if (dayOfWeek === 6 && curOpen === true) {
         dayOfWeek = -1;
         cellBody.events.push(
           {
@@ -109,7 +188,10 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
             color: 'lightgreen'
           }
         )
-      } else {
+      } else if (dayOfWeek === 6 && curOpen === false) {
+        console.log('hit');
+        dayOfWeek = -1;
+      } else if (curOpen != false) {
         cellBody.events.push(
           {
             name:'Open Practice',
@@ -172,8 +254,6 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
     for (var i = 0; i < $scope.events.length; i++) {
 
-      console.log(i)
-
       var date = $scope.events[i].date.slice(5,-17);
       var dateNumber = $scope.events[i].date.slice(8,-14);
 
@@ -182,7 +262,6 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
       }
       if (date[0] === 0) {
         dateNumber.slice(1)
-        console.log(dateNumber);
       }
 
       if ($scope.selectedMonth === date - 1) {
@@ -194,19 +273,16 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
     }
 
-    console.log($scope.month_events)
-
   }
 
-  buildCalendar()
+  // buildCalendar()
 
   function getEvents() {
 
     $http.get('getData')
     .then(function(res) {
-      $scope.events = res.data;
 
-      console.log(res.data)
+      $scope.events = res.data;
 
       var today = new Date();
 
@@ -288,26 +364,6 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
       }
 
-      // if (eventful === false && $scope.currentDaysEvents.length === 0) {
-      //   if (today.getDay() === 1) {
-      //     $scope.currentDaysEvents.push({
-      //       name: 'Track Closed',
-      //       color: 'lightpink',
-      //       rentalKarts: false,
-      //       start_time: '10:00:00',
-      //       end_time: '19:00:00'
-      //     })
-      //   } else {
-      //     $scope.currentDaysEvents.push({
-      //       name: 'Open Practice',
-      //       color: 'lightgreen',
-      //       rentalKarts: true,
-      //       start_time: '10:00:00',
-      //       end_time: '19:00:00'
-      //     })
-      //   }
-      // }
-
       buildCalendar();
 
     })
@@ -316,10 +372,6 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
   function buildMiniCalendar() {
 
     var d = new Date();
-
-
-
-    // console.log(d)
 
     var date = {
       month: 0,
@@ -330,7 +382,6 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
     for (var i = 0; i < 12; i++) {
 
       var monthStartDay = new Date(monthNames[date.month] + " 1," + date.year).getDay();
-      // console.log(monthStartDay);
 
       date.month++;
 
@@ -371,7 +422,14 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
         }
 
-        if (j%7 === 1) {
+        if (j%7 === 1 || month < $scope.scheduleInfo.openDate.slice(5,-17) || month > $scope.scheduleInfo.closeDate.slice(5,-17)) {
+          mcell.color = 'lightpink';
+        }
+
+        if (month == $scope.scheduleInfo.openDate.slice(5,-17) && day < $scope.scheduleInfo.openDate.slice(8,-14)) {
+          mcell.color = 'lightpink';
+        }
+        if (month == $scope.scheduleInfo.closeDate.slice(5,-17) && day > $scope.scheduleInfo.closeDate.slice(8,-14)) {
           mcell.color = 'lightpink';
         }
 
@@ -387,6 +445,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
           precount ++;
         }
 
+
         for (var k = 0; k < $scope.events.length; k++) {
           // console.log(mcell.date)
           // console.log($scope.events[k].date.slice(0,-14))
@@ -395,25 +454,17 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
           }
         }
 
-        // console.log(mcell);
-
         cell.mcells.push(mcell)
 
       }
 
       $scope.miniCells.push(cell)
 
-      // console.log(cell);
-
     }
 
   }
 
-  buildMiniCalendar();
-
   $scope.changeCalendarView = function(v) {
-
-    console.log(v)
 
     $('.calendarViews').css('display','none');
     $('#calendar'+v+'View').css('display','flex');
@@ -443,7 +494,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
     $scope.selectedMonth_text = monthNames[$scope.selectedMonth];
 
-    getEvents();
+    buildCalendar();
 
   }
 
@@ -468,7 +519,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     $scope.selectedMonth_text = monthNames[$scope.selectedMonth];
-    getEvents();
+    buildCalendar();
 
   }
 

@@ -32,6 +32,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     .then(function(data) {
       // console.log(data);
       $scope.events = data.data;
+      console.log($scope.events);
       giveAnnouncements();
     })
     .catch(function(err) {
