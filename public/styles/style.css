@@ -18,6 +18,30 @@ a {
   text-decoration: none;
   color: #154498;
 }
+#adminPageNav {
+  width: 100%;
+  border-bottom: 3px solid #154498;
+  font-size: 120%;
+  height: 90px;
+  /*padding: 5px;*/
+  color: white;
+  background: #154498;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  align-self: center;
+  /*text-align: center;*/
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.7);
+}
+#adminPageNav a {
+  color: #E1F5FE;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+  width: 150px;
+}
+
 #adminImagesControl {
   display: flex;
   flex-direction: column;
@@ -33,8 +57,74 @@ a {
   display: flex;
   flex-direction: column;
 }
+#adminEventsControl input {
+  /*width:auto;*/
+  font-size: 150%;
+  height: 30px;
+}
+.timeInputs {
+  width: 100px;
+}
+.numberInputs {
+  width: 50px;
+}
+#adminEventsControlContainer {
+  display: flex;
+  flex-direction: column;
+}
+#adminEventsControlContainerDiv {
+  display: flex;
+}
+.adminEventsControlPanels {
+  display: flex;
+  flex-direction: column;
+  /*justify-content: space-around;*/
+  width: 45%;
+  padding: 30px;
+  min-height: 250px;
+}
+.adminEventsControlPanelCells {
+  display: flex;
+  /*align-items: flex-start;*/
+  font-size: 125%;
+  width: 100%;
+  /*margin-bottom: 20px;*/
+  padding: 10px;
+}
+.adminEventsControlPanelCells img {
+  max-height: 150px;
+}
+#adminEventsImageSelectPanelCell {
+  overflow-x: scroll;
+}
+#adminEventsImageSelectPanelCell img {
+  max-height: 100px;
+}
+#adminEventsDatePreviewPanelCell {
+  display: flex;
+  flex-direction: column;
+}
+.adminEventsControlPanelCells span {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+#adminEventsControlContainerFooter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+#adminEventsControlContainerFooter button {
+  height: 35px;
+}
+#descriptionInput {
+  width: 100%;
+}
 #eventGroupDisplay {
   display: flex;
+  flex-direction: row;
 }
 #seriesName {
   width: 50px;

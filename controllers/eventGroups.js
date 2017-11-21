@@ -34,3 +34,24 @@ exports.getEventGroups = function(req, res, next) {
   })
 
 }
+
+exports.addEventGroup = function(req, res, next) {
+
+  console.log(req.body);
+  knex('event_groups')
+  .insert({
+    name:req.body[0].name,
+    description:req.body[0].description,
+    color:req.body[0].color
+  })
+  .then(function() {
+    return knex('event_groups')
+    .select('id')
+    .where({name:req.body[0].name})
+    .then(function(data) {
+      res.send(data);
+    })
+  })
+
+
+}

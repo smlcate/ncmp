@@ -22,6 +22,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
 
 app.get('/getData', server.events.getData)
+app.post('/addEvents', server.events.addEvents)
 
 app.post('/uploadImage', server.images.uploadImage)
 app.get('/getImages', server.images.getImages)
@@ -31,6 +32,7 @@ app.get('/getNews', server.news.getNews)
 
 app.get('/getAllEventGroups', server.event_groups.getAllEventGroups)
 app.post('/getEventGroups', server.event_groups.getEventGroups)
+app.post('/addEventGroup', server.event_groups.addEventGroup)
 
 app.post('/signUp', server.login.signUp)
 

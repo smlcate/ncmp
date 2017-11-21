@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.integer('event_group_id');
     table.string('event_key');
     table.date('date');
+    table.string('display_date');
     table.time('start');
     table.time('end');
     table.text('summary');

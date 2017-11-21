@@ -1,5 +1,11 @@
 <div class="parentDisplays" id="adminDisplay" ng-controller="adminCtrl">
 
+  <div class="pageHeaders">
+
+    <p>Admin Controller</p>
+
+  </div>
+
   <div id="adminPageNav">
 
     <a href="" ng-click="changeAdminDisplay('Events')">Events</a>
@@ -48,48 +54,111 @@
 
   <div class="adminControlGroups" id=adminEventsControl>
 
-    <div id="eventGroupDisplay">
+    <div id="adminEventsControlContainer">
 
-      <div class="eventGroupCell" ng-repeat="group in eventGroups">
+      <div id="adminEventsControlContainerDiv">
+        <div class="adminEventsControlPanels">
 
-        <h2>{{group.name}}</h2>
+          <div id="eventGroupDisplay">
 
+            <div class="eventGroupCell" ng-click="selectSeries('new')" id="newEventGroupCell">
+              <h2>New</h2>
+
+            </div>
+
+            <div class="eventGroupCell" ng-repeat="group in eventGroups" style="background:{{group.color}}" ng-click="selectSeries(group)" id="{{group.name}}EventGroupCell">
+
+              <h2 >{{group.name}}</h2>
+
+            </div>
+
+          </div>
+
+          <div class="adminEventsControlPanelCells">
+
+            <span>Title <input type="text" name="" value="" ng-model="controller.info.name"></span>
+            <span>Color <input type="color" name="" value="" ng-model="controller.info.color"></span>
+
+          </div>
+          <div class="adminEventsControlPanelCells">
+
+            <!-- <span>Summary <input type="textarea" name="" value=""></span> -->
+            <textarea name="textarea"
+            rows="10" cols="50" placeholder="Description Here.." id="descriptionInput" ng-model="controller.info.description"></textarea>
+
+          </div>
+          <div class="adminEventsControlPanelCells">
+            <span>
+
+              <a href="" ng-click="openPhotoSelect()">Select Image</a>
+              <img src="{{selectedPhoto.dataURL}}" alt="" ng-if="selectedPhoto">
+
+            </span>
+          </div>
+          <div class="adminEventsControlPanelCells" id="adminEventsImageSelectPanelCell">
+
+            <img src="{{photo.dataURL}}" alt="" ng-repeat="photo in photos" ng-click="selectPreviewImg(photo)">
+
+          </div>
+
+          <!-- <div class="adminEventsControlPanelCells">
+
+          <button type="button" name="button">Add</button>
+          <span>Date <input type="date" name="" value=""></span>
+
+        </div> -->
+        </div>
+        <div class="adminEventsControlPanels">
+
+          <div class="adminEventsControlPanelCells">
+
+            <span>Start<input type="time" name="" value="8:00am" class="timeInputs" ng-model="controller.startTime"></span>
+            <span>End<input type="time" name="" value="8:00pm" class="timeInputs" ng-model="controller.endTime"></span>
+            <span>Length <input type="number" name="" value="" min="1" class="numberInputs" ng-model="controller.daysLength">Day(s)</span>
+
+          </div>
+          <div class="adminEventsControlPanelCells">
+            <input type="date" name="" value="" ng-model="controller.info.date">
+          </div>
+          <div class="adminEventsControlPanelCells">
+            <button type="button" name="button" ng-click="addDate(controller)">Add Date</button>
+          </div>
+          <div class="adminEventsControlPanelCells" id="adminEventsDatePreviewPanelCell">
+
+            <div class="eventsDatePreviewCells" ng-repeat="event in eventPreviews track by $index">
+
+              <h2>{{event.displayDate}}</h2>
+
+            </div>
+
+          </div>
+
+        </div>
       </div>
 
-    </div>
+      <div id="adminEventsControlContainerFooter">
 
-    <div class="">
+        <button type="button" name="button" ng-click="submitEvents()">Submit</button>
 
-      <span>Series <button type="" list="seriesName" value="" ng-click="dropdown()">{{selectedSeries.name}}</button>
-        <div id="seriesName">
-          <a value="New" ng-click="selectSeries('new')">New</a>
-          <a value="{{group.name}}"ng-repeat="group in eventGroups" ng-click="selectSeries(group)">{{group.name}}</a>
-        </div>
-      </span>
-
-      <span>Title <input type="text" name="" value=""></span>
-      <span>Color <input type="color" name="" value=""></span>
-
-    </div>
-    <div class="">
-
-      <span>Summary <input type="textarea" name="" value=""></span>
-      <textarea name="textarea"
-         rows="10" cols="50">Write something here</textarea>
-    </div>
-
-    <div class="">
-
-      <button type="button" name="button">Add</button>
-      <span>Date <input type="date" name="" value=""></span>
-
+      </div>
     </div>
     <div id="eventCellContainer">
 
       <div class="eventCell" ng-repeat="event in events" style="background:{{event.color}}">
 
-        <h1>{{event.displayDate}}</h1>
-        <h1>{{event.name}}</h1>
+        <div class="eventCellHeaders">
+
+          <h1>{{event.name}}</h1>
+          <h1>{{event.display_date}}</h1>
+
+        </div>
+        <div class="eventCellInfoContainer">
+
+          <h2>{{event.start}} - {{event.end}}</h2>
+
+          <p>{{event.description}}</p>
+
+        </div>
 
       </div>
 
