@@ -104,6 +104,13 @@ a {
   display: flex;
   flex-direction: column;
 }
+.eventsDatePreviewCells {
+  display: flex;
+}
+.eventsDateAddPreviewCells {
+  display: flex;
+  background: lightgreen;
+}
 .adminEventsControlPanelCells span {
   display: flex;
   align-items: center;
