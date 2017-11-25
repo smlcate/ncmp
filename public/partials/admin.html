@@ -112,9 +112,9 @@
 
           <div class="adminEventsControlPanelCells">
 
-            <span>Start<input type="time" name="" value="8:00am" class="timeInputs" ng-model="controller.startTime"></span>
-            <span>End<input type="time" name="" value="8:00pm" class="timeInputs" ng-model="controller.endTime"></span>
-            <span>Length <input type="number" name="" value="" min="1" class="numberInputs" ng-model="controller.daysLength">Day(s)</span>
+            <span>Start<input type="time" name="" value="08:00" class="timeInputs" ng-model="controller.startTime"></span>
+            <span>End<input type="time" name="" value="20:00" class="timeInputs" ng-model="controller.endTime"></span>
+            <span>Length <input type="number" name="" value="1" min="1" class="numberInputs" ng-model="controller.daysLength">Day(s)</span>
 
           </div>
           <div class="adminEventsControlPanelCells">
@@ -125,9 +125,10 @@
           </div>
           <div class="adminEventsControlPanelCells" id="adminEventsDatePreviewPanelCell">
 
-            <div class="eventsDatePreviewCells" ng-repeat="event in eventPreviews track by $index">
+            <div class="eventsDate{{event.tag}}PreviewCells" ng-repeat="event in eventPreviews track by $index">
 
-              <h2>{{event.displayDate}}</h2>
+              <h2 >{{event.displayDate}}</h2>
+              <h2>{{event.display_date}}</h2>
 
             </div>
 

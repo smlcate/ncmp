@@ -32,6 +32,7 @@ app.get('/getNews', server.news.getNews)
 
 app.get('/getAllEventGroups', server.event_groups.getAllEventGroups)
 app.post('/getEventGroups', server.event_groups.getEventGroups)
+app.post('/getEventGroup', server.event_groups.getEventGroup)
 app.post('/addEventGroup', server.event_groups.addEventGroup)
 
 app.post('/signUp', server.login.signUp)

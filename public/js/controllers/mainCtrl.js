@@ -91,6 +91,8 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
     var stack = []; //contains a stack with the upcoming events
 
+    console.log($scope.events);
+
     for (var i = 0; i < $scope.events.length; i++) {
 
       if ($scope.events[i].date.slice(5,-17) > month) {
@@ -118,39 +120,55 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
     function sortByDate(arr) {
 
-      console.log(arr)
+      console.log(arr);
+
+      var stack = [];
 
       var toComp = [] //takes 2 elements to be compared
       var repeat = false;
       for (var i = 0; i < arr.length; i++) {
+
+        toComp = [arr[i],arr[i+1]];
+        console.log(typeof(arr[i].date));
+        console.log(toComp)
         if (i === arr.length - 1) {
           if (repeat == true) {
-            i = 0;
+            i = -1;
             repeat = false;
           } else {
-            return stack;
+            // console.log('hit');
+            return arr;
           }
-        } else if (arr[i].date.slice(5,-17) > arr[i+1].date.slice(5,-17)) {
-          toComp.push(arr[i],arr[i+1]);
+        } else if (toComp[1].date.slice(5,-17) < toComp[0].date.slice(5,-17)) {
+          // toComp.push(arr[i],arr[i+1]);
           stack[i] = toComp[1]
           stack[i+1] = toComp[0]
           toComp = [];
           repeat = true;
-        } else if(arr[i].date.slice(5,-17) === arr[i+1].date.slice(5,-17)) {
-          toComp.push(arr[i],arr[i+1]);
-          if (toComp[0].date.slice(8,-14) > toComp[1].date.slice(8,-14)) {
+          // i=0;
+        } else if(toComp[1].date.slice(5,-17) === toComp[0].date.slice(5,-17)) {
+          // toComp.push(stack[i],stack[i+1]);
+          if (toComp[1].date.slice(8,-14) < toComp[0].date.slice(8,-14)) {
             stack[i] = toComp[1]
             stack[i+1] = toComp[0]
             repeat = true;
+            // i=0;
           }
           toComp = [];
         }
+
+
+
+        // return stack;
       }
 
     }
 
+    console.log(stack);
+
     var sortedStack = sortByDate(stack);
 
+    console.log(sortedStack);
     var eventKeys = [];
 
     var newStack = [];
@@ -183,6 +201,8 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       } else {
         announcements.events = newStack;
       }
+
+      console.log(announcements.events)
 
       function makeDatePretty(d) {
 
@@ -240,7 +260,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       $scope.announcements = announcements;
 
       if ($scope.todaysEvent === undefined) {
-        if (date.getDay() != 2) {
+        if (date.getDay() != 1) {
           $scope.todaysEvent = {
             name:'Open Practice',
             color:'lightgreen'

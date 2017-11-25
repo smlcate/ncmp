@@ -16,6 +16,21 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
   $scope.adminEvents = [];
 
+  $scope.controller = {
+    startTime: new Date('8:00'),
+    endTime: new Date('20:00'),
+    daysLength:1,
+    info: {
+
+      name: '',
+      color: '',
+      description: ''
+
+    },
+    toAdd: [],
+    toRemove: []
+  }
+
 
   $scope.selectedSeries = 'new';
 
@@ -147,8 +162,11 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   $scope.dropdown = function() {
     $('#seriesName').css('display','flex');
   }
-  $scope.selectSeries = function(s) {
 
+
+
+  $scope.selectSeries = function(s) {
+    console.log(s);
     // $('#seriesName').css('display','none');
     if (s == 'new') {
       $scope.selectedSeries = 'new'
@@ -159,10 +177,20 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $scope.selectedSeries = s;
       $('.eventGroupCell').css('border','none');
       $('#' + s.name + 'EventGroupCell').css('border-bottom','2px solid #154498');
-
+      $scope.controller.info.name = s.name;
+      $scope.controller.info.color = s.color;
+      $scope.eventPreviews = [];
+      $scope.controller.info.description = s.description;
+      for (var i = 0; i < $scope.events.length; i++) {
+        console.log($scope.events[i], s.id)
+        if ($scope.events[i].event_group_id == s.id) {
+          console.log('hit');
+          $scope.eventPreviews.push($scope.events[i])
+          console.log($scope.controller.events)
+        }
+      }
     }
   }
-
   $scope.addDate = function(c) {
 
     var eventKey = Math.floor((Math.random() * 100)) + c.info.name[1] + c.info.name[0];
@@ -179,16 +207,21 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     var eventInfo = {
       name: c.info.name,
       date: c.info.date,
+      dateString: c.info.date.toISOString(),
       displayDate: '',
       color: c.info.color,
       description: c.info.description,
+      tag: 'add',
       events: [],
     }
+    if (typeof(eventInfo.date) != 'string') {
+      eventInfo.date = eventInfo.date.toISOString();
+    }
     for (var i = 0; i < c.daysLength; i++) {
-      var m = eventInfo.date.getUTCMonth()+1;
-      var d = eventInfo.date.getUTCDate();
-      var y = eventInfo.date.getUTCFullYear();
-      var nd = Number(d + i);
+      var m = Number(eventInfo.date.slice(5,-17));
+      var d = eventInfo.date.slice(8,-14);
+      var y = eventInfo.date.slice(0,-20);
+      var nd = Number(d) + i;
       var event = {
         date: m + '/' + nd + '/' + y,
         color: eventInfo.color,
@@ -199,7 +232,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       }
       eventInfo.events.push(event);
     }
-    var d = eventInfo.date.toDateString()
+    var d = new Date(eventInfo.date).toDateString()
 
     var day = d.slice(0,-12),
         month = d.slice(4,-8),
@@ -213,42 +246,128 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     }
 
 
-    $scope.eventPreviews.push(eventInfo)
+    $scope.eventPreviews.push(eventInfo);
+    $scope.controller.toAdd.push(eventInfo);
 
+    function sortPreviewsByDate (arr) {
+
+      var arr = $scope.eventPreviews;
+
+      // console.log(arr);
+
+      var toComp = [] //takes 2 elements to be compared
+      var repeat = false;
+      for (var i = 0; i < arr.length; i++) {
+
+        toComp = [arr[i],arr[i+1]];
+        console.log(typeof(arr[i].date));
+        console.log(toComp)
+        if (i === arr.length - 1) {
+          if (repeat == true) {
+            i = -1;
+            repeat = false;
+          } else {
+            // console.log('hit');
+            return arr;
+          }
+        } else if (toComp[1].date.slice(5,-17) < toComp[0].date.slice(5,-17)) {
+          // toComp.push(arr[i],arr[i+1]);
+          arr[i] = toComp[1]
+          arr[i+1] = toComp[0]
+          toComp = [];
+          repeat = true;
+          // i=0;
+        } else if(toComp[1].date.slice(5,-17) === toComp[0].date.slice(5,-17)) {
+          // toComp.push(arr[i],arr[i+1]);
+          if (toComp[1].date.slice(8,-14) < toComp[0].date.slice(8,-14)) {
+            arr[i] = toComp[1]
+            arr[i+1] = toComp[0]
+            repeat = true;
+            // i=0;
+          }
+          toComp = [];
+        }
+
+
+
+        // return stack;
+      }
+
+    }
+    $scope.eventPreviews = sortPreviewsByDate($scope.eventPreviews);
+    console.log($scope.eventPreviews);
 
   }
   $scope.submitEvents = function() {
 
     if ($scope.selectedSeries === 'new') {
-      $http.post('addEventGroup', $scope.eventPreviews)
+      $http.post('addEventGroup', $scope.controller)
       .then(function(res) {
-        var groupId = res.data[0].id;
-        for (var i = 0; i < $scope.eventPreviews.length; i++) {
-          for (var j = 0; j < $scope.eventPreviews[i].events.length; j++) {
-            $scope.eventPreviews[i].events[j].event_group_id = groupId;
-            $scope.eventPreviews[i].events[j].description = $scope.eventPreviews[i].description;
-            $scope.eventPreviews[i].events[j].name = $scope.eventPreviews[i].name;
-            $scope.eventPreviews[i].events[j].display_date = $scope.eventPreviews[i].displayDate;
-            // console.log($scope.eventPreviews[i].events[j].date);
-          }
+        if (res.data = 'success') {
+          $http.post('getEventGroup', $scope.controller)
+          .then(function(res) {
 
-          $scope.eventPreviews[i].event_group_id = groupId;
-          if (i+1 === $scope.eventPreviews.length) {
+            var groupId = res.data[0].id;
+            for (var i = 0; i < $scope.eventPreviews.length; i++) {
+              for (var j = 0; j < $scope.eventPreviews[i].events.length; j++) {
+                $scope.eventPreviews[i].events[j].event_group_id = groupId;
+                $scope.eventPreviews[i].events[j].description = $scope.eventPreviews[i].description;
+                $scope.eventPreviews[i].events[j].name = $scope.eventPreviews[i].name;
+                $scope.eventPreviews[i].events[j].display_date = $scope.eventPreviews[i].displayDate;
+                // console.log($scope.eventPreviews[i].events[j].date);
+              }
+              $scope.eventPreviews[i].event_group_id = groupId;
 
-            $http.post('addEvents', $scope.eventPreviews)
-            .then(function(res) {
-              // console.log(res);
-            })
-            .catch(function(err) {
-              console.log(err);
-            })
+            }
+            if (i+1 === $scope.eventPreviews.length) {
 
-          }
+              $http.post('addEvents', $scope.eventPreviews)
+              .then(function(res) {
+                // console.log(res);
+              })
+              .catch(function(err) {
+                console.log(err);
+              })
+
+            } else {
+              $http.post('addEvents', $scope.eventPreviews)
+              .then(function(res) {
+                // console.log(res);
+              })
+              .catch(function(err) {
+                console.log(err);
+              })
+            }
+          })
         }
       })
       .catch(function(err) {
         console.log(err);
       })
+
+    } else {
+
+      for (var i = 0; i < $scope.controller.toAdd.length; i++) {
+
+        for (var j = 0; j < $scope.controller.toAdd[i].events.length; j++) {
+          $scope.controller.toAdd[i].events[j].event_group_id = $scope.selectedSeries.id;
+          $scope.controller.toAdd[i].events[j].description = $scope.controller.toAdd[i].description;
+          $scope.controller.toAdd[i].events[j].name = $scope.controller.toAdd[i].name;
+          $scope.controller.toAdd[i].events[j].display_date = $scope.controller.toAdd[i].displayDate;
+          // console.log($scope.eventPreviews[i].events[j].date);
+        }
+
+        $scope.controller.toAdd[i].event_group_id = $scope.selectedSeries.id;
+
+      }
+      $http.post('addEvents', $scope.controller.toAdd)
+      .then(function(res) {
+        console.log(res)
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+
     }
 
 

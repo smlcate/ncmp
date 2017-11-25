@@ -21,7 +21,7 @@ exports.getData = function(req, res, next) {
 exports.addEvents = function(req, res, next) {
 
   console.log(req.body);
-  console.log(req.body[0].events);
+  // console.log(req.body[0].events);
 
   for (var i = 0; i < req.body.length; i++) {
 
