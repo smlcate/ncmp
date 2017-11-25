@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-var pg = require('pg');
+// var pg = require('pg');
 
 var express = require('express');
 var app = express();
