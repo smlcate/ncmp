@@ -26,6 +26,7 @@ exports.getImage = function(req, res, next) {
   .where({id:req.body.id})
   .then(function(data) {
     // console.log(data);
+
     res.send(data);
   })
   .catch(function(err) {
@@ -35,6 +36,8 @@ exports.getImage = function(req, res, next) {
 }
 exports.uploadImage = function(req, res, next) {
 
+    console.log(req.body.data);
+
     var i = {
       dataURL: req.body.data
     }
@@ -43,6 +46,7 @@ exports.uploadImage = function(req, res, next) {
   knex('images')
   .insert(i)
   .then(function(data) {
+    console.log('success');
     res.send('success')
   })
   .catch(function(err) {

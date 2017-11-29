@@ -24,7 +24,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   $('.headerNavAnc').on('click', function() {
       $('.headerNavAnc').css({'background':'#E1F5FE','color':'#154498'});
     $(this).css({'background':'#154498','color':'white'});
-    console.log('hit');
+    // console.log('hit');
   })
 
   function init() {
@@ -44,12 +44,12 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       var date = d.getDate();
       var day = daysOfWeek[d.getDay()];
 
-      console.log(day + ', ' + month + ' ' + date)
+      // console.log(day + ', ' + month + ' ' + date)
 
       return day + ', ' + month + ' ' + date;
 
     }
-    console.log($scope.date);
+    // console.log($scope.date);
     $scope.headerInfo.displayDate = makeDatePretty($scope.date);
 
   }
@@ -91,7 +91,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
     var stack = []; //contains a stack with the upcoming events
 
-    console.log($scope.events);
+    // console.log($scope.events);
 
     for (var i = 0; i < $scope.events.length; i++) {
 
@@ -117,27 +117,69 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       }
 
     }
+    // console.log(stack);
+    function lookAtKeys(arr) {
+      var eventKeys = [];
+
+      var newStack = [];
+
+      for (var i = 0; i < arr.length; i++) {
+        // console.log('hit')
+        if (arr[i].event_key) {
+          // console.log('hit2');
+          if (eventKeys.length > 0) {
+            // console.log('hit3');
+            var keep = true;
+            for (var j = 0; j < eventKeys.length; j++) {
+              // console.log('hit4');
+              if (eventKeys[j] == arr[i].event_key) {
+                // console.log('hit5');
+                keep = false;
+                j = eventKeys.length;
+              } else if(eventKeys[j] != arr[i].event_key && j+1 == eventKeys.length) {
+                eventKeys.push(arr[i].event_key);
+                newStack.push(arr[i]);
+              }
+            }
+          } else {
+            // console.log('hit6');
+            eventKeys.push(arr[i].event_key);
+            newStack.push(arr[i]);
+          }
+          // eventKeys.push(arr[i].event_key)
+        } else {
+          // console.log('hit7');
+          newStack.push(arr[i]);
+        }
+      }
+
+      return newStack;
+
+    }
+    
+    var keyedStack = lookAtKeys(stack);
 
     function sortByDate(arr) {
 
-      console.log(arr);
+      var stack = arr;
 
-      var stack = [];
+      // console.log(arr);
 
       var toComp = [] //takes 2 elements to be compared
       var repeat = false;
       for (var i = 0; i < arr.length; i++) {
 
         toComp = [arr[i],arr[i+1]];
-        console.log(typeof(arr[i].date));
-        console.log(toComp)
+        // console.log('loop #' + i);
+        // console.log(toComp)
         if (i === arr.length - 1) {
           if (repeat == true) {
             i = -1;
             repeat = false;
           } else {
             // console.log('hit');
-            return arr;
+            // console.log(stack);
+            return stack;
           }
         } else if (toComp[1].date.slice(5,-17) < toComp[0].date.slice(5,-17)) {
           // toComp.push(arr[i],arr[i+1]);
@@ -147,7 +189,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
           repeat = true;
           // i=0;
         } else if(toComp[1].date.slice(5,-17) === toComp[0].date.slice(5,-17)) {
-          // toComp.push(stack[i],stack[i+1]);
+          // toComp.push(arr[i],arr[i+1]);
           if (toComp[1].date.slice(8,-14) < toComp[0].date.slice(8,-14)) {
             stack[i] = toComp[1]
             stack[i+1] = toComp[0]
@@ -158,51 +200,52 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
         }
 
 
-
-        // return stack;
+        // console.log(stack);
+      // return stack;
       }
 
     }
 
-    console.log(stack);
+    // console.log(keyedStack);
 
-    var sortedStack = sortByDate(stack);
+    var newStack = sortByDate(keyedStack);
 
-    console.log(sortedStack);
-    var eventKeys = [];
+    // console.log(newStack);
+    // var eventKeys = [];
+    
+    // var newStack = [];
+    
+    if (newStack) {
+    
+      // for (var i = 0; i < sortedStack.length; i++) {
+      //   if (sortedStack[i].event_key) {
+      //     if (eventKeys.length > 0) {
+      //       var keep = true;
+      //       for (var j = 0; j < eventKeys.length; j++) {
+      //         if (eventKeys[j] == sortedStack[i].event_key) {
+      //           keep = false;
+      //           j = eventKeys.length;
+      //         }
+      //       }
+      //     } else {
+      //       eventKeys.push(sortedStack[i].event_key);
+      //       newStack.push(sortedStack[i]);
+      //     }
+      //     // eventKeys.push(sortedStack[i].event_key)
+      //   } else {
+      //     newStack.push(sortedStack[i]);
+      //   }
+      // }
 
-    var newStack = [];
+      // if (newStack.length > 10) {
+      //   newStack = newStack.slice(0,newStack.length - 10)
+      //   announcements.events = newStack;
+      // } else {
+      //   announcements.events = newStack;
+      // }
+      announcements.events = newStack;
 
-    if (sortedStack) {
-
-      for (var i = 0; i < sortedStack.length; i++) {
-        if (sortedStack[i].event_key) {
-          if (eventKeys.length > 0) {
-            var keep = true;
-            for (var j = 0; j < eventKeys.length; j++) {
-              if (eventKeys[j] == sortedStack[i].event_key) {
-                keep = false;
-                j = eventKeys.length;
-              }
-            }
-          } else {
-            eventKeys.push(sortedStack[i].event_key);
-            newStack.push(sortedStack[i]);
-          }
-          // eventKeys.push(sortedStack[i].event_key)
-        } else {
-          newStack.push(sortedStack[i]);
-        }
-      }
-
-      if (newStack.length > 10) {
-        newStack = newStack.slice(0,newStack.length - 10)
-        announcements.events = newStack;
-      } else {
-        announcements.events = newStack;
-      }
-
-      console.log(announcements.events)
+      // console.log(announcements.events)
 
       function makeDatePretty(d) {
 
@@ -231,6 +274,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
         .then(function(res) {
 
           if (r === 'single') {
+            console.log($scope.todaysEvent);
             $scope.todaysEvent.imageUrl = res.data[0].dataURL;
             return;
           }
@@ -255,7 +299,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       pairImage(announcements.events[i], 'repeat');
 
 
-      console.log(announcements);
+      // console.log(announcements);
 
       $scope.announcements = announcements;
 
@@ -319,7 +363,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   }
 
   $scope.thisBit = function(b) {
-    console.log(b);
+    // console.log(b);
     $scope.selectedBit = b;
 
   }
@@ -334,7 +378,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
     $scope.weather = weather;
 
-    console.log($scope.weather);
+    // console.log($scope.weather);
 
   })
   $http.get('https://api.wunderground.com/api/7c8eaaf84b5e5dd0/forecast10day/q/IN/New_Castle.json')

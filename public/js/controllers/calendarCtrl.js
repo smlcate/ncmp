@@ -16,6 +16,8 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
     day: date.getDay()+1,
     year: date.getFullYear()
   }
+  
+  // console.log($scope.announcements);
 
   $scope.selectedMonth = $scope.date.month;
   $scope.selectedYear = $scope.date.year;
@@ -443,7 +445,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
     $scope.selectedMonth_text = monthNames[$scope.selectedMonth];
 
-    getEvents();
+    buildCalendar();
 
   }
 
@@ -468,7 +470,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     $scope.selectedMonth_text = monthNames[$scope.selectedMonth];
-    getEvents();
+    buildCalendar();
 
   }
 

@@ -23,6 +23,7 @@ app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
 
 app.get('/getData', server.events.getData)
 app.post('/addEvents', server.events.addEvents)
+app.post('/deleteEvent', server.events.deleteEvent)
 
 app.post('/uploadImage', server.images.uploadImage)
 app.get('/getImages', server.images.getImages)

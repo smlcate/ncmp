@@ -15,6 +15,10 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   $scope.eventPreviews = [];
 
   $scope.adminEvents = [];
+  
+  $scope.nextEvent;
+  
+  $scope.selectedEvent;
 
   $scope.controller = {
     startTime: new Date('8:00'),
@@ -33,16 +37,32 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
 
   $scope.selectedSeries = 'new';
+  
+  if ($scope.announcements) {
+    $scope.nextEvent = $scope.announcements.events[0];
+    console.log($scope.nextEvent);
+  }
 
   $('.eventGroupCell').css('border','none');
   $('#newEventGroupCell').css('border-bottom','2px solid #154498');
 
+  // $('.eventCells').on('mousenter', function() {
+  //   $(this).css('box-shadow','0px 0px 3px 2px rgba(0,0,0,0.7)');
+  //   console.log('hit');
+  // })
+  // .on('mouseout', function(){ 
+  //   $(this).css('box-shadow','none');
+  // })
+  
+
+  
   function build(g) {
     $('.adminControlGroups').css('display','none');
     $('#admin' + g + 'Control').css('display', 'flex');
     $('#adminEventsImageSelectPanelCell').css('display','none');
   }
   build()
+  $('#adminEventsControl').css('display','flex'); 
 
   function sortByDate(arr) {
 
@@ -55,14 +75,15 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     for (var i = 0; i < arr.length; i++) {
 
       toComp = [arr[i],arr[i+1]];
-      console.log('loop #' + i);
-      console.log(toComp)
+      // console.log('loop #' + i);
+      // console.log(toComp)
       if (i === arr.length - 1) {
         if (repeat == true) {
           i = -1;
           repeat = false;
         } else {
           // console.log('hit');
+          // console.log(stack);
           return stack;
         }
       } else if (toComp[1].date.slice(5,-17) < toComp[0].date.slice(5,-17)) {
@@ -84,9 +105,9 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       }
 
 
-
     // return stack;
     }
+    // console.log(stack);
 
   }
   function lookAtKeys(arr) {
@@ -136,12 +157,24 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     return day + ', ' + month + ' ' + date;
 
   }
+  function makeTimePretty(t) {
+    var h = t.slice(0,-6);
+    var m = t.slice(3,-3);
+    var append = 'am';
+    if (h>12) {
+      h = h-12;
+      append = 'pm';
+    } else if(h===12) {
+      append = 'pm'
+    }
+    return h + ':' + m + append;
+  }
   function buildEvents(arr) {
 
     comparedStack = lookAtKeys(arr);
-    console.log(comparedStack);
+    // console.log(comparedStack);
     var sortedStack = sortByDate(comparedStack);
-    console.log(sortedStack)
+    // console.log(sortedStack)
     for (var i = 0; i < sortedStack.length; i++) {
       if (sortedStack[i].display_date) {
 
@@ -150,8 +183,12 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         sortedStack[i].display_date = makeDatePretty(sortedStack[i].date)
 
       }
+      sortedStack[i].display_start = makeTimePretty(sortedStack[i].start);
+      sortedStack[i].display_end = makeTimePretty(sortedStack[i].end)
+
     }
     $scope.events = sortedStack;
+    // console.log($scope.events);
   }
   if ($scope.events.length > 0) {
 
@@ -166,7 +203,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
 
   $scope.selectSeries = function(s) {
-    console.log(s);
+    // console.log(s);
     // $('#seriesName').css('display','none');
     if (s == 'new') {
       $scope.selectedSeries = 'new'
@@ -174,6 +211,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $('#newEventGroupCell').css('border-bottom','2px solid #154498');
 
     } else {
+      // console.log();
       $scope.selectedSeries = s;
       $('.eventGroupCell').css('border','none');
       $('#' + s.name + 'EventGroupCell').css('border-bottom','2px solid #154498');
@@ -182,15 +220,37 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $scope.eventPreviews = [];
       $scope.controller.info.description = s.description;
       for (var i = 0; i < $scope.events.length; i++) {
-        console.log($scope.events[i], s.id)
+        // console.log($scope.events[i], s.id)
         if ($scope.events[i].event_group_id == s.id) {
-          console.log('hit');
+          // console.log('hit');
           $scope.eventPreviews.push($scope.events[i])
-          console.log($scope.controller.events)
+          // console.log($scope.controller.events)
+        }
+      }
+      for (var i = 0; i < $scope.photos.length; i++) {
+        // console.log(JSON.parse(s.picture_ids));
+        if ($scope.photos[i].id===JSON.parse(s.picture_ids)[0]) {
+          $scope.selectedPhoto = $scope.photos[i];
         }
       }
     }
+    // console.log($scope.eventPreviews);
   }
+  
+  $scope.selectEvent = function(e) {
+    if (e == $scope.selectedEvent) {
+      $('.eventCellInfoContainers').css('display','none');
+      $scope.selectedEvent = null;
+    } else {
+      $scope.selectedEvent = e;
+      $('.eventCellInfoContainers').css('display','none');
+      $('.eventCells').css('box-shadow','none');
+      $('#event'+e+'Cell').css('box-shadow','0px 0px 4px 0px rgba(0,0,0,0.7)');
+      $('#event'+e+'Cell .eventCellInfoContainers').css('display','flex');
+    }
+  }
+  
+  
   $scope.addDate = function(c) {
 
     var eventKey = Math.floor((Math.random() * 100)) + c.info.name[1] + c.info.name[0];
@@ -208,7 +268,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       name: c.info.name,
       date: c.info.date,
       dateString: c.info.date.toISOString(),
-      displayDate: '',
+      display_date: '',
+      image: c.image,
       color: c.info.color,
       description: c.info.description,
       tag: 'add',
@@ -228,7 +289,10 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         start: AdjTime(c.startTime),
         end: AdjTime(c.endTime),
         event_key: eventKey,
-        image: eventInfo.image
+        image: c.image
+      }
+      if (c.daysLength == 1) {
+        event.event_key = null;
       }
       eventInfo.events.push(event);
     }
@@ -239,10 +303,25 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         date = d.slice(8,-5),
         edate = Number(d.slice(8,-5))+c.daysLength-1
 
-    eventInfo.displayDate = day + ' ' + month + ', ' + date;
+    eventInfo.display_date = day + ' ' + month + ', ' + date;
 
     if (c.daysLength > 1) {
-      eventInfo.displayDate = day + ' ' + month + ', ' + date + '-' + edate;
+      eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + edate;
+      eventInfo.display_start = null;
+    } else {
+      // console.log(makeTimePretty(AdjTime(c.startTime)));
+      if (AdjTime(c.startTime).slice(0,-3)<12) {
+        eventInfo.display_start = AdjTime(c.startTime) + 'am'
+      } else {
+        eventInfo.display_start = (AdjTime(c.startTime).slice(0,-3) - 12) + (AdjTime(c.startTime).slice(2)) + 'pm'
+      }
+      if (AdjTime(c.endTime).slice(0,-3)<12) {
+        eventInfo.display_end = AdjTime(c.endTime) + 'am'
+      } else {
+        eventInfo.display_end = (AdjTime(c.endTime).slice(0,-3) - 12) + (AdjTime(c.endTime).slice(2)) + 'pm'
+      }
+      // eventInfo.display_start = makeTimePretty(AdjTime(c.startTime));
+      // eventInfo.display_end = makeTimePretty(AdjTime(c.endTime));
     }
 
 
@@ -260,8 +339,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       for (var i = 0; i < arr.length; i++) {
 
         toComp = [arr[i],arr[i+1]];
-        console.log(typeof(arr[i].date));
-        console.log(toComp)
+        // console.log(typeof(arr[i].date));
+        // console.log(toComp)
         if (i === arr.length - 1) {
           if (repeat == true) {
             i = -1;
@@ -295,7 +374,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
     }
     $scope.eventPreviews = sortPreviewsByDate($scope.eventPreviews);
-    console.log($scope.eventPreviews);
+    // console.log($scope.eventPreviews);
 
   }
   $scope.submitEvents = function() {
@@ -313,7 +392,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
                 $scope.eventPreviews[i].events[j].event_group_id = groupId;
                 $scope.eventPreviews[i].events[j].description = $scope.eventPreviews[i].description;
                 $scope.eventPreviews[i].events[j].name = $scope.eventPreviews[i].name;
-                $scope.eventPreviews[i].events[j].display_date = $scope.eventPreviews[i].displayDate;
+                $scope.eventPreviews[i].events[j].display_date = $scope.eventPreviews[i].display_date;
                 // console.log($scope.eventPreviews[i].events[j].date);
               }
               $scope.eventPreviews[i].event_group_id = groupId;
@@ -362,7 +441,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       }
       $http.post('addEvents', $scope.controller.toAdd)
       .then(function(res) {
-        console.log(res)
+        // console.log(res)
       })
       .catch(function(err) {
         console.log(err);
@@ -371,6 +450,66 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     }
 
 
+
+  }
+
+  $scope.deleteEvent = function(e) {
+
+    console.log(e);
+    
+    var days = 1;
+    
+    if (e.display_date.slice('-').length == 2) {
+      
+      var fd = Number(e.display_date.slice(9,-3));
+      var ld = Number(e.display_date.slice(12));
+      
+      days = ld-fd+1;
+      
+    }
+    
+    
+    console.log(e.display_date);
+    
+    toDelete = [];
+    
+    for (var i = 0; i < days; i++) {
+      var ed =  {
+        id: e.id+i
+      };
+      toDelete.push(ed);
+      if (i === days-1) {
+        
+        $http.post('deleteEvent', toDelete)
+        .then(function(res) {
+          $http.get('getData')
+          .then(function(res) {
+            $scope.events = res.data;
+            // console.log($scope.events);
+            buildEvents($scope.events);
+            
+            $scope.eventPreviews = [];
+            // $scope.controller.info.description = s.description;
+            for (var i = 0; i < $scope.events.length; i++) {
+              // console.log($scope.events[i], s.id)
+              if ($scope.events[i].event_group_id == e.event_group_id) {
+                // console.log('hit');
+                $scope.eventPreviews.push($scope.events[i])
+                // console.log($scope.controller.events)
+              }
+            }
+            console.log($scope.eventPreviews);
+          })
+          .catch(function(err) {
+            console.log(err);
+          })
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+        
+      }
+    }
 
   }
 
@@ -385,17 +524,20 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
   $scope.sendInput = function() {
 
+    // console.log($('#input')[0].files)
+
     var files = $('#input')[0].files;
 
     // console.log(file);
 
-    var reader = new FileReader();
 
     var urls = [];
 
     var i = 0;
 
     function readUrl(file) {
+
+      var reader = new FileReader();
 
       reader.onload = function(){
 

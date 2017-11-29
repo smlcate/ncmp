@@ -105,4 +105,25 @@ exports.addEvents = function(req, res, next) {
   //
   // }
 
-}
+  }
+
+  exports.deleteEvent = function(req, res, next) {
+    
+    console.log(req.body);
+
+    for (var i = 0; i < req.body.length; i++) {
+      
+      knex('events')
+      .where({id:req.body[i].id})
+      .delete()
+      .then(function() {
+        
+      })
+      .catch(function(err) {
+        res.send(err);
+      })
+      
+      res.send('success');
+    }
+
+  }

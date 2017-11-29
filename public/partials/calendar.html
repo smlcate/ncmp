@@ -77,27 +77,55 @@
   </div>
 
   <div class="calendarViews" id="calendarMinifiedView">
-
-    <div class="miniCalendarCell" ng-repeat="miniCell in miniCells">
-
-      <h3>{{miniCell.month_name}}</h3>
-      <div class="miniCellHeader">
-        <li>S</li>
-        <li>M</li>
-        <li>T</li>
-        <li>W</li>
-        <li>T</li>
-        <li>F</li>
-        <li>S</li>
-      </div>
-      <div class="miniCellContainer">
-        <div class="miniCellMiniCell" style="background:{{mcell.color}}" ng-repeat="mcell in miniCell.mcells">
-
+    
+    <div id="calendarMinifiedViewInfoCell">
+      
+      <div class="miniCalendarCell" ng-repeat="miniCell in miniCells">
+        
+        <h3>{{miniCell.month_name}}</h3>
+        <div class="miniCellHeader">
+          <li>S</li>
+          <li>M</li>
+          <li>T</li>
+          <li>W</li>
+          <li>T</li>
+          <li>F</li>
+          <li>S</li>
         </div>
+        <div class="miniCellContainer">
+          <div class="miniCellMiniCell" style="background:{{mcell.color}}" ng-repeat="mcell in miniCell.mcells">
+            <!-- <p>{{mcell.date}}</p> -->
+          </div>
+        </div>
+        
       </div>
-
+      
     </div>
 
+
+  </div>
+  <div class="calendarViews" id="calendarListView">
+    
+    <div class="pageInfoSplitters">
+      <p>Coming Up</p>
+    </div>
+    
+    <div class="eventCells" ng-repeat="event in announcements.events" style="background:{{event.color}};">
+      
+      <div class="eventCellHeaders">
+        
+        <h1>{{event.name}}</h1>
+        <h1>{{event.displayDate}}</h1>
+        
+      </div>
+      <div class="eventCellInfoContainers">
+        
+        
+        
+      </div>
+      
+    </div>
+    
   </div>
 
 

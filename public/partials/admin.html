@@ -53,6 +53,7 @@
 
 
   <div class="adminControlGroups" id=adminEventsControl>
+    
 
     <div id="adminEventsControlContainer">
 
@@ -77,7 +78,7 @@
           <div class="adminEventsControlPanelCells">
 
             <span>Title <input type="text" name="" value="" ng-model="controller.info.name"></span>
-            <span>Color <input type="color" name="" value="" ng-model="controller.info.color"></span>
+            <span>Color <input type="color" name="" value="#EEEEEE" ng-model="controller.info.color"></span>
 
           </div>
           <div class="adminEventsControlPanelCells">
@@ -109,6 +110,8 @@
         </div> -->
         </div>
         <div class="adminEventsControlPanels">
+          
+          <h3>Event Info</h3>
 
           <div class="adminEventsControlPanelCells">
 
@@ -123,12 +126,22 @@
           <div class="adminEventsControlPanelCells">
             <button type="button" name="button" ng-click="addDate(controller)">Add Date</button>
           </div>
-          <div class="adminEventsControlPanelCells" id="adminEventsDatePreviewPanelCell">
+          <div class="adminEventsControlPanelCells" id="adminEventsPreviewPanelCell">
 
-            <div class="eventsDate{{event.tag}}PreviewCells" ng-repeat="event in eventPreviews track by $index">
+            <div class="events{{event.tag}}PreviewCells" ng-repeat="event in eventPreviews track by $index" ng-click="selectEventPreview(event)">
 
-              <h2 >{{event.displayDate}}</h2>
-              <h2>{{event.display_date}}</h2>
+              <!-- <h2 ng-if="event.displayDate">{{event.displayDate}}</h2> -->
+              <h2 ng-if="event.display_date">{{event.display_date}}</h2>
+
+              <p>{{event.display_start}}-{{event.display_end}}</p>
+
+              <div class="eventsPreviewCellHeader">
+
+                <a href="" class="previewDeleteBtns" ng-click="deleteEvent(event)">
+                  <img src="../images/glyphicons_free/glyphicons/png/glyphicons-17-bin.png" alt="">
+                </a>
+
+              </div>
 
             </div>
 
@@ -136,6 +149,8 @@
 
         </div>
       </div>
+      
+      
 
       <div id="adminEventsControlContainerFooter">
 
@@ -143,27 +158,59 @@
 
       </div>
     </div>
-    <div id="eventCellContainer">
+    <div class="pageInfoSplitters">
+      <p>Next</p>
+    </div>
+    <div class="eventCells" id="event{{nextEvent.id}}Cell" style="background:{{nextEvent.color}};" ng-click="selectEvent(nextEvent.id)" >
 
-      <div class="eventCell" ng-repeat="event in events" style="background:{{event.color}}">
+      <div class="eventCellHeaders">
 
-        <div class="eventCellHeaders">
+        <h1>{{nextEvent.name}}</h1>
+        <h1>{{nextEvent.displayDate}}</h1>
+        
+        <a href="">
+          <img src="../images/glyphicons_free/glyphicons/png/glyphicons-151-edit.png" alt="">
+        </a>
+        <a href="">
+          <img src="../images/glyphicons_free/glyphicons/png/glyphicons-56-stopwatch.png" alt="">
+        </a>
+        <!-- <div class="eventCellHeaderToolBar">
+        </div> -->
 
-          <h1>{{event.name}}</h1>
-          <h1>{{event.display_date}}</h1>
+      </div>
+      <div class="eventCellInfoContainers">
 
-        </div>
-        <div class="eventCellInfoContainer">
+        <h2>{{nextEvent.display_start}} - {{nextEvent.display_end}}</h2>
 
-          <h2>{{event.start}} - {{event.end}}</h2>
-
-          <p>{{event.description}}</p>
-
-        </div>
+        <p>{{nextEvent.description}}</p>
 
       </div>
 
     </div>
+    <div class="pageInfoSplitters">
+      <p>All Events</p>
+    </div>
+    <div class="eventCells" id="event{{event.id}}Cell" ng-repeat="event in events track by $index" ng-click="selectEvent(event.id)"  style="background:{{event.color}};">
+      
+      <div class="eventCellHeaders">
+        
+        <h1>{{event.name}}</h1>
+        <h1>{{event.display_date}}</h1>
+        
+      </div>
+      <div class="eventCellInfoContainers">
+        
+        <h2>{{event.display_start}} - {{event.display_end}}</h2>
+        
+        <p>{{event.description}}</p>
+        
+      </div>
+      
+    </div>
+    <!-- <div id="eventCellContainer">
+
+
+    </div> -->
 
 
   </div>
