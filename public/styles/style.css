@@ -110,8 +110,10 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  height: 40px;
 }
 .eventsAddPreviewCells {
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-around;

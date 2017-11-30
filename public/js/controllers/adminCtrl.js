@@ -19,6 +19,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   $scope.nextEvent;
   
   $scope.selectedEvent;
+  
+  $scope.editMode = 'add';
 
   $scope.controller = {
     startTime: new Date('8:00'),
@@ -207,6 +209,9 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     // $('#seriesName').css('display','none');
     if (s == 'new') {
       $scope.selectedSeries = 'new'
+      $scope.controller.info = {};
+      $scope.selectedPhoto = {};
+      $scope.eventPreviews = [];
       $('.eventGroupCell').css('border','none');
       $('#newEventGroupCell').css('border-bottom','2px solid #154498');
 
@@ -250,6 +255,38 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     }
   }
   
+  $scope.selectEventPreview = function(e) {
+    console.log(e);
+    $('.eventsPreviewCells').css('height','40px');
+    $('.eventsPreviewCells').css('box-shadow','none');
+    if (e == $scope.selectedEvent) {
+      // $('.eventsPreviewCells').css('height','40px');
+      // $('.eventsPreviewCells').css('box-shadow','none');
+      
+      $scope.selectedEvent = null;
+    } else {
+      $scope.selectedEvent = e;
+      $scope.editMode = 'edit';
+      $scope.controller.info.eventName = e.name;
+      $scope.controller.info.date = new Date(e.date);
+      $scope.controller.info.startTime = new Date(Date.UTC(0,0,0,e.start.slice(0,-6)+5));
+      $scope.controller.info.endTime = new Date(Date.UTC(0,0,0,e.end.slice(0,-6)+16));
+      
+      if (e.display_date.split('-').length==2) {
+        var fd = Number(e.display_date.split('-')[0].slice(e.display_date.split('-')[0].length-2))
+        var ld = Number(e.display_date.split('-')[1])
+        $scope.controller.daysLength = ld - fd + 1;
+      }
+      
+      // console.log(e.end,new Date(Date.UTC(0,0,0,e.end.slice(0,-6)+5)));
+      // 
+      // console.log('hello',$scope.controller.info)
+      
+      $('#event'+e.id+'PreviewCell').css('box-shadow','0px 1px 2px 0px rgba(0,0,0,0.7)');
+      $('#event'+e.id+'PreviewCell').css('height','70px');
+    }
+  }
+  
   
   $scope.addDate = function(c) {
 
@@ -284,10 +321,11 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       var y = eventInfo.date.slice(0,-20);
       var nd = Number(d) + i;
       var event = {
+        name: c.info.eventName,
         date: m + '/' + nd + '/' + y,
         color: eventInfo.color,
-        start: AdjTime(c.startTime),
-        end: AdjTime(c.endTime),
+        start: AdjTime(c.info.startTime),
+        end: AdjTime(c.info.endTime),
         event_key: eventKey,
         image: c.image
       }
@@ -310,15 +348,15 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       eventInfo.display_start = null;
     } else {
       // console.log(makeTimePretty(AdjTime(c.startTime)));
-      if (AdjTime(c.startTime).slice(0,-3)<12) {
-        eventInfo.display_start = AdjTime(c.startTime) + 'am'
+      if (AdjTime(c.info.startTime).slice(0,-3)<12) {
+        eventInfo.display_start = AdjTime(c.info.startTime) + 'am'
       } else {
-        eventInfo.display_start = (AdjTime(c.startTime).slice(0,-3) - 12) + (AdjTime(c.startTime).slice(2)) + 'pm'
+        eventInfo.display_start = (AdjTime(c.info.startTime).slice(0,-3) - 12) + (AdjTime(c.info.startTime).slice(2)) + 'pm'
       }
-      if (AdjTime(c.endTime).slice(0,-3)<12) {
-        eventInfo.display_end = AdjTime(c.endTime) + 'am'
+      if (AdjTime(c.info.endTime).slice(0,-3)<12) {
+        eventInfo.display_end = AdjTime(c.info.endTime) + 'am'
       } else {
-        eventInfo.display_end = (AdjTime(c.endTime).slice(0,-3) - 12) + (AdjTime(c.endTime).slice(2)) + 'pm'
+        eventInfo.display_end = (AdjTime(c.info.endTime).slice(0,-3) - 12) + (AdjTime(c.info.endTime).slice(2)) + 'pm'
       }
       // eventInfo.display_start = makeTimePretty(AdjTime(c.startTime));
       // eventInfo.display_end = makeTimePretty(AdjTime(c.endTime));
@@ -391,13 +429,15 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
               for (var j = 0; j < $scope.eventPreviews[i].events.length; j++) {
                 $scope.eventPreviews[i].events[j].event_group_id = groupId;
                 $scope.eventPreviews[i].events[j].description = $scope.eventPreviews[i].description;
-                $scope.eventPreviews[i].events[j].name = $scope.eventPreviews[i].name;
+                // $scope.eventPreviews[i].events[j].name = $scope.eventPreviews[i].name;
                 $scope.eventPreviews[i].events[j].display_date = $scope.eventPreviews[i].display_date;
                 // console.log($scope.eventPreviews[i].events[j].date);
               }
               $scope.eventPreviews[i].event_group_id = groupId;
 
             }
+            
+            console.log($scope.eventPreviews);
             if (i+1 === $scope.eventPreviews.length) {
 
               $http.post('addEvents', $scope.eventPreviews)
@@ -409,6 +449,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
               })
 
             } else {
+              console.log($scope.eventPreviews);
               $http.post('addEvents', $scope.eventPreviews)
               .then(function(res) {
                 // console.log(res);
@@ -431,7 +472,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         for (var j = 0; j < $scope.controller.toAdd[i].events.length; j++) {
           $scope.controller.toAdd[i].events[j].event_group_id = $scope.selectedSeries.id;
           $scope.controller.toAdd[i].events[j].description = $scope.controller.toAdd[i].description;
-          $scope.controller.toAdd[i].events[j].name = $scope.controller.toAdd[i].name;
+          // $scope.controller.toAdd[i].events[j].name = $scope.controller.toAdd[i].name;
           $scope.controller.toAdd[i].events[j].display_date = $scope.controller.toAdd[i].displayDate;
           // console.log($scope.eventPreviews[i].events[j].date);
         }

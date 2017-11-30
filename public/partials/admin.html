@@ -111,12 +111,27 @@
         </div>
         <div class="adminEventsControlPanels">
           
-          <h3>Event Info</h3>
+          
+            <h2>Event Info</h3>
+              
+          <div class="adminEventsControlPanelCells">
+            
+            <h2 ng-if="editMode === 'edit'">Edit</h2>
+            <h2 ng-if="editMode !== 'edit'">Add</h2>
+            
+          </div>
+          
+          
+          <div class="adminEventsControlPanelCells">
+            
+            <span>Event Name <input type="text" ng-model="controller.info.eventName"></span>
+            
+          </div>
 
           <div class="adminEventsControlPanelCells">
 
-            <span>Start<input type="time" name="" value="08:00" class="timeInputs" ng-model="controller.startTime"></span>
-            <span>End<input type="time" name="" value="20:00" class="timeInputs" ng-model="controller.endTime"></span>
+            <span>Start<input type="time" name="" value="" class="timeInputs" ng-model="controller.info.startTime"></span>
+            <span>End<input type="time" name="" value="" class="timeInputs" ng-model="controller.info.endTime"></span>
             <span>Length <input type="number" name="" value="1" min="1" class="numberInputs" ng-model="controller.daysLength">Day(s)</span>
 
           </div>
@@ -124,13 +139,15 @@
             <input type="date" name="" value="" ng-model="controller.info.date">
           </div>
           <div class="adminEventsControlPanelCells">
-            <button type="button" name="button" ng-click="addDate(controller)">Add Date</button>
+            <button type="button" name="button" ng-if="editMode === 'add'" ng-click="addDate(controller)">Add Date</button>
           </div>
           <div class="adminEventsControlPanelCells" id="adminEventsPreviewPanelCell">
 
-            <div class="events{{event.tag}}PreviewCells" ng-repeat="event in eventPreviews track by $index" ng-click="selectEventPreview(event)">
+            <div class="events{{event.tag}}PreviewCells" id="event{{event.id}}PreviewCell" ng-repeat="event in eventPreviews track by $index" ng-click="selectEventPreview(event)">
 
+              
               <!-- <h2 ng-if="event.displayDate">{{event.displayDate}}</h2> -->
+              <h2>{{event.name}}</h2>
               <h2 ng-if="event.display_date">{{event.display_date}}</h2>
 
               <p>{{event.display_start}}-{{event.display_end}}</p>
@@ -154,13 +171,19 @@
 
       <div id="adminEventsControlContainerFooter">
 
-        <button type="button" name="button" ng-click="submitEvents()">Submit</button>
+        <button ng-if="editMode === 'edit'" type="button" name="button" ng-click="saveEventEdit()">Save</button>
+        <button ng-if="editMode === 'edit'" type="button" name="button" ng-click="cancel()" >Cancel</button>
 
-      </div>
+        <button ng-if="editMode === 'add'" type="button" name="button" ng-click="submitEvents()">Submit</button>
+
+      </div>  
+      
     </div>
+    
     <div class="pageInfoSplitters">
       <p>Next</p>
     </div>
+    
     <div class="eventCells" id="event{{nextEvent.id}}Cell" style="background:{{nextEvent.color}};" ng-click="selectEvent(nextEvent.id)" >
 
       <div class="eventCellHeaders">
