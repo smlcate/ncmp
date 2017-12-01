@@ -8,6 +8,7 @@ exports.up = function(knex, Promise) {
     table.string('color');
     table.string('picture_ids');
     table.string('page_layout');
+    table.boolean('featured');
   })
 };
 

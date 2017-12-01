@@ -26,9 +26,17 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.selectedMonth_text = monthNames[$scope.selectedMonth];
   $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
   $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
+  
+  $scope.event_groups = [];
 
   $('.calendarViews').css('display','none');
   $('#calendarExpandedView').css('display','flex');
+  
+  $http.get('getAllEventGroups')
+  .then(function(res) {
+    $scope.event_groups = res.data;
+    // console.log($scope.event_groups);
+  })
 
   function buildCalendar() {
 
@@ -64,7 +72,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
     var dayOfWeek = 0;
 
-    for (var i = 0; i < 35; i++) {
+    for (var i = 0; i < 42; i++) {
 
       var events = [];
 
@@ -89,7 +97,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
       if (cellBody.date === $scope.date.date && cellBody.month === $scope.date.month+1) {
 
-        console.log('GOOTTTAAA BEEEEEE')
+        // console.log('GOOTTTAAA BEEEEEE')
 
         cellBody.backgroundColor = 'lightgreen';
 
@@ -136,7 +144,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
         cellBody.date = calendarDay;
         cellBody.day = dayOfWeek;
         cellBody.curMonth = true;
-        cellBody.backgroundColor = 'lightgrey';
+        // cellBody.backgroundColor = 'lightgrey';  
 
         month_events.push(cellBody)
 
@@ -174,7 +182,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
     for (var i = 0; i < $scope.events.length; i++) {
 
-      console.log(i)
+      // console.log(i)
 
       var date = $scope.events[i].date.slice(5,-17);
       var dateNumber = $scope.events[i].date.slice(8,-14);
@@ -184,7 +192,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
       }
       if (date[0] === 0) {
         dateNumber.slice(1)
-        console.log(dateNumber);
+        // console.log(dateNumber);
       }
 
       if ($scope.selectedMonth === date - 1) {
@@ -196,7 +204,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
     }
 
-    console.log($scope.month_events)
+    // console.log($scope.month_events)
 
   }
 
@@ -208,7 +216,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
     .then(function(res) {
       $scope.events = res.data;
 
-      console.log(res.data)
+      // console.log(res.data)
 
       var today = new Date();
 
@@ -344,7 +352,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
       var precount = 0;
 
-      for (var j = 0; j < 35; j++) {
+      for (var j = 0; j < 42; j++) {
 
         if (date.day === 35) {
           date.day = 0;
@@ -415,7 +423,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
   $scope.changeCalendarView = function(v) {
 
-    console.log(v)
+    // console.log(v)
 
     $('.calendarViews').css('display','none');
     $('#calendar'+v+'View').css('display','flex');

@@ -14,7 +14,8 @@ var server = {
   event_groups: require('./controllers/eventGroups.js'),
   images: require('./controllers/images.js'),
   news: require('./controllers/news.js'),
-  login: require('./controllers/login.js')
+  login: require('./controllers/login.js'),
+  sponsors: require('./controllers/sponsors.js')
 }
 
 
@@ -36,7 +37,13 @@ app.post('/getEventGroups', server.event_groups.getEventGroups)
 app.post('/getEventGroup', server.event_groups.getEventGroup)
 app.post('/addEventGroup', server.event_groups.addEventGroup)
 
+app.get('/getSponsors', server.sponsors.getSponsors)
+app.post('/addSponsor', server.sponsors.addSponsor)
+
+
 app.post('/signUp', server.login.signUp)
+
+
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {

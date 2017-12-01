@@ -12,7 +12,40 @@
     <a href="" ng-click="changeAdminDisplay('News')">News</a>
     <a href="" ng-click="changeAdminDisplay('Images')">Images</a>
     <a href="" ng-click="changeAdminDisplay('Results')">Results</a>
+    <a href="" ng-click="changeAdminDisplay('Settings')">Settings</a>
 
+  </div>
+  
+  <div class="adminControlGroups" id="adminSettingsControl">
+    
+    <span>
+      <p>Track Open Date</p>
+      <input type="date" name="" value="">
+    </span>
+    <span>
+      <p>Track Close Date</p>
+      <input type="date" name="" value="">
+    </span>
+    
+    <div class="" id="sponsorSettingsDiv">
+      
+      <span>
+        <p>Sponsor Link</p>
+        <input type="text" name="" value="" ng-model="sponsor.pageURL">
+        <p>Image</p>
+        <input type="file" name="" id="sponsorInput" value="" ng-model="sponsor.image">
+        <button type="button" name="button" ng-click="addSponsor()">Add</button>
+      </span>
+      
+      
+      <div class="">
+        
+        <img class="sponsorCell" src="{{s.imageDataURL}}" ng-repeat="s in sponsors">
+        
+      </div>
+      
+    </div>
+    
   </div>
 
   <div class="adminControlGroups" id="adminImagesControl">

@@ -306,7 +306,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       date: c.info.date,
       dateString: c.info.date.toISOString(),
       display_date: '',
-      image: c.image,
+      image: $scope.selectedPhoto.id,
       color: c.info.color,
       description: c.info.description,
       tag: 'add',
@@ -327,7 +327,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         start: AdjTime(c.info.startTime),
         end: AdjTime(c.info.endTime),
         event_key: eventKey,
-        image: c.image
+        image: $scope.selectedPhoto.id
       }
       if (c.daysLength == 1) {
         event.event_key = null;
@@ -617,7 +617,47 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
   }
 
+  $scope.addSponsor = function() {
+    
+    var file = $('#sponsorInput')[0].files
+    
+    var reader = new FileReader();
+    
+    function readUrl(file) {
+      
+      reader.onload = function(){
+        
+        // take dataURL and push onto preview
+        var dataURL = reader.result;
+        
+        var s = {
+          pageURL: $scope.sponsor.pageURL,
+          imageDataURL: dataURL
+        }
+        
+        $http.post('addSponsor', s)
+        .then(function(res) {
+          console.log(res.data);
+          $http.get('getSponsors')
+          .then(function(data) {
+            $scope.sponsors = data.data;
+          })
+          
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+        
+      };
+      
+      reader.readAsDataURL(file);
+      
+    }
 
+    readUrl(file[0])
+
+    
+  }
 
   $scope.thisPhoto = function(p) {
     // console.log(p);

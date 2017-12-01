@@ -41,7 +41,31 @@ a {
   height: 90px;
   width: 150px;
 }
-
+#adminSettingsControl {
+  padding: 30px;
+  width: 100%;
+  flex-direction: column;
+}
+#adminSettingsControl span {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+#adminSettingsControl input {
+  height: 40px;
+  font-size: 100%;
+  margin: 10px;
+}
+#sponsorSettingsDiv {
+  display: flex;
+  flex-direction: column;
+  /*align-items: center;*/
+  justify-content: center;
+}
+#sponsorSettingsDiv span {
+  display: flex;
+  align-items: center;
+}
 #adminImagesControl {
   display: flex;
   flex-direction: column;
@@ -539,43 +563,87 @@ a {
   box-shadow: 0px 2px 5px 0px #212121;
   overflow-x: hidden;
   display: flex;
+  /*flex-wrap: nowrap;*/
+  align-items: center;
+}
+
+#sponsorContainerView {
+  /*animation-duration: 15s;*/
+  animation: 15s linear slidein;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  background: white;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  display: flex;
   flex-wrap: nowrap;
   align-items: center;
 }
+
+#sponsorContainerView:hover {
+  -webkit-animation-play-state: pause;
+  -moz-animation-play-state: pause;
+  -o-animation-play-state: pause;
+  animation-play-state: pause;
+  }
+
+@keyframes slidein {
+  from {
+    margin-left: 50%;
+    width: 300%; 
+  }
+
+  to {
+    margin-left: -75%;
+    width: 300%;
+  }
+}
+
+/*#homeSponsorContainer a {
+  animation: 3s infinite alternate slideIn;
+}*/
 .sponsorCell {
   height: 100px;
   background: white;
 }
 #homeNewsView {
   background: #154498;
-  height: 480px;
-  width: 1100px;
+  height: 600px;
+  width: 80vw;
   box-shadow: 0px 0px 4px 0px #212121;
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 4px;
 }
 #homeNewsViewContainer {
   display: flex;
   width: 100%;
-  height: 480px;
-  /*justify-content: flex-end;*/
+  /*padding: 10px;*/
+  height: 100%;
+  /*justify-content: space-between;*/
 
 }
 #homeNewsViewContentContainer {
-  width: 75%;
-  /*padding: 10px;*/
+  width: 100%;
+  /*height: 100%;*/
+  padding: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 #homeNewsViewContent {
-  width: 805px;
-  height: 460px;
+  width: 100%;
+  /*height: 100%;*/
   background: #E1F5FE;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
-  background-position: center;
+  background-position:center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-end;
 }
 .viewContentDiv {
   display: flex;
@@ -591,8 +659,9 @@ a {
   padding-right: 20px;
   /*font-size: 150%;*/
   /*align-items: center;*/
-  background: rgba(0, 0, 0, 0.5);
-  height: 90px;
+  background: rgba(0, 0, 0, 0.7);
+  /*background: white;*/
+  height: 180px;
   overflow-y: scroll;
   margin-top: 0px;
   color: #E1F5FE;
@@ -602,7 +671,7 @@ a {
   display: flex;
   flex-direction: column;
   /*align-items: center;*/
-  justify-content: space-around;
+  /*justify-content: space-around;*/
   width: 200px;
   padding: 10px;
   height: 100px;
@@ -615,18 +684,22 @@ a {
 }
 #topViewContentInfo h1 {
   /*margin-bottom: 0px;*/
-  /*height: 40px;*/
+  /*height: 10px;*/
   display: flex;
   align-items: center;
   /*border: 1px solid #212121;*/
   font-size: 180%;
 }
-#topViewContentInfo h3 {
+#topViewContentInfo h2 {
 /*height: 30px;*/
 display: flex;
 align-items: center;
 /*margin-top: 0px;*/
 /*border: 1px solid #212121;*/
+}
+#topViewContentInfo p {
+  display: flex;
+  align-items: center;
 }
 #topViewContentDiv img {
   /*max-width: 250px;*/
@@ -639,6 +712,9 @@ align-items: center;
   width: 25%;
   border-left: 1px solid #E1F5FE;
   margin-right: 0px;
+}
+#bottomViewContentDiv {
+  font-size: 150%;
 }
 .homeNewsViewNavDiv {
   width: 100%;
@@ -765,6 +841,10 @@ align-items: center;
   }
   #calendarViewSelect img {
     height: 28px;
+  }
+  #scheduleSeriesView ul {
+    display: flex;
+    
   }
   #calendarExpandedView {
     display: flex;

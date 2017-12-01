@@ -60,14 +60,15 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   // Will pull from sponsors list
   function pullSponsors() {
-    for (var i = 0; i < 10; i++) {
-      // console.log(i);
-      var s = {
-        img: '../images/topkartlogo.png',
-        url: 'www.topkartusa.com'
-      }
-      $scope.sponsors.push(s);
-    }
+    
+    $http.get('getSponsors')
+    .then(function(data) {
+      console.log(data.data);
+      $scope.sponsors = data.data;
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
 
   }
   pullSponsors();
@@ -265,41 +266,40 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
       }
 
-      var i = 0;
-      function pairImage(e, r) {
 
-        i++;
-
+      
+      announcements.events = announcements.events.map(function(e) {
         $http.post('getImage', {id:e.image})
         .then(function(res) {
+          
+          // console.log(res);
 
-          if (r === 'single') {
-            console.log($scope.todaysEvent);
-            $scope.todaysEvent.imageUrl = res.data[0].dataURL;
-            return;
-          }
+          e.imageUrl = res.data[0].dataURL;
+          // console.log(e)
 
-          if(res.data.length > 0) {
-
-            announcements.events[i-1].imageUrl = res.data[0].dataURL;
-
-          }
-
-          if (i < announcements.events.length) {
-
-            pairImage(announcements.events[i])
-
-          }
         })
-
-      }
-
-
-
-      pairImage(announcements.events[i], 'repeat');
+        return e;
+      })
 
 
       // console.log(announcements);
+      
+      function makeTimePretty(t) {
+        var h = Number(t.slice(0,-6));
+        var m = t.slice(3,-3);
+        var append = 'am';
+        if (h>12) {
+          h = h-12;
+          append = 'pm';
+        } else if(h===12) {
+          append = 'pm'
+        }
+        return h + ':' + m + append;
+      }
+      for (var i = 0; i < announcements.events.length; i++) {
+        announcements.events[i].display_start=makeTimePretty(announcements.events[i].start);
+        announcements.events[i].display_end=makeTimePretty(announcements.events[i].end);
+      }
 
       $scope.announcements = announcements;
 
@@ -363,7 +363,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   }
 
   $scope.thisBit = function(b) {
-    // console.log(b);
+    console.log(b);
     $scope.selectedBit = b;
 
   }
