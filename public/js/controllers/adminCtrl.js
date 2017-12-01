@@ -631,8 +631,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         var dataURL = reader.result;
         
         var s = {
-          pageURL: $scope.sponsor.pageURL,
-          imageDataURL: dataURL
+          page_url: $scope.sponsor.pageURL,
+          image_data_url: dataURL
         }
         
         $http.post('addSponsor', s)
