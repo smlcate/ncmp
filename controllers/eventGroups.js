@@ -59,6 +59,36 @@ exports.addEventGroup = function(req, res, next) {
 
 }
 
+exports.editEventGroup = function(req, res, next) {
+  knex('event_groups')
+  .where({id:req.body.series.id})
+  .update({
+    id:req.body.series.id,
+    name:req.body.name,
+    color: req.body.color,
+    description: req.body.description,
+    picture_ids: '['+req.body.image+']'
+  })
+  .then(function() {
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+}
+
+exports.deleteEventGroup = function(req, res, next) {
+  knex('event_groups')
+  .where({id:req.body.id})
+  .delete()
+  .then(function() {
+    res.send('success');
+  })
+  .catch(function(err) {
+    res.send(err);
+  })
+}
+
 exports.getEventGroup = function(req, res, next) {
 
   console.log(req.body)

@@ -48,6 +48,42 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   $('.eventGroupCell').css('border','none');
   $('#newEventGroupCell').css('border-bottom','2px solid #154498');
 
+  $(".seriesInfoInput").on("input", function() {
+    if ($scope.selectedSeries !== 'new') {
+      
+      $scope.editMode = 'editSeries';
+      $('.eventInfoInputs').prop('disabled', 'true')
+      $('.timeInputs').prop('disabled', 'true')
+      $('.numberInputs').prop('disabled', 'true')
+      
+    }
+      // console.log($scope.editMode);
+  });
+  $(".eventInfoInputs").on("input", function() {
+    if ($scope.selectedSeries !== 'new') {
+      
+      $scope.editMode = 'editEventTrue';
+      
+    }
+      // console.log($scope.editMode);
+  });
+  $(".timeInputs").on("input", function() {
+    if ($scope.selectedSeries !== 'new') {
+      
+      $scope.editMode = 'editEventTrue';
+      
+    }
+      // console.log($scope.editMode);
+  });
+  $(".numberInputs").on("input", function() {
+    if ($scope.selectedSeries !== 'new') {
+      
+      $scope.editMode = 'editEventTrue';
+      
+    }
+      // console.log($scope.editMode);
+  });
+  
   // $('.eventCells').on('mousenter', function() {
   //   $(this).css('box-shadow','0px 0px 3px 2px rgba(0,0,0,0.7)');
   //   console.log('hit');
@@ -205,7 +241,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
 
   $scope.selectSeries = function(s) {
-    // console.log(s);
+    console.log(s);
     // $('#seriesName').css('display','none');
     if (s == 'new') {
       $scope.selectedSeries = 'new'
@@ -222,8 +258,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $('#' + s.name + 'EventGroupCell').css('border-bottom','2px solid #154498');
       $scope.controller.info.name = s.name;
       $scope.controller.info.color = s.color;
-      $scope.eventPreviews = [];
       $scope.controller.info.description = s.description;
+      $scope.eventPreviews = [];
       for (var i = 0; i < $scope.events.length; i++) {
         // console.log($scope.events[i], s.id)
         if ($scope.events[i].event_group_id == s.id) {
@@ -253,6 +289,129 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $('#event'+e+'Cell').css('box-shadow','0px 0px 4px 0px rgba(0,0,0,0.7)');
       $('#event'+e+'Cell .eventCellInfoContainers').css('display','flex');
     }
+  }
+  
+  $scope.saveEdit = function() {
+    
+    var info = {
+      series: $scope.selectedSeries,
+      name: $scope.controller.info.name,
+      color: $scope.controller.info.color,
+      description: $scope.controller.info.description,
+      image: $scope.selectedPhoto.id
+    }
+    
+    $http.post('editEventGroup',info)
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+    
+    $http.post('editEventsBySeries', info)
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+    
+  }
+  
+  $scope.cancelEdit = function() {
+    
+    $('.eventInfoInputs').prop('disabled', 'false');
+    $('.timeInputs').prop('disabled', 'false');
+    $('.numberInputs').prop('disabled', 'false');
+    
+    $('.eventInfoInputs').removeAttr('disabled');
+    $('.timeInputs').removeAttr('disabled');
+    $('.numberInputs').removeAttr('disabled');
+    
+    $scope.controller.info.name = $scope.selectedSeries.name;
+    $scope.controller.info.color = $scope.selectedSeries.color;
+    $scope.controller.info.description = $scope.selectedSeries.description;
+    
+    $scope.editMode = 'add';
+    
+    
+  }
+  
+  $scope.cancelEventEdit = function(req, res, next) {
+    
+    console.log($scope.selectedEvent);
+    
+    $scope.controller.info.eventName = $scope.selectedEvent.name;
+    $scope.controller.info.startTime = new Date(Date.UTC(0,0,0,$scope.selectedEvent.start.slice(0,-6)+5));
+    $scope.controller.info.endTime = new Date(Date.UTC(0,0,0,$scope.selectedEvent.end.slice(0,-6)+16));
+    $scope.controller.info.daysLength = $scope.selectedEvent.daysLength;
+    $scope.controller.info.date = new Date($scope.selectedEvent.date);
+    
+    $scope.editMode = 'edit';
+    
+  }
+  
+  $scope.saveEventEdit = function(req, res, next) {
+    
+    function AdjTime(t) {
+      if (t.getUTCHours()-5 < 0) {
+        n = 24-(5-t.getUTCHours());
+        return n+':'+t.getUTCMinutes()+'0';
+      } else  {
+        return t.getUTCHours()-5+':'+t.getUTCMinutes()+'0';
+      }
+    }
+    
+    var event;
+    
+    for (var i = 0; i < $scope.controller.info.daysLength; i++) {
+      var m = Number($scope.controller.info.date.slice(5,-17));
+      var d = $scope.controller.info.date.slice(8,-14);
+      var y = $scope.controller.info.date.slice(0,-20);
+      var nd = Number(d) + i;
+      thisEvent = {
+        name: $scope.controller.info.eventName,
+        date: m + '/' + nd + '/' + y,
+        // color: $scope.controller.info.color,
+        start: AdjTime($scope.controller.info.startTime),
+        end: AdjTime($scope.controller.info.endTime),
+        // event_key: eventKey,
+        // image: $scope.selectedPhoto.id
+      }
+      if ($scope.controller.info.daysLength == 1) {
+        thisEvent.event_key = null;
+      }
+      $scope.controller.info.events.push(event);
+    }
+    
+    var info = {
+      id:$scope.selectedEvent.id,
+      series: $scope.selectedSeries,
+      event: event
+    }
+    
+    $http.post('editEvent', info)
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+    
+  }
+  
+  $scope.deleteSeries = function() {
+    var info = {
+      id:$scope.selectedSeries.id
+    }
+    $http.post('deleteEventGroup', info)
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   }
   
   $scope.selectEventPreview = function(e) {

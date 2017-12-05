@@ -127,3 +127,32 @@ exports.addEvents = function(req, res, next) {
     }
 
   }
+  
+  exports.editEventsBySeries = function(req, res, next) {
+    knex('events')
+    .where({event_group_id:req.body.series.id})
+    .update({
+      color: req.body.color,
+      description: req.body.description,
+      image: req.body.image
+    })
+    .then(function() {
+      res.send('success')
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+  
+  exports.editEvent = function(req, res, next) {
+    console.log(req.body);
+    knex('events')
+    .where({id:req.body.id})
+    .update(req.body.event)
+    .then(function() {
+      res.send('success')
+    })
+    .catch(function(err) {
+      res.send(err)
+    })
+  }

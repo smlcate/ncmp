@@ -89,35 +89,49 @@
     
 
     <div id="adminEventsControlContainer">
+      
+      <div id="eventGroupDisplay">
+
+        <div class="eventGroupCell" ng-click="selectSeries('new')" id="newEventGroupCell">
+          <h2>New</h2>
+
+        </div>
+
+        <div class="eventGroupCell" ng-repeat="group in eventGroups" style="background:{{group.color}}" ng-click="selectSeries(group)" id="{{group.name}}EventGroupCell">
+
+          <h2 >{{group.name}}</h2>
+
+        </div>
+
+      </div>
 
       <div id="adminEventsControlContainerDiv">
+        
         <div class="adminEventsControlPanels">
-
-          <div id="eventGroupDisplay">
-
-            <div class="eventGroupCell" ng-click="selectSeries('new')" id="newEventGroupCell">
-              <h2>New</h2>
-
-            </div>
-
-            <div class="eventGroupCell" ng-repeat="group in eventGroups" style="background:{{group.color}}" ng-click="selectSeries(group)" id="{{group.name}}EventGroupCell">
-
-              <h2 >{{group.name}}</h2>
-
-            </div>
-
+          
+          <div class="adminEventsControlPanelCells"  ng-if="selectedSeries === 'new'">
+            
+            <h2>New Series</h2>
+            
           </div>
+          
+          <div class="adminEventsControlPanelCells" ng-if="selectedSeries !== 'new'">
+            <a href="" class="seriesDeleteBtns" ng-click="deleteSeries()">
+              <img src="../images/glyphicons_free/glyphicons/png/glyphicons-17-bin.png" alt="">
+            </a>
+          </div>
+
 
           <div class="adminEventsControlPanelCells">
 
-            <span>Title <input type="text" name="" value="" ng-model="controller.info.name"></span>
-            <span>Color <input type="color" name="" value="#EEEEEE" ng-model="controller.info.color"></span>
+            <span>Title <input class="seriesInfoInput" type="text" name="" value="" ng-model="controller.info.name"></span>
+            <span>Color <input class="seriesInfoInput" type="color" name="" value="#EEEEEE" ng-model="controller.info.color"></span>
 
           </div>
           <div class="adminEventsControlPanelCells">
 
             <!-- <span>Summary <input type="textarea" name="" value=""></span> -->
-            <textarea name="textarea"
+            <textarea class="seriesInfoInput" name="textarea"
             rows="10" cols="50" placeholder="Description Here.." id="descriptionInput" ng-model="controller.info.description"></textarea>
 
           </div>
@@ -135,29 +149,29 @@
 
           </div>
 
-          <!-- <div class="adminEventsControlPanelCells">
+          <div class="adminEventsControlPanelCells" ng-if="editMode === 'editSeries'">
+            
+            <button type="button" name="button" ng-click="saveEdit()">Save</button>
+            <button type="button" name="button" ng-click="cancelEdit()">Cancel</button>
 
-          <button type="button" name="button">Add</button>
-          <span>Date <input type="date" name="" value=""></span>
-
-        </div> -->
+          </div>
         </div>
-        <div class="adminEventsControlPanels">
+        <div class="adminEventsControlPanels" id="seriesEventInfoControlPanel">
           
           
             <h2>Event Info</h3>
               
           <div class="adminEventsControlPanelCells">
             
-            <h2 ng-if="editMode === 'edit'">Edit</h2>
-            <h2 ng-if="editMode !== 'edit'">Add</h2>
+            <!-- <h2 ng-if="editMode === 'edit'">Edit</h2>
+            <h2 ng-if="editMode !== 'edit'">Add</h2> -->
             
           </div>
           
           
           <div class="adminEventsControlPanelCells">
             
-            <span>Event Name <input type="text" ng-model="controller.info.eventName"></span>
+            <span>Event Name <input class="eventInfoInputs" type="text" ng-model="controller.info.eventName"></span>
             
           </div>
 
@@ -169,11 +183,17 @@
 
           </div>
           <div class="adminEventsControlPanelCells">
-            <input type="date" name="" value="" ng-model="controller.info.date">
+            <input class="eventInfoInputs" type="date" name="" value="" ng-model="controller.info.date">
           </div>
           <div class="adminEventsControlPanelCells">
             <button type="button" name="button" ng-if="editMode === 'add'" ng-click="addDate(controller)">Add Date</button>
           </div>
+          <div class="adminEventsControlPanelCells" ng-if="editMode === 'editEventTrue'">
+            
+            <button type="button" name="button" ng-click="saveEventEdit()">Save</button>
+            <button type="button" name="button" ng-click="cancelEventEdit()">Cancel</button>
+          </div>
+
           <div class="adminEventsControlPanelCells" id="adminEventsPreviewPanelCell">
 
             <div class="events{{event.tag}}PreviewCells" id="event{{event.id}}PreviewCell" ng-repeat="event in eventPreviews track by $index" ng-click="selectEventPreview(event)">

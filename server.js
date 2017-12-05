@@ -25,6 +25,9 @@ app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
 app.get('/getData', server.events.getData)
 app.post('/addEvents', server.events.addEvents)
 app.post('/deleteEvent', server.events.deleteEvent)
+app.post('/editEventsBySeries', server.events.editEventsBySeries)
+app.post('/editEvent', server.events.editEvent)
+
 
 app.post('/uploadImage', server.images.uploadImage)
 app.get('/getImages', server.images.getImages)
@@ -36,6 +39,8 @@ app.get('/getAllEventGroups', server.event_groups.getAllEventGroups)
 app.post('/getEventGroups', server.event_groups.getEventGroups)
 app.post('/getEventGroup', server.event_groups.getEventGroup)
 app.post('/addEventGroup', server.event_groups.addEventGroup)
+app.post('/editEventGroup', server.event_groups.editEventGroup)
+app.post('/deleteEventGroup', server.event_groups.deleteEventGroup)
 
 app.get('/getSponsors', server.sponsors.getSponsors)
 app.post('/addSponsor', server.sponsors.addSponsor)
