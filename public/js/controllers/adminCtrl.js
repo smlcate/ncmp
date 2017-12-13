@@ -20,7 +20,10 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   
   $scope.selectedEvent;
   
-  $scope.editMode = 'add';
+  $scope.edit = {
+    events: 'add',
+    
+  }
 
   $scope.controller = {
     startTime: new Date('8:00'),
@@ -51,37 +54,38 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   $(".seriesInfoInput").on("input", function() {
     if ($scope.selectedSeries !== 'new') {
       
-      $scope.editMode = 'editSeries';
+      $scope.edit.events = 'editSeries';
       $('.eventInfoInputs').prop('disabled', 'true')
       $('.timeInputs').prop('disabled', 'true')
       $('.numberInputs').prop('disabled', 'true')
       
     }
-      // console.log($scope.editMode);
+      // console.log($scope.edit.events);
   });
   $(".eventInfoInputs").on("input", function() {
-    if ($scope.selectedSeries !== 'new') {
+    console.log($scope.edit.events);
+    if ($scope.edit.events !== 'add') {
       
-      $scope.editMode = 'editEventTrue';
+      $scope.edit.events = 'editEventTrue';
       
     }
-      // console.log($scope.editMode);
+      // console.log($scope.edit.events);
   });
   $(".timeInputs").on("input", function() {
-    if ($scope.selectedSeries !== 'new') {
+    if ($scope.edit.events !== 'add') {
       
-      $scope.editMode = 'editEventTrue';
+      $scope.edit.events = 'editEventTrue';
       
     }
-      // console.log($scope.editMode);
+      // console.log($scope.edit.events);
   });
   $(".numberInputs").on("input", function() {
-    if ($scope.selectedSeries !== 'new') {
+    if ($scope.edit.events !== 'add') {
       
-      $scope.editMode = 'editEventTrue';
+      $scope.edit.events = 'editEventTrue';
       
     }
-      // console.log($scope.editMode);
+      // console.log($scope.edit.events);
   });
   
   // $('.eventCells').on('mousenter', function() {
@@ -248,9 +252,10 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $scope.controller.info = {};
       $scope.selectedPhoto = {};
       $scope.eventPreviews = [];
+      $scope.edit.events = 'add';
       $('.eventGroupCell').css('border','none');
       $('#newEventGroupCell').css('border-bottom','2px solid #154498');
-
+      
     } else {
       // console.log();
       $scope.selectedSeries = s;
@@ -260,6 +265,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $scope.controller.info.color = s.color;
       $scope.controller.info.description = s.description;
       $scope.eventPreviews = [];
+      $scope.edit.events = 'view';
       for (var i = 0; i < $scope.events.length; i++) {
         // console.log($scope.events[i], s.id)
         if ($scope.events[i].event_group_id == s.id) {
@@ -275,9 +281,11 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         }
       }
     }
-    // console.log($scope.eventPreviews);
+    console.log($scope.edit.events);
   }
-  
+  $scope.edit = function() {
+    $scope.edit.events = 'edit';
+  }
   $scope.selectEvent = function(e) {
     if (e == $scope.selectedEvent) {
       $('.eventCellInfoContainers').css('display','none');
@@ -333,7 +341,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     $scope.controller.info.color = $scope.selectedSeries.color;
     $scope.controller.info.description = $scope.selectedSeries.description;
     
-    $scope.editMode = 'add';
+    $scope.edit.events = 'add';
     
     
   }
@@ -348,7 +356,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     $scope.controller.info.daysLength = $scope.selectedEvent.daysLength;
     $scope.controller.info.date = new Date($scope.selectedEvent.date);
     
-    $scope.editMode = 'edit';
+    $scope.edit.events = 'select';
     
   }
   
@@ -363,12 +371,29 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       }
     }
     
-    var event;
+    var eventKey = Math.floor((Math.random() * 100)) + $scope.controller.info.name[1] + $scope.controller.info.name[0];
+    var info = {
+      id:$scope.selectedEvent.id,
+      series: $scope.selectedSeries,
+      eventLength: $scope.controller.info.daysLength,
+      events: []
+    }
     
-    for (var i = 0; i < $scope.controller.info.daysLength; i++) {
-      var m = Number($scope.controller.info.date.slice(5,-17));
-      var d = $scope.controller.info.date.slice(8,-14);
-      var y = $scope.controller.info.date.slice(0,-20);
+    function update() {
+      $http.post('editEvent', info)
+      .then(function(res) {
+        console.log(res.data);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    }
+    
+    
+    for (var i = 0; i < $scope.controller.daysLength; i++) {
+      var m = Number(new Date($scope.controller.info.date).getMonth()+1);
+      var d = Number(new Date($scope.controller.info.date).getDate());
+      var y = Number(new Date($scope.controller.info.date).getYear()+1900);
       var nd = Number(d) + i;
       thisEvent = {
         name: $scope.controller.info.eventName,
@@ -379,25 +404,17 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         // event_key: eventKey,
         // image: $scope.selectedPhoto.id
       }
-      if ($scope.controller.info.daysLength == 1) {
+      console.log(thisEvent);
+      if ($scope.controller.daysLength == 1) {
         thisEvent.event_key = null;
+      } else {
+        thisEvent.event_key = eventKey;
       }
-      $scope.controller.info.events.push(event);
-    }
-    
-    var info = {
-      id:$scope.selectedEvent.id,
-      series: $scope.selectedSeries,
-      event: event
-    }
-    
-    $http.post('editEvent', info)
-    .then(function(res) {
-      console.log(res.data);
-    })
-    .catch(function(err) {
-      console.log(err);
-    })
+      info.events.push(thisEvent);
+      if (i+1 === $scope.controller.daysLength) {
+        update()
+      }
+    }    
     
   }
   
@@ -414,6 +431,11 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     })
   }
   
+  $scope.addView = function() {
+    $scope.edit.events = 'add';
+    $scope.selectedEvent = {};
+  }
+  
   $scope.selectEventPreview = function(e) {
     console.log(e);
     $('.eventsPreviewCells').css('height','40px');
@@ -425,7 +447,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $scope.selectedEvent = null;
     } else {
       $scope.selectedEvent = e;
-      $scope.editMode = 'edit';
+      $scope.edit.events = 'select';
       $scope.controller.info.eventName = e.name;
       $scope.controller.info.date = new Date(e.date);
       $scope.controller.info.startTime = new Date(Date.UTC(0,0,0,e.start.slice(0,-6)+5));
@@ -625,6 +647,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       })
 
     } else {
+      
+      console.log($scope.controller.toAdd);
 
       for (var i = 0; i < $scope.controller.toAdd.length; i++) {
 
@@ -632,7 +656,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
           $scope.controller.toAdd[i].events[j].event_group_id = $scope.selectedSeries.id;
           $scope.controller.toAdd[i].events[j].description = $scope.controller.toAdd[i].description;
           // $scope.controller.toAdd[i].events[j].name = $scope.controller.toAdd[i].name;
-          $scope.controller.toAdd[i].events[j].display_date = $scope.controller.toAdd[i].displayDate;
+          $scope.controller.toAdd[i].events[j].display_date = $scope.controller.toAdd[i].display_date;
           // console.log($scope.eventPreviews[i].events[j].date);
         }
 
@@ -678,6 +702,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         id: e.id+i
       };
       toDelete.push(ed);
+      console.log(toDelete);
       if (i === days-1) {
         
         $http.post('deleteEvent', toDelete)

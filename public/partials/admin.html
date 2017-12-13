@@ -38,9 +38,9 @@
       </span>
       
       
-      <div class="">
+      <div id="sponsorCellContainer">
         
-        <img class="sponsorCell" src="{{s.imageDataURL}}" ng-repeat="s in sponsors">
+        <img class="sponsorCell" src="{{s.image_data_url}}" ng-repeat="s in sponsors">
         
       </div>
       
@@ -149,85 +149,108 @@
 
           </div>
 
-          <div class="adminEventsControlPanelCells" ng-if="editMode === 'editSeries'">
+          <div class="adminEventsControlPanelCells" ng-if="edit.events === 'editSeries'">
             
             <button type="button" name="button" ng-click="saveEdit()">Save</button>
             <button type="button" name="button" ng-click="cancelEdit()">Cancel</button>
 
           </div>
         </div>
-        <div class="adminEventsControlPanels" id="seriesEventInfoControlPanel">
+        <div class="adminEventsControlPanels" id="seriesEventInfoControlPanel" >
           
+          <h2>Event Info</h3>
+          <button type="button" name="button" ng-ig="edit.events === 'view'" ng-click="addView()">Add event(s)</button>
           
-            <h2>Event Info</h3>
+          <div class="adminEventsControlPanelCellDivs" ng-if="edit.events === 'select'">
+            
+            <p>{{selectedEvent.name}}</p>
+            <span>
+              <p>
+                {{selectedEvent.display_date}}
+              </p>
+              <button type="button" name="button">Postpone</button>
+            </span>
+            <span>
+              <p>
+                {{selectedEvent.display_start}}-{{selectedEvent.display_end}}
+              </p>
+              <button type="button" name="button">Delay</button>
+            </span>
+            <a href="" class="previewDeleteBtns" ng-click="deleteEvent(selectedEvent)">
+              <img src="../images/glyphicons_free/glyphicons/png/glyphicons-17-bin.png" alt="">
+            </a>
+            <button type="button" name="button" ng-click="edit()">Edit</button>
+          </div>
+          <div class="adminEventsControlPanelCellDivs" ng-if="edit.events === 'add' || edit.events === 'edit'">
+            
+            <div class="adminEventsControlPanelCells">
               
-          <div class="adminEventsControlPanelCells">
+              <!-- <h2 ng-if="edit.events === 'edit'">Edit</h2>
+              <h2 ng-if="edit.events !== 'edit'">Add</h2> -->
+              
+            </div>
             
-            <!-- <h2 ng-if="editMode === 'edit'">Edit</h2>
-            <h2 ng-if="editMode !== 'edit'">Add</h2> -->
+            
+            <div class="adminEventsControlPanelCells">
+              
+              <span>Event Name <input class="eventInfoInputs" type="text" ng-model="controller.info.eventName"></span>
+              
+            </div>
+            
+            <div class="adminEventsControlPanelCells">
+              
+              <span>Start<input type="time" name="" value="" class="timeInputs" ng-model="controller.info.startTime"></span>
+              <span>End<input type="time" name="" value="" class="timeInputs" ng-model="controller.info.endTime"></span>
+              <span>Length <input type="number" name="" value="1" min="1" class="numberInputs" ng-model="controller.daysLength">Day(s)</span>
+              
+            </div>
+            <div class="adminEventsControlPanelCells">
+              <input class="eventInfoInputs" type="date" name="" value="" ng-model="controller.info.date">
+            </div>
+            <div class="adminEventsControlPanelCells">
+              <button type="button" name="button" ng-if="edit.events === 'add'" ng-click="addDate(controller)">Add Date</button>
+            </div>
+            <div class="adminEventsControlPanelCells" ng-if="edit.events === 'edit'">
+              
+              <button type="button" name="button" ng-click="saveEventEdit()">Save</button>
+              <button type="button" name="button" ng-click="cancelEventEdit()">Cancel</button>
+            </div>
+            
             
           </div>
-          
-          
-          <div class="adminEventsControlPanelCells">
-            
-            <span>Event Name <input class="eventInfoInputs" type="text" ng-model="controller.info.eventName"></span>
-            
-          </div>
-
-          <div class="adminEventsControlPanelCells">
-
-            <span>Start<input type="time" name="" value="" class="timeInputs" ng-model="controller.info.startTime"></span>
-            <span>End<input type="time" name="" value="" class="timeInputs" ng-model="controller.info.endTime"></span>
-            <span>Length <input type="number" name="" value="1" min="1" class="numberInputs" ng-model="controller.daysLength">Day(s)</span>
-
-          </div>
-          <div class="adminEventsControlPanelCells">
-            <input class="eventInfoInputs" type="date" name="" value="" ng-model="controller.info.date">
-          </div>
-          <div class="adminEventsControlPanelCells">
-            <button type="button" name="button" ng-if="editMode === 'add'" ng-click="addDate(controller)">Add Date</button>
-          </div>
-          <div class="adminEventsControlPanelCells" ng-if="editMode === 'editEventTrue'">
-            
-            <button type="button" name="button" ng-click="saveEventEdit()">Save</button>
-            <button type="button" name="button" ng-click="cancelEventEdit()">Cancel</button>
-          </div>
-
           <div class="adminEventsControlPanelCells" id="adminEventsPreviewPanelCell">
-
+            
             <div class="events{{event.tag}}PreviewCells" id="event{{event.id}}PreviewCell" ng-repeat="event in eventPreviews track by $index" ng-click="selectEventPreview(event)">
-
+              
               
               <!-- <h2 ng-if="event.displayDate">{{event.displayDate}}</h2> -->
               <h2>{{event.name}}</h2>
               <h2 ng-if="event.display_date">{{event.display_date}}</h2>
-
+              
               <p>{{event.display_start}}-{{event.display_end}}</p>
-
+              
               <div class="eventsPreviewCellHeader">
-
-                <a href="" class="previewDeleteBtns" ng-click="deleteEvent(event)">
-                  <img src="../images/glyphicons_free/glyphicons/png/glyphicons-17-bin.png" alt="">
-                </a>
-
+                
+                
+                
               </div>
-
+              
             </div>
-
+            
           </div>
-
+          
         </div>
+              
       </div>
       
       
 
       <div id="adminEventsControlContainerFooter">
 
-        <button ng-if="editMode === 'edit'" type="button" name="button" ng-click="saveEventEdit()">Save</button>
-        <button ng-if="editMode === 'edit'" type="button" name="button" ng-click="cancel()" >Cancel</button>
+        <button ng-if="edit.events === 'edit'" type="button" name="button" ng-click="saveEventEdit()">Save</button>
+        <button ng-if="edit.events === 'edit'" type="button" name="button" ng-click="cancel()" >Cancel</button>
 
-        <button ng-if="editMode === 'add'" type="button" name="button" ng-click="submitEvents()">Submit</button>
+        <button ng-if="edit.events === 'add'" type="button" name="button" ng-click="submitEvents()">Submit</button>
 
       </div>  
       

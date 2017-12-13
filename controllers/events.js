@@ -8,6 +8,7 @@ exports.getData = function(req, res, next) {
 
   knex('events')
   .select('*')
+  .orderBy('date')
   .then(function(data) {
     // console.log(data);
     res.send(data);
@@ -145,14 +146,33 @@ exports.addEvents = function(req, res, next) {
   }
   
   exports.editEvent = function(req, res, next) {
-    console.log(req.body);
-    knex('events')
-    .where({id:req.body.id})
-    .update(req.body.event)
-    .then(function() {
-      res.send('success')
-    })
-    .catch(function(err) {
-      res.send(err)
-    })
+    console.log('BODY',req.body.events);
+    // var newEvent = {
+    //   name: req.body.name,
+    //   description: req.body.description,
+    //   date: req.body
+    // }
+    var i = 0;
+    function update() {
+      
+      knex('events')
+      .where({id:req.body.id+i})
+      .update(req.body.events[i])
+      .then(function() {
+        i++;
+        if (req.body.daysLength === i) {
+          res.send('success')
+        } else {
+          update();
+        }
+      })
+      .catch(function(err) {
+        console.log(err);
+        res.send(err)
+      })
+      
+    }
+    update();
+    
+    
   }
