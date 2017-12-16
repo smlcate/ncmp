@@ -209,6 +209,7 @@
             </div>
             <div class="adminEventsControlPanelCells">
               <button type="button" name="button" ng-if="edit.events === 'add'" ng-click="addDate(controller)">Add Date</button>
+              <button ng-if="controller.toAdd.length > 0" type="button" name="button" ng-click="submitEvents()">Save</button>
             </div>
             <div class="adminEventsControlPanelCells" ng-if="edit.events === 'edit'">
               
@@ -245,14 +246,14 @@
       
       
 
-      <div id="adminEventsControlContainerFooter">
+      <!-- <div id="adminEventsControlContainerFooter">
 
         <button ng-if="edit.events === 'edit'" type="button" name="button" ng-click="saveEventEdit()">Save</button>
         <button ng-if="edit.events === 'edit'" type="button" name="button" ng-click="cancel()" >Cancel</button>
 
         <button ng-if="edit.events === 'add'" type="button" name="button" ng-click="submitEvents()">Submit</button>
 
-      </div>  
+      </div>   -->
       
     </div>
     
