@@ -1,0 +1,327 @@
+<div class="parentDisplays" id="membershipFormDisplay" ng-controller="membersCtrl">
+  
+  <div class="pageInfoSplitters">
+    <p>New Members</p>
+  </div>
+  <div class="formDisplays">
+    <!-- <p>Hello, why should you become a KRA member?</p>
+    <p>KRA Members are elligiable to sign up for KRA Series Events! Non-members may sign up, but there will be a small one-time member fee.</p> -->
+    
+    <span>
+      <p>Single Membership</p>
+      <input type="checkbox" id="singleCheckBox" name="" value="true" ng-model="member.single" ng-change="selectFormType('single')">
+    </span>
+    <span>
+      <p>Family Membership</p>
+      <input type="checkbox" id="familyCheckBox" name="" value="false" ng-model="member.family" ng-change="selectFormType('family')">
+    </span>
+    
+    <div class="membershipFormDisplays" id="singleMembershipFormDisplay">
+      
+      <div class="membershipFormDivs" id="singleMembershipFormPersonalDiv">
+        
+        <span>
+          <p>First Name</p>
+          <input type="text" name="" value="" ng-model="member.primary.fName">  
+        </span>
+        <span>
+          <p>Last Name</p>
+          <input type="text" name="" value="" ng-model="member.primary.lName">
+        </span>
+        <span>
+          <p>Middle Name</p>
+          <input type="text" name="" value="" ng-model="member.primary.mName">
+        </span>
+        <span>
+          <p>Birth Date</p>
+          <input type="date" name="" value="" ng-model="member.primary.bDate">
+        </span>
+        
+      </div>
+      
+      <div class="membershipFormDivs">
+        
+        <span>      
+          <p>Driver Name</p>
+          <select class="" name="">
+            <option value="" ng-repeat="cl in memberForm.classes" ng-click="selectClass(0, cl)">{{cl.name}}</option>
+          </select>
+        </span>
+        
+        <span>
+          <p>Add Class</p>
+          <a href="" type="button" name="button" ng-click="addClass()">+</a>
+        </span>
+        <span>
+          <p>Select Class</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].class">
+        </span>
+        <span>
+          <p>Kart Number</p>
+          <input type="number" name="" value="" ng-model="member.drivers[0].kart_number">
+        </span>
+        
+        <span>
+          <p>Chassis Brand</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].chassis">
+        </span>
+        
+        <span>
+          <p>Transponder ##</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].transponder">
+        </span>
+        
+        <!-- <div class="" id="membershipFormSelectedClassesDiv">
+          
+          <span class="membershipFormClassesCell" ng-repeat='class in selectedClasses'>
+            <p>{{class.name}}</p>
+            <p>{{class.number}}</p>
+            <p>{{class.chassis}}</p>
+            <p>{{class.transponder}}</p>
+          </span>
+          
+        </div> -->
+        
+      </div>
+      
+      
+      
+    </div>
+    <div class="membershipFormDisplays" id="familyMembershipFormDisplay">
+      
+      <div class="membershipFormDivs" id="">      
+        
+          <p>Primary Member Info</p>
+          
+        <span>
+          <p>First Name</p>
+          <input type="text" name="" value="" ng-model="member.primary.fName">
+        </span>
+        <span>
+          <p>Last Name</p>
+          <input type="text" name="" value="" ng-model="member.primary.lName">
+        </span>
+        <span>
+          <p>Middle Name</p>
+          <input type="text" name="" value="" ng-model="member.primary.mName">
+        </span>
+        <span>
+          <p>Birth Date</p>
+          <input type="date" name="" value="" ng-model="member.primary.bDate">
+        </span>
+        
+      </div> 
+      
+      <div class="membershipFormDivs" id="">      
+        
+          <p>Driver #1 Info</p>
+          
+        <span>
+          <p>First Name</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].fName">
+        </span>
+        <span>
+          <p>Last Name</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].lName">
+        </span>
+        <span>
+          <p>Middle Name</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].mName">
+        </span>
+        <span>
+          <p>Birth Date</p>
+          <input type="date" name="" value="" ng-model="member.drivers[0].bDate">
+        </span>
+        
+      </div> 
+      
+      <div class="membershipFormDivs" id="1membershipFormClassesDiv">
+        
+        <!-- <span>      
+          <p>Driver Name</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].name">    
+        </span> -->
+        
+        <span>
+          <p>Add Class</p>
+          <a href="" type="button" name="button" ng-click="addClass(1,1)">+</a>
+        </span>
+        <span>
+          <p>Select Class</p>
+          <select class="memClassSelectSpans" name="" id="1memClassSelect1" ng-model="selectedClasses[0]" ng-options="cl.name for cl in memberForm.classes" ng-change="selectClass(selectedClasses[0])">
+          </select>        
+        </span>
+        <span>
+          <p>Kart Number</p>
+          <input type="number" name="" value="" ng-model="member.drivers[0].classes[0].kart_number">
+        </span>
+        
+        <span>
+          <p>Chassis Brand</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].classes[0].chassis">
+        </span>
+        
+        <span>
+          <p>Transponder ##</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].classes[0].transponder">
+        </span>
+        
+        <!-- <div class="" id="membershipFormSelectedClassesDiv">
+          
+          <span class="membershipFormClassesCell" ng-repeat='class in selectedClasses'>
+            <p>{{class.name}}</p>
+            <p>{{class.number}}</p>
+            <p>{{class.chassis}}</p>
+            <p>{{class.transponder}}</p>
+          </span>
+          
+        </div> -->
+        
+      </div>
+      
+      <div class="membershipFormDivs" id="">      
+        
+          <p>Driver #2 Info</p>
+          
+        <span>
+          <p>First Name</p>
+          <input type="text" name="" value="" ng-model="member.drivers[1].fName">
+        </span>
+        <span>
+          <p>Last Name</p>
+          <input type="text" name="" value="" ng-model="member.drivers[1].lName">
+        </span>
+        <span>
+          <p>Middle Name</p>
+          <input type="text" name="" value="" ng-model="member.drivers[1].mName">
+        </span>
+        <span>
+          <p>Birth Date</p>
+          <input type="date" name="" value="" ng-model="member.drivers[1].bDate">
+        </span>
+        
+      </div> 
+      
+      <div class="membershipFormDivs">
+        
+        <!-- <span>      
+          <p>Driver Name</p>
+          <input type="text" name="" value="" ng-model="member.drivers[0].name">    
+        </span> -->
+        
+        <span>
+          <p>Add Class</p>
+          <a href="" type="button" name="button" ng-click="addClass()">+</a>
+        </span>
+        <span>
+          <p>Select Class</p>
+          <select class="" name="">
+            <option value="" ng-repeat="cl in memberForm.classes" ng-click="selectClass(1, cl)">{{cl.name}}</option>
+          </select>
+        </span>
+        <span>
+          <p>Kart Number</p>
+          <input type="number" name="" value="" ng-model="member.drivers[1].kart_number">
+        </span>
+        
+        <span>
+          <p>Chassis Brand</p>
+          <input type="text" name="" value="" ng-model="member.drivers[1].chassis">
+        </span>
+        
+        <span>
+          <p>Transponder ##</p>
+          <input type="text" name="" value="" ng-model="member.drivers[1].transponder">
+        </span>
+        
+        <div class="" id="membershipFormSelectedClassesDiv">
+          
+          <!-- <span class="membershipFormClassesCell" ng-repeat='cl in memberForm.classes'>
+            <p>{{cl.name}}</p>
+            <p>{{cl.number}}</p>
+            <p>{{cl.chassis}}</p>
+            <p>{{cl.transponder}}</p>
+          </span> -->
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  <div class="membershipFormDisplays" id="membershipFormAddressDisplay">
+    
+    <span>
+      <p>Address</p>
+      <input type="text" name="" value="" ng-model="mailing.address">
+    </span>
+    <span>
+      <p>State</p>
+      <input type="state" name="" value="" ng-model="mailing.state">
+    </span>
+    <span>
+      <p>City</p>
+      <input type="city" name="" value="" ng-model="mailing.city">
+    </span>
+    <span>
+      <p>Zip</p>
+      <input type="city" name="" value="" ng-model="mailing.zip">
+    </span>
+    
+  </div>
+  <div class="membershipFormDisplays" id="membershipFormPaymentDiv">
+    
+    <!-- <span>
+      <p>Card Holders Name</p>
+      <input type="text:cc-name" name="" value="" ng-model="payment.name">
+    </span>
+    <span>
+      <p>Card Number</p>
+      <input type="number:cc-number" name="" value="" ng-model="payment.number">
+    </span>
+    <span>
+      <p>Exp</p>
+      <input type="number" name="" value="" min='0' max='12' ng-model="payment.exp_month">
+      <input type="number" name="" value="" min="0" max='99' ng-model="payment.exp_year">
+    </span>
+    <span>
+      <p>CVC</p>
+      <input type="number" name="" value="" ng-model="payment.cvc">
+    </span>
+    
+    <button type="button" name="button" ng-click="pay()">Pay</button> -->
+    
+    <form action="/charge" method="post" id="payment-form">
+      <div class="form-row">
+        <label for="card-element">
+          Credit or debit card
+        </label>
+        <div id="card-element">
+          <!-- a Stripe Element will be inserted here. -->
+        </div>
+
+        <!-- Used to display form errors -->
+        <div id="card-errors" role="alert"></div>
+      </div>
+
+      <button>Submit Payment</button>
+    </form>
+    <!-- <form action="/charge" method="POST"> -->
+      <!-- <input type="submit" name="" value=""> -->
+      <!-- <script
+        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="pk_test_QQdpmZ8GvlAlmmeACv5k5Bn8"
+        class='stripe-button'
+        data-amount="999"
+        data-name="ncmpTest"
+        data-description="Widget"
+        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+        data-locale="auto">
+      </script>
+      <button type="submit" name="button"></button>
+    </form> -->
+    
+  </div>
+  
+</div>

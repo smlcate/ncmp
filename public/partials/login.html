@@ -1,7 +1,69 @@
 <div class="parentDisplays" id="loginParentDisplay" ng-controller="authCtrl">
 
-  <input type="email" name="" value="" ng-model="auth.email">
-  <input type="password" name="" value="" ng-model="auth.password">
-  <button type="button" name="button" ng-click="signUp()">submit</button>
+  <div class="loginDisplays" id="signUpDisplay">
+    
+    <div class="loginForms">
+      
+      <p>Create New Account</p>
+      
+      <span>
+        <p>Email</p>
+        <input type="text" name="" value="" ng-model="auth.signUp.email">
+      </span>
+      <span>
+        <p>Password</p>
+        <input type="password" name="" value="" ng-model="auth.signUp.password">
+      </span>
+      <span>
+        <p>Repeat Password</p>
+        <input type="password" name="" value="" ng-model="auth.signUp.password">
+      </span>
+      
+      <button type="button" name="button" ng-click="signUp()">Sign Up</button>
+      
+    </div>
+    
+    <div class="loginOptions">
+      
+      <a href="" ng-click="goTo('signInDisplay')">Sign In</a>
+      
+    </div>
+    
+  </div>
+  
+  <div class="loginDisplays" id="signInDisplay">
+    
+    <div class="loginForms">
+      
+      <p>Sign In</p>
+      
+      <span>
+        <p>Email</p>
+        <input type="text" name="" value="" ng-model="auth.signIn.email">
+      </span>
+      <span>
+        <p>Password</p>
+        <input type="password" name="" value="" ng-model="auth.signIn.password">
+      </span>
+      
+      <button type="button" name="button" ng-click="signIn()">Sign Up</button>
+      
+    </div>
+    
+    <div class="loginOptions">
+      
+      <a href="" ng-click="goTo('signUpDisplay')">Create Account</a>
+      <a href="">Forgot Password</a>
+      
+    </div>
+  </div>
+  <div class="loginDisplays" id="accCreatedDisplay">
+    <p>Thankyou, you have successfully created your account!</p>
+    <span>
+      <p>Would you like to find out more about</p>
+      <a href="">Memberships?</a>
+    </span>
+  </div>
+
 
 </div>

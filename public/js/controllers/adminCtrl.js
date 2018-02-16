@@ -20,6 +20,15 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   
   $scope.selectedEvent;
   
+  $scope.registry = {
+    options: [],
+    classes: []
+  }
+  
+  
+  $scope.savedReg;
+
+  
   $scope.edit = {
     events: 'add',
     
@@ -40,6 +49,17 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     toRemove: []
   }
 
+  $scope.registrations = {
+    registries: [],
+    entry_lists: []
+  }
+  $scope.selectedRegistration;
+  $scope.selectedRegistrationList;
+  $scope.selectedRegistrationOption;
+  $scope.selectedRegistrationMembers = [];
+  
+  $scope.currentPoints;
+  $scope.selectedPointsClass;
 
   $scope.selectedSeries = 'new';
   
@@ -47,6 +67,26 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     $scope.nextEvent = $scope.announcements.events[0];
     console.log($scope.nextEvent);
   }
+  
+  $http.get('getEventEntryLists')
+  .then(function(data) {
+    var lists = [];
+    for (var i = 0; i < data.data.length; i++) {
+      var l = {
+        original:data.data[i],
+        entries: JSON.parse(data.data[i].entries)
+      }
+      lists.push(l);
+      for (var j = 0; j < $scope.events.length; j++) {
+        if (l.original.event_id === $scope.events[j].id) {
+          l.ev = $scope.events[j]
+        }
+      }
+    }
+    console.log(lists);
+    $scope.registrations.entry_lists = lists;
+  })
+  
 
   $('.eventGroupCell').css('border','none');
   $('#newEventGroupCell').css('border-bottom','2px solid #154498');
@@ -96,6 +136,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   //   $(this).css('box-shadow','none');
   // })
   
+  $('.registriesViews').css('display','none');
+  $('#classesRegistriesView').css('display','flex');
 
   
   function build(g) {
@@ -237,12 +279,265 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     buildEvents($scope.events);
 
   }
+  
+  function addEntryLists() {
+    
+    var eventIds = []
+    for (var i = 0; i < $scope.eventPreviews.length; i++) {
+      eventIds.push($scope.eventPreviews[i].id)
+    }
+    var entryListObject = {
+      classes: [],
+      members: [],
+      options: [],
+      req_member: $scope.registry.req_member
+    }
+    for (var i = 0; i < $scope.registry.classes.length; i++) {
+      entryListObject.classes.push($scope.registry.classes[i].name)
+    }
+    for (var i = 0; i < $scope.registry.options.length; i++) {
+      entryListObject.options.push($scope.registry.options[i].name)
+    }
+    for (var i = 0; i < entryListObject.classes.length; i++) {
+      entryListObject.classes[i] = {
+        name:entryListObject.classes[i],
+        list:[]
+      }
+    }
+    for (var i = 0; i < entryListObject.options.length; i++) {
+      entryListObject.options[i] = {
+        name:entryListObject.options[i],
+        list:[]
+      }
+    }
+    
+    $http.post('addEntryLists',{eventIds: eventIds,objectString:JSON.stringify(entryListObject)})
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+  
+  function buildResults(data) {
+    
+    console.log(data);
+    var d = JSON.parse(data.results);
+    // var d = JSON.parse(d.data)
+    for (var i = 0; i < d.length; i++) {
+      for (var j = 0; j < d[i].drivers.length; j++) {
+        for (var k = 0; k < d[i].drivers[j].results.length; k++) {
+          if (d[i].drivers[j].results[k].position == 1) {
+            d[i].drivers[j].results[k].style = "color:gold;font-size:200%;"
+          } else if (d[i].drivers[j].results[k].position == 2) {
+            d[i].drivers[j].results[k].style = "color:silver;"
+          } else if (d[i].drivers[j].results[k].position == 3) {
+            d[i].drivers[j].results[k].style = "color:orange;"
+          } else if (d[i].drivers[j].results[k].position == 0) {
+            d[i].drivers[j].results[k].style = "color:lightgrey;"
+          } else if (d[i].drivers[j].results[k].position == 'DQ') {
+            d[i].drivers[j].results[k].style = "color:red;"
+          }
+          if (d[i].drivers[j].results[k].position == 11) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'th'
+          } else if (d[i].drivers[j].results[k].position == 12) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'th'
+          } else if (d[i].drivers[j].results[k].position == 13) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'th'
+          } else if (d[i].drivers[j].results[k].position[d[i].drivers[j].results[k].position.length-1] == 1) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'st'
+          } else if (d[i].drivers[j].results[k].position[d[i].drivers[j].results[k].position.length-1] == 2) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'nd'
+          } else if (d[i].drivers[j].results[k].position[d[i].drivers[j].results[k].position.length-1] == 3) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'rd'
+          } else if(d[i].drivers[j].results[k].position == 0) {
+            
+          } else if(d[i].drivers[j].results[k].position == 'DQ') {
+            
+          } else {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'th'
+          }
+          if (k === d[i].drivers[j].results.length-1) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position.slice(0,-2)
+          }
+        }
+      }
+    }
+    console.log(d);
+    return d;
+    
+  }
+  
+  function getPoints() {
+    $http.get('getPoints')
+    .then(function(data) {
+      console.log(data);
+      $scope.currentPoints = buildResults(data.data[data.data.length-1]);
+      // console.log($scope.currentPoints);
+    })
+  }
+  getPoints();
+
+$('.adminResultsDriversCells').on('mouseenter', function() {
+  console.log('hit');
+  $(this).css('border-bottom','1px solid lightgrey')
+})
+.on('mouseleave', function() {
+  $this.css('border-bottom','none')
+})
+
 
   $scope.dropdown = function() {
     $('#seriesName').css('display','flex');
   }
 
+  $scope.selectPointsClass = function(cl) {
+    $scope.selectedPointsClass = cl;
+  }
 
+  $scope.selectRegistration = function(list) {
+    console.log(list);
+    $scope.selectedRegistration = list;
+    for (var i = 0; i < list.entries.members.length; i++) {
+      var mem = list.entries.members[i];
+      mem.entries = [];
+      mem.options = [];
+      for (var j = 0; j < list.entries.classes.length; j++) {
+        for (var k = 0; k < list.entries.classes[j].list.length; k++) {
+          if (list.entries.classes[j].list[k].member_id == mem.id) {
+            mem.entries.push({
+              driver:list.entries.classes[j].list[k],
+              name:list.entries.classes[j].name
+            });
+          }
+        }
+      }
+      for (var l = 0; l < list.entries.options.length; l++) {
+        console.log(list.entries.options[l]);
+        for (var m = 0; m < list.entries.options[l].list.length; m++) {
+          if (list.entries.options[l].list[m].member_id == mem.id) {
+            mem.options.push({
+              option:list.entries.options[l].list[m],
+              name:list.entries.options[l].name
+            });
+          }
+          
+        }
+      }
+      $scope.selectedRegistrationMembers.push(mem);
+    }
+    console.log($scope.selectedRegistrationMembers);
+  }
+  
+  $scope.selectRegistrationList = function(list) {
+    console.log(list);
+    $scope.selectedRegistrationList = list;
+  }
+  $scope.selectRegistrationOption = function(list) {
+    var l = list;
+    for (var i = 0; i < l.length; i++) {
+      for (var j = 0; j < $scope.selectedRegistration.entries.members.length; j++) {
+        if (l[i].member_id == $scope.selectedRegistration.entries.members[j].id) {
+          l[i].membership = $scope.selectedRegistration.entries.members[j];
+        }
+      }
+    }
+    $scope.selectedRegistrationOption = l;
+  }
+  $scope.selectRegistryView = function(v) {
+    $('.registriesViews').css('display','none');
+    $('#'+v+'RegistriesView').css('display','flex');
+  }
+  
+  $scope.updatePoints = function() {
+    
+    var fileUpload = document.getElementById("pointsInput");
+    console.log(fileUpload.files  );
+
+    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+
+    if (regex.test(fileUpload.value.toLowerCase())) {
+
+      if (typeof (FileReader) != "undefined") {
+
+        var reader = new FileReader();
+
+        var classes = [];
+        var i = 0;
+        reader.onload = function (e) {
+          var cl = e.target.result;
+          var classObject = {
+            name: '',
+            dates: [],
+            drivers: [],
+          }
+          var row = cl.split('\n');
+          for (var j = 0; j < row.length; j++) {
+            // console.log(row[j]);
+            if (j === 0) {
+              classObject.name = row[j].split(',')[0];
+              console.log(classObject.name);
+            } else if(j === 2) {
+              for (var k = 0; k < row[j].split(',').length; k++) {
+                var evDate = row[j].split(',')[k];
+                if (evDate != "") {
+                  classObject.dates.push(evDate)    
+                }
+              }
+              
+            } else if(j >= 5) {
+              var driver = {
+                name: row[j].split(',')[0],
+                results: []
+              }
+              if (driver.name == "") {
+                
+                i++
+                classes.push(classObject)
+                if (i === fileUpload.files.length) {
+                  console.log(classes);
+                  var stringData = JSON.stringify(classes)
+                  $http.post('updatePoints', {data:stringData})
+                  .then(function(res) {
+                    console.log(res.data);
+                  })
+                  .catch(function(err) {
+                    console.log(err);
+                  })
+                  return;
+                } else {
+                  
+                  return reader.readAsText(fileUpload.files[i]);
+                  
+                }
+                
+              } else {
+                
+                for (var k = 1; k < row[j].split(',').length; k = k+2) {
+                  var result = {
+                    position: row[j].split(',')[k],
+                    points: row[j].split(',')[k+1]
+                  }
+                  driver.results.push(result);
+                }
+                classObject.drivers.push(driver)
+                
+              }
+            }
+          }
+          
+        }
+        
+        reader.readAsText(fileUpload.files[i]);
+        
+      }
+    }
+    
+
+
+    
+  }
 
   $scope.selectSeries = function(s) {
     console.log(s);
@@ -266,6 +561,17 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       $scope.controller.info.description = s.description;
       $scope.eventPreviews = [];
       $scope.edit.events = 'view';
+      $http.post('getEventRegistration', {seriesId:s.id})
+      .then(function(res) {
+        console.log(res.data);
+        var reg = JSON.parse(res.data.registry_data);
+        $scope.savedReg = reg;
+        $scope.registry.price = reg.price;
+        $scope.registry.req_member = reg.req_member;
+        $scope.registry.start_preentry = reg.start_preentry;
+        $scope.registry.options = reg.options;
+        $scope.registry.classes = reg.classes;
+      })
       for (var i = 0; i < $scope.events.length; i++) {
         // console.log($scope.events[i], s.id)
         if ($scope.events[i].event_group_id == s.id) {
@@ -281,7 +587,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         }
       }
     }
-    console.log($scope.edit.events);
+    // console.log($scope.edit.events);
   }
   $scope.edit = function() {
     $scope.edit.events = 'edit';
@@ -415,6 +721,58 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         update()
       }
     }    
+    
+  }
+  
+  
+  $scope.addRegistry = function() {
+    
+    $('#adminEventRegistryContainer').css('display','flex');
+    
+  }
+  $scope.registryPrice = function() {
+    
+  }
+  $scope.addRegistryOption = function() {
+    var opt = {
+      name: $scope.registry.option.name,
+      price: $scope.registry.option.price,
+      quantity_option: $scope.registry.option.quantity_option,
+      quantity_limit: $scope.registry.option.quantity_limit
+    }
+    $scope.registry.options.push(opt);
+  }
+  $scope.addRegistryClass = function() {
+    var cl = {
+      name: $scope.registry.class.name,
+      cap: $scope.registry.class.entry_cap
+    }
+    $scope.registry.classes.push(cl);
+  }
+  $scope.toggleClassesView = function() {
+    if ($('#registryClassesContainer').css('display') === 'none') {      
+      $('#registryClassesContainer').css('display','flex')
+    } else {
+      $('#registryClassesContainer').css('display','none')
+    }
+  }
+  $scope.saveEventRegistry = function() {
+    
+    var reg = {
+      series:$scope.selectedSeries,
+      registry:JSON.stringify($scope.registry)
+    }
+    console.log(reg);
+    $http.post('saveEventRegistry', reg)
+    .then(function(res) {
+      console.log(res.data);
+      
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+    
+    addEntryLists();
     
   }
   
@@ -639,6 +997,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
                 console.log(err);
               })
             }
+            addEntryLists();
           })
         }
       })
@@ -670,6 +1029,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
       .catch(function(err) {
         console.log(err);
       })
+      addEntryLists();
 
     }
 

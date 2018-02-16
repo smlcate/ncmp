@@ -50,12 +50,19 @@
               <h2>{{selectedBit.display_date}}</h2>
               <p>{{selectedBit.display_start}}-{{selectedBit.display_end}}</p>
               <!-- <a href="#"><b>More...</b></a> -->
-
             </div>
+            <!-- <div class="">
+              
+              <a href="#">Register</a>
+              
+            </div> -->
+            
+            
 
           </div>
           <div class="viewContentDiv" id="bottomViewContentDiv">
-
+            
+            <!-- <a href="#">Register</a> -->
             <p>{{selectedBit.description}}</p>
 
           </div>
@@ -87,6 +94,7 @@
           <div class="homeNewsViewNavDivCell" ng-repeat="el in announcements.events" style="background:{{el.color}};" ng-click="thisBit(el)">
 
             <p >{{el.name}}</p>
+            <a href="/#!/registration" ng-click="goToRegistration()"><b>Register</b></a>
 
           </div>
 
@@ -101,6 +109,7 @@
           <div class="homeNewsViewNavDivCell" ng-repeat="el in announcements.news">
 
             <p>{{el.title}}</p>
+
 
           </div>
 

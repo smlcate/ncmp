@@ -78,9 +78,161 @@ a {
 #photoGallery {
   display: flex;
 }
+
+#adminEventsRegistryControlPanelCell {
+  display: flex;
+  flex-direction: column;
+}
+.adminRegistryDivs {
+  width: 50%;
+}
+#adminEventRegistryContainer {
+  display: none;
+  flex-direction: column;
+}
+#adminRegistryController {
+  /*display: none;*/
+  flex-direction: column;
+  
+}
+#adminEventsRegistryControlPanelCell button {
+  width: 75px;
+}
+#adminRegistryController span button {
+  width: 75px;
+}
+#registryOptionsContainer {
+  display: flex;
+  flex-direction: column;
+}
+#registryClassesContainer {
+  display: none;
+}
+.registryOptionCells {
+  height: 25px;
+}
+.registryOptionCells p {
+  padding-right: 5px;
+}
+.numberInputs {
+  width: 75px;
+}
+#adminRegistrationsControl {
+  display: flex;
+  flex-direction: column;
+}
+#entryListRegistryDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.registriesNavs {
+  display: flex;
+}
+.registriesViews {
+  display: flex;
+  flex-direction: column;
+}
+.entryListCells {
+  display: flex;
+  flex-direction: row;
+  /*width: 600px;*/
+  /*justify-content: space-around;*/
+}
+.entryListCells p {
+  width: 150px;
+  
+}
+.registriesOptionListCells {
+  display: flex;
+}
+.registriesMembersCellEntriesDisplays {
+  
+}
+.registriesMembersCellEntries {
+  display: flex;
+}
+.registriesMembersCellEntries p {
+  width: 200px;
+}
+.registriesMembersCellOptionsDisplays {
+  
+}
+.registriesMembersCellOptions {
+  display: flex;
+}
 .photoCell img {
   max-height: 150px;
   /*max-width: 200px;*/
+}
+#adminResultsControl {
+  flex-direction: column;
+}
+#adminResultsView {
+  display: flex;
+  flex-direction: column;
+}
+#adminResultsClassNav {
+  display: flex;
+  flex-wrap: wrap;
+  background: #E1F5FE;
+  border-bottom: 3px solid #154498;
+  border-top: 3px solid #154498;
+  box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.7);
+  /*justify-content: space-between;*/
+}
+#adminResultsClassNav a {
+  font-size: 160%;
+  /*width: 270px;*/
+  padding: 7px;
+  /*border-top: 1px solid #154498;
+  border-bottom: 1px solid #154498;*/
+
+  /*width: 250px;*/
+}
+#adminResultsPointsDisplay {
+  display: flex;
+  flex-direction: column;
+}
+#adminResultsPointsDatesDiv {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+#adminResultsPointsDatesDiv p {
+  width: 90px;
+  text-align: center;
+  /*margin-left:1px;*/
+  border-left: 1px solid lightgrey;
+}
+#adminResultsDriversDiv {
+  display:flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 150%;
+}
+.adminResultsDriversCells {
+  display: flex;
+}
+.adminResultsDriversCells p {
+  width: 300px;
+  text-align: center;
+  display: flex;;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.adminResultsDriversCellsResultsDivs {
+  display: flex;
+  justify-content: center;
+  border-left: 1px solid lightgrey;
+}
+.adminResultsDriversCellsResultsDivs p {
+  width: 45px;
+  display: flex;;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 #adminEventsControl {
   display: flex;
@@ -732,6 +884,17 @@ align-items: center;
 }
 #bottomViewContentDiv {
   font-size: 150%;
+  flex-direction: column;
+}
+#bottomViewContentDiv h3 {
+  height: 50px;
+  text-decoration: underline;
+}
+#bottomViewContentDiv p {
+  /*margin-top: 0px;*/
+}
+#bottomViewContentDiv a {
+  
 }
 .homeNewsViewNavDiv {
   width: 100%;
@@ -754,6 +917,7 @@ align-items: center;
   height: 40px;
   display: flex;
   align-items: center;
+  justify-content: space-around;
   /*border-bottom: 1px solid #154498;*/
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
   border-radius: 2px;
@@ -763,8 +927,79 @@ align-items: center;
   /*height: 100%;
   width: 100%;*/
 }
+.homeNewsViewNavDivCell a {
+  color: white;
+}
 
 
+#registrationParentDisplay {
+  
+}
+#registrationForm {
+  
+}
+.regFormDivs {
+  font-size: 120%;
+}
+#driverInfoRegFormDiv {
+  
+}
+.driverInfoRegFormCells {
+  
+}
+.regFormDivs span {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 400px;
+}
+.regFormDivs input {
+  height: 40px;
+  font-size: 120%;
+}
+.regFormDivs p {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+}
+.classSelectDivs {
+  height: 50px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /*overflow:*/
+  /*width: 150px;*/
+  /*border: 1px solid black;*/
+  display: flex;
+  flex-direction: column;
+}
+.classSelectDivs span {
+  height: 100%;
+  /*width: 100%;*/
+  border-bottom: 1px solid lightgrey;
+  padding: 25px;
+  display: flex;
+  justify-content: center;
+}
+.classSelectDivs p {
+  /*width: 50px;*/
+}
+#selectedClassesDiv {
+  
+}
+#memberOptRegFormDiv p {
+  width: 400px;
+  text-align: center;
+  font-size: 125%;
+}
+#kartSpecsRegFormDiv p {
+  width: 400px;
+  text-align: center;
+  font-size: 125%;
+}
+#classSelectContainer {
+  flex-direction: column;
+  justify-content: center;
+}
 /*calendar styles*/
 
 #calendarDisplay {
@@ -978,6 +1213,129 @@ align-items: center;
     flex-direction: column;
     width: 100%;
   }
+
+.loginDisplays {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.loginForms {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  font-size: 110%;
+  /*justify-content: center;*/
+  align-items: center;
+}
+.loginForms span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.loginForms input {
+  height: 40px;
+  width: 200px;
+  font-size:120%;
+}
+.loginForms span p {
+  width: 100px;
+}
+.loginForms button {
+  width: 75px;
+}
+.loginOptions {
+  display: flex;
+  flex-direction: column;
+}
+#signUpDisplay {
+  display: none;
+}
+#signInDisplay {
+  /*display: none;*/
+}
+#accCreatedDisplay {
+  display: none;
+}
+
+.formDisplays {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.formDisplays span {
+  display: flex;
+  align-items: center;
+}
+.membershipFormDisplays {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  font-size: 150%;
+  /*border: 1px solid black;*/
+  /*border: 1px solid black;*/
+}
+.membershipFormDisplays span {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 40px;
+  width: 350px;
+}
+.membershipFormDivs {
+  /*font-size: 150%;*/
+  width: 100%;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*border: 1px solid black;*/
+
+}
+.membershipFormDisplays p {
+  width: 150px;
+}
+.membershipFormDisplays input {
+  height: 100%;
+}
+.memClassSelectSpans {
+  display: none;
+}
+#singleMembershipFormPersonalDiv p {
+  width: 150px;
+}
+
+.StripeElement {
+  /*display: flex;*/
+  /*flex-direction: row;
+  align-content: center;*/
+  background-color: white;
+  width: 400px;
+  font-size: 150%;
+  height: 40px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
 /**/
 footer {
   background: #154498;
