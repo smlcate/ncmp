@@ -20,6 +20,20 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   $scope.weather;
   $scope.tenDayForecast;
+  
+  $scope.registrationForm;
+  
+  $scope.currentPoints;
+  $scope.selectedPointsClass;
+  
+  // console.log(sessionStorage);
+  $scope.user;
+  if (sessionStorage.user) {
+    
+    $scope.user = JSON.parse(sessionStorage.user)
+    
+  }
+  // console.log($scope.user);
 
   $('.headerNavAnc').on('click', function() {
       $('.headerNavAnc').css({'background':'#E1F5FE','color':'#154498'});
@@ -56,6 +70,70 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   }
 
   init();
+  
+  function buildResults(data) {
+    
+    console.log(data);
+    var d = JSON.parse(data.results);
+    // var d = JSON.parse(d.data)
+    for (var i = 0; i < d.length; i++) {
+      for (var j = 0; j < d[i].drivers.length; j++) {
+        for (var k = 0; k < d[i].drivers[j].results.length; k++) {
+          if (d[i].drivers[j].results[k].position == 1) {
+            d[i].drivers[j].results[k].style = "color:gold;font-size:130%;"
+          } else if (d[i].drivers[j].results[k].position == 2) {
+            d[i].drivers[j].results[k].style = "color:silver;font-size:120%;"
+          } else if (d[i].drivers[j].results[k].position == 3) {
+            d[i].drivers[j].results[k].style = "color:orange;font-size:110%;"
+          } else if (d[i].drivers[j].results[k].position == 0) {
+            d[i].drivers[j].results[k].style = "color:lightgrey;"
+          } else if (d[i].drivers[j].results[k].position == 'DQ') {
+            d[i].drivers[j].results[k].style = "color:red;"
+          }
+          if (d[i].drivers[j].results[k].position == 11) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'th'
+          } else if (d[i].drivers[j].results[k].position == 12) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'th'
+          } else if (d[i].drivers[j].results[k].position == 13) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'th'
+          } else if (d[i].drivers[j].results[k].position[d[i].drivers[j].results[k].position.length-1] == 1) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'st'
+          } else if (d[i].drivers[j].results[k].position[d[i].drivers[j].results[k].position.length-1] == 2) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'nd'
+          } else if (d[i].drivers[j].results[k].position[d[i].drivers[j].results[k].position.length-1] == 3) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'rd'
+          } else if(d[i].drivers[j].results[k].position == 0) {
+            
+          } else if(d[i].drivers[j].results[k].position == 'DQ') {
+            
+          } else {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position + 'th'
+          }
+          if (k === d[i].drivers[j].results.length-1) {
+            d[i].drivers[j].results[k].position = d[i].drivers[j].results[k].position.slice(0,-2);
+          }
+        }
+      }
+    }
+    console.log(d);
+    return d;
+    
+  }
+  
+  function getPoints() {
+    $http.get('getPoints')
+    .then(function(data) {
+      console.log(data);
+      $scope.currentPoints = buildResults(data.data[data.data.length-1]);
+      // console.log($scope.currentPoints);
+    })
+  }
+  
+  getPoints();
+  
+  $scope.selectPointsClass = function(cl) {
+    $scope.selectedPointsClass = cl;
+  }
 
 
 
@@ -322,7 +400,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       if ($scope.todaysEvent.date) {
 
         $scope.todaysEvent.displayDate = makeDatePretty($scope.todaysEvent.date);
-        pairImage($scope.todaysEvent, 'single')
+        // pairImage($scope.todaysEvent, 'single')
 
       } else {
         $scope.selectedBit = announcements.events[0]
@@ -368,6 +446,28 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.selectedBit = b;
 
   }
+  
+  $scope.goToRegistration = function() {
+    $http.post('getEventRegistration', {seriesId:$scope.selectedBit.event_group_id})
+    .then(function(data) {
+      $scope.registrationForm = JSON.parse(data.data.registry_data);
+      $scope.registrationForm.eventId = $scope.selectedBit.id;
+      console.log($scope.registrationForm);
+      
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+    // $http.post('getEntryList', {seriesId:$scope.selectedBit.event_id})
+    // .then(function(data) {
+    //   $scope.entryList = JSON.parse(data.data.registry_data);
+    // 
+    // })
+    // .catch(function(err) {
+    //   console.log(err);
+    // })
+  }
+  
 
   $http.get('https://api.wunderground.com/api/7c8eaaf84b5e5dd0/conditions/q/IN/New_Castle.json')
   .then(function(res) {

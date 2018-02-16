@@ -27,6 +27,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/login',
       templateUrl: '../partials/login.html'
   })
+  .state('member', {
+      url: '/member',
+      templateUrl: '../partials/member.html'
+  })
   .state('kartOwners', {
       url: '/kartowners',
       templateUrl: '../partials/kartOwners.html'
@@ -34,5 +38,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
   .state('rentalkarts', {
       url: '/rentalkarts',
       templateUrl: '../partials/rentalkarts.html'
+  })
+  .state('registration', {
+      url: '/registration',
+      templateUrl: '../partials/registration.html'
   })
 })

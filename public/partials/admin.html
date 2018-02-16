@@ -9,6 +9,7 @@
   <div id="adminPageNav">
 
     <a href="" ng-click="changeAdminDisplay('Events')">Events</a>
+    <a href="" ng-click="changeAdminDisplay('Registrations')">Registrations</a>
     <a href="" ng-click="changeAdminDisplay('News')">News</a>
     <a href="" ng-click="changeAdminDisplay('Images')">Images</a>
     <a href="" ng-click="changeAdminDisplay('Results')">Results</a>
@@ -16,7 +17,142 @@
 
   </div>
   
+  <div class="adminControlGroups" id="adminRegistrationsControl">
+    
+    <div class="registriesNavs" id="mainRegistryCellDiv">
+      
+      <div class="mainRegistryCells" ng-repeat="list in registrations.entry_lists" ng-click="selectRegistration(list)" style="background:{{list.ev.color}}">
+        
+        <h2>{{list.ev.name}}</h2>
+        
+      </div>
+      
+    </div>
+    <div class="registriesNavs" id="registryViewNav">
+      
+      <a href="" ng-click="selectRegistryView('classes')">Entry Lists</a>
+      <a href="" ng-click="selectRegistryView('extras')">Extra Purchases Lists</a>
+      <a href="" ng-click="selectRegistryView('members')">Entered Memberships</a>
+      
+    </div>
+    <div class="registriesViews" id="classesRegistriesView">
+      
+      <div class="registriesNavs" id="classesRegistryCellDiv">
+        
+        <div class="registryClassCell" ng-repeat="cl in selectedRegistration.entries.classes" ng-click="selectRegistrationList(cl.list)">
+          
+          <h1>{{cl.name}}</h1>
+          
+        </div>
+        
+      </div>
+      <div class="" id="entryListRegistryDiv">
+        
+        <span class="entryListCells" ng-repeat="e in selectedRegistrationList">
+          
+          <p>{{e.name}}</p>
+          <p>{{e.number}}</p>
+          <p>{{e.transponder}}</p>
+          <p></p>
+          
+        </span>
+        
+      </div>
+      
+    </div>
+    <div class="registriesViews" id="extrasRegistriesView">
+      
+      <div class="registriesNavs">
+        
+        <div class="registriesOptionsCells" ng-repeat="opt in selectedRegistration.entries.options" ng-click="selectRegistrationOption(opt.list)">
+          
+          <h1>{{opt.name}}</h1>
+          
+        </div>
+        
+      </div>
+      <div class="" id="extrasRegistriesDisplay">
+        
+        <div class="registriesOptionListCells" ng-repeat="ord in selectedRegistrationOption">
+          
+          <p>{{ord.membership.name}}</p>
+          <p ng-if="ord.quantity">Quantity x {{ord.quantity}}</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    <div class="registriesViews" id="membersRegistriesView">
+      
+      <div class="registriesMembersCells" ng-repeat="mem in selectedRegistrationMembers">
+        
+        <h3>{{mem.name}}</h3>
+        
+        <div class="registriesMembersCellEntriesDisplays">
+          
+          <p><b>Entries</b></p>
+          <div class="registriesMembersCellEntries" ng-repeat="ent in mem.entries">
+            <p>{{ent.name}}</p>
+            <p>{{ent.driver.name}}</p>
+            <p>{{ent.driver.number}}</p>
+            <p>{{ent.driver.transponder}}</p>
+          </div>
+          
+        </div>
+        <div class="registriesMembersCellOptionsDisplays">
+          
+          <p><b>Extras</b></p>
+          <div class="registriesMembersCellOptions" ng-repeat="opt in mem.options">
+            <p>{{opt.name}}</p>
+            <p>{{opt.option.quantity}}</p>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div class="adminControlGroups" id="adminResultsControl">
+    
+    <input type="file" name="" value="" multiple id="pointsInput">
+    <button type="button" name="button" ng-click="updatePoints()"></button>
+    
+    <div class="" id="adminResultsView">
+      
+      <div class="" id="adminResultsClassNav">
+        
+        <a href="" ng-repeat="cl in currentPoints" ng-click="selectPointsClass(cl)">{{cl.name}}</a>
+        
+      </div>
+      <div class="" id="adminResultsPointsDisplay">
+        
+        <div class="" id="adminResultsPointsDatesDiv">
+          <p ng-repeat="date in selectedPointsClass.dates.slice(0,-1)">{{date}}</p>
+          <p>Points</p>
+        </div>
+        <div class="" id="adminResultsDriversDiv">
+          <div class="adminResultsDriversCells" ng-repeat="driver in selectedPointsClass.drivers">
+            <p>{{driver.name}}</p>
+            <div class="adminResultsDriversCellsResultsDivs" ng-repeat="r in driver.results" style="{{r.style}}">
+              <p>{{r.position}}</p>
+              <p>{{r.points}}</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
   <div class="adminControlGroups" id="adminSettingsControl">
+    
     
     <span>
       <p>Track Open Date</p>
@@ -155,6 +291,7 @@
             <button type="button" name="button" ng-click="cancelEdit()">Cancel</button>
 
           </div>
+          
         </div>
         <div class="adminEventsControlPanels" id="seriesEventInfoControlPanel" >
           
@@ -241,7 +378,84 @@
           </div>
           
         </div>
+        
               
+      </div>
+      
+      <div class="adminEventsControlPanelCells" id="adminEventsRegistryControlPanelCell">
+        <button type="button" name="button" ng-click="addRegistry()">Add Registry</button>
+        <div class="" id="adminEventRegistryContainer">
+          
+          <div class="adminRegistryDivs" id="adminRegistryController">
+            <span>
+              <p>Entry Price</p>
+              <input type="number" class="numberInputs" name="" value="" ng-model="registry.price">
+              <p>Require Membership</p>
+              <input type="checkbox"  name="" value="" ng-model="registry.req_member">
+            </span>
+          </div>
+          <!-- <div class="adminRegistryDivs">
+            <p>Start Pre-entry:</p>
+            <span>
+              <p>Immediately after prior event</p>
+              <input type="checkbox" name="" value="" ng-model="registry.start_preentry.interval">
+            </span>
+            <span>
+              <p>After prior event and </p>
+              <input type="number" class="numberInputs" name="" value="" ng-model="registry.start_preentry.daysForIntWithDays">
+              <p>day(s) before event</p>
+              <input type="checkbox" name="" value="" ng-model="registry.start_preentry.intervalWithDays">
+            </span>
+            <p>Month(s)</p>
+            <input type="checkbox" name="" value="" ng-model="registry.start_preentry.months">
+          </div> -->
+          <span>
+            <p>Option Name</p>
+            <input type="text" name="" value="" ng-model="registry.option.name">
+            <p>Price</p>
+            <input type="number" class="numberInputs" name="" value="" ng-model="registry.option.price">
+            <p>Quantity Option</p>
+            <input type="checkbox" class="" name="" value="" ng-model="registry.option.quantity_option">
+            <p>Quantity Limit</p>
+            <input type="number" class="numberInputs" name="" value="" ng-model="registry.option.quantity_limit">
+
+            <button type="button" name="button" ng-click="addRegistryOption()">Add</button>
+          </span>
+          <span>
+            <p>Class Name</p>
+            <input type="text" name="" value="" ng-model="registry.class.name">
+            <p>Entry Cap</p>
+            <input type="number" class="numberInputs" min=1 name="" value="" ng-model="registry.class.entry_cap">
+            <button type="button" name="button" ng-click="addRegistryClass()">Add</button>
+          </span>
+          <button type="button" name="button" ng-click="saveEventRegistry()">Save</button>
+            
+          
+          <div class="adminRegistryDivs" id="adminRegistryDisplay">
+            <span>
+              <p>Entry Price: </p>
+              <p> ${{registry.price}}</p>
+            </span>
+            <div class="" id="registryOptionsContainer">
+              
+              <span class="registryOptionCells" ng-repeat="opt in registry.options">
+                <p>{{opt.name}}</p>
+                <p>${{opt.price}}</p>
+              </span>
+              
+            </div>
+            <span>
+              <p>{{registry.classes.length}} Class(es)</p>
+              <button type="button" name="button" ng-click="toggleClassesView()">View</button>
+            </span>
+            <div class="" id="registryClassesContainer">
+              <span class="registryClassCell" ng-repeat="cl in registry.classes">
+                <p>{{cl.name}}</p>
+                <p>{{cl.entry_cap}}</p>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
       
       
