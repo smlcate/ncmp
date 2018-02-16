@@ -15,7 +15,11 @@ var server = {
   images: require('./controllers/images.js'),
   news: require('./controllers/news.js'),
   login: require('./controllers/login.js'),
-  sponsors: require('./controllers/sponsors.js')
+  sponsors: require('./controllers/sponsors.js'),
+  registry: require('./controllers/eventRegistries.js'),
+  payments: require('./controllers/payments.js'),
+  points: require('./controllers/points.js')
+
 }
 
 
@@ -42,11 +46,28 @@ app.post('/addEventGroup', server.event_groups.addEventGroup)
 app.post('/editEventGroup', server.event_groups.editEventGroup)
 app.post('/deleteEventGroup', server.event_groups.deleteEventGroup)
 
+app.post('/saveEventRegistry', server.registry.saveEventRegistry)
+app.post('/getEventRegistration', server.registry.getEventRegistration)
+app.post('/addEntryLists', server.registry.addEntryLists)
+app.post('/buyRegistration', server.registry.buyRegistration)
+app.get('/getEventEntryLists', server.registry.getEventEntryLists)
+
+app.post('/updatePoints', server.points.updatePoints)
+app.get('/getPoints', server.points.getPoints)
+
+
 app.get('/getSponsors', server.sponsors.getSponsors)
 app.post('/addSponsor', server.sponsors.addSponsor)
 
 
 app.post('/signUp', server.login.signUp)
+app.post('/signIn', server.login.signIn)
+app.get('/getUsers', server.login.getUsers)
+
+
+
+app.post('/buyMembership', server.payments.buyMembership)
+
 
 
 
