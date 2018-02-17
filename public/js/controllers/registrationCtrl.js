@@ -25,6 +25,8 @@ app.controller('registrationCtrl', ['$scope', '$http', '$compile', function($sco
     tempMem: true
   };
   
+  console.log($scope.registrationForm);
+  
   var stripe = Stripe('pk_test_QQdpmZ8GvlAlmmeACv5k5Bn8');
   var elements = stripe.elements();
 
