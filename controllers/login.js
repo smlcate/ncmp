@@ -8,6 +8,7 @@ var crypto = require('crypto');
 
 exports.signUp = function(req, res, next) {
 
+  console.log(req.body);  
   var auth = req.body.auth;
   
   var user = {
@@ -98,15 +99,18 @@ exports.signIn = function(req, res, next) {
   
 }
 exports.getUsers = function(req, res, next) {
+  console.log(req.body);
   knex('people')
   .select('*')
   .then(function(data) {
+    console.log(data);
     var list = [];
     for (var i = 0; i < data.length; i++) {
-      if (data[i].membership != null) {
-        data[i].hashed_passcode = 'not displayed'
-        list.push(data[i])
-      }
+      list.push(data[i]);
+      // if (data[i].membership != null) {
+      //   data[i].hashed_passcode = 'not displayed'
+      //   list.push(data[i])
+      // }
     }
     res.send(list)
   })

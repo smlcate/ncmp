@@ -1,33 +1,47 @@
 <div class="parentDisplays" id="loginParentDisplay" ng-controller="authCtrl">
 
   <div class="loginDisplays" id="signUpDisplay">
+  
     
-    <div class="loginForms">
-      
-      <p>Create New Account</p>
-      
-      <span>
-        <p>Email</p>
-        <input type="text" name="" value="" ng-model="auth.signUp.email">
-      </span>
-      <span>
-        <p>Password</p>
-        <input type="password" name="" value="" ng-model="auth.signUp.password">
-      </span>
-      <span>
-        <p>Repeat Password</p>
-        <input type="password" name="" value="" ng-model="auth.signUp.password">
-      </span>
-      
-      <button type="button" name="button" ng-click="signUp()">Sign Up</button>
-      
-    </div>
     
-    <div class="loginOptions">
+    <div class="loginForms" id="newAccountLoginForms">
+      
+     <div class="signUpPersuasionDivs">
+        <p class="signUpPersuasionText" id="">Creating a profile allows you to pre-register for events here online! It also allows you to recieve updates and recent news from NCMP, if desired.</p>
+        
+      </div>
+      
+      <span id="signInRedirectSpan"><p>Already have an account?</p><a href="" ng-click="goTo('signInDisplay')">Sign In</a> </span>        
+      <h1>Create New Account</h1>
+      <div class="authInfoConatiners">
+        
+        <span class="authSpans">
+          <p>Email</p>
+          <input type="email" name="" value="" ng-model="auth.signUp.email">
+          <p class="errorNotices" id="emailErrorMessage">* Email is taken</p>
+        </span>
+        <span class="authSpans">
+          <p>Password</p>
+          <input type="password" name="" value="" ng-model="auth.signUp.password">
+        </span>
+        <span class="authSpans">
+          <p>Repeat Password</p>
+          <input type="password" name="" value="" ng-model="auth.signUp.checkPassword">
+          <p class="errorNotices" id="passwordErrorMessage">* Passwords do not Match</p>
+        </span>
+        
+      </div>
+      
+      <button class="authContinueButtons" type="button" name="button" ng-click="signUp()">Sign Up</button>
+      
+    </div> 
+    
+  
+    <!-- <div class="loginOptions">
       
       <a href="" ng-click="goTo('signInDisplay')">Sign In</a>
       
-    </div>
+    </div> -->
     
   </div>
   
@@ -35,34 +49,78 @@
     
     <div class="loginForms">
       
-      <p>Sign In</p>
+      <span class="authSpans">
+        <h1>Sign In</h1>
+        <p style="display:flex;justify-content:center;">or</p>
+        <a href="" ng-click="goTo('signUpDisplay')"><h2>Create account</h2></a>
+      </span>
       
-      <span>
+      <span class="authSpans">
         <p>Email</p>
         <input type="text" name="" value="" ng-model="auth.signIn.email">
       </span>
-      <span>
+      <span class="authSpans">
         <p>Password</p>
         <input type="password" name="" value="" ng-model="auth.signIn.password">
+      </span>
+      <span>
+        <a href="">Forgot Password?</a>
       </span>
       
       <button type="button" name="button" ng-click="signIn()">Sign Up</button>
       
     </div>
     
-    <div class="loginOptions">
+    <!-- <div class="loginOptions">
       
-      <a href="" ng-click="goTo('signUpDisplay')">Create Account</a>
-      <a href="">Forgot Password</a>
+      <a href="" ng-click="goTo('signUpDisplay')">Create Account</a> -->
+      <!-- <a href="">Forgot Password</a>
       
-    </div>
+    </div> -->
   </div>
   <div class="loginDisplays" id="accCreatedDisplay">
-    <p>Thankyou, you have successfully created your account!</p>
-    <span>
-      <p>Would you like to find out more about</p>
-      <a href="">Memberships?</a>
-    </span>
+    
+    
+    <div class="loginForms" id="accntCreationForm">
+      
+      <div class="" id="successfulSignUpGreatingDiv">
+        <p>Thankyou, you have successfully created your account!</p>
+        <span class="greetingSpans" id="skipGreetingSpan">
+          <p>Here you can create a profile of your whole team, or you may <a href="#"><b> Skip this </b></a>and continue to the homepage.</p>
+        </span>
+      </div>
+      
+      <div class="memberInfoDivs">
+        <div class="memberInfoDivContainers">
+          <h3>New Member</h3>
+          <div class="memberInfoTopInputs">
+            <div class="memberPictureInputDivs">
+              <img src="../images/Race4Riley-2014-1.jpg" alt="">
+            </div>
+            <div class="memberInfoIdInputDivs">
+              <input class="memberNameInputs" type="text" name="" placeholder="First Name" value="">
+              <input class="memberNameInputs" type="text" name="" placeholder="Last Name" value="">
+              <span>
+                <input type="text" name="" placeholder="Mid Init" value="">
+                <input type="date" name="" placeholder="Birthday" value="">
+              </span>
+            </div>
+          </div>
+          <div class="memberInfoBottomInputs">
+            
+          </div>
+        </div>
+        <div class="memberInfoDivContainers">
+          
+        </div>
+      </div>
+      
+      <span class="greetingSpans">
+        <p>Would you like to find out more about</p>
+        <a href="">Memberships?</a>
+      </span>
+      
+    </div>
   </div>
 
 

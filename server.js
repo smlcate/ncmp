@@ -38,6 +38,8 @@ app.get('/getImages', server.images.getImages)
 app.post('/getImage', server.images.getImage)
 
 app.get('/getNews', server.news.getNews)
+app.post('/saveNews', server.news.saveNews)
+
 
 app.get('/getAllEventGroups', server.event_groups.getAllEventGroups)
 app.post('/getEventGroups', server.event_groups.getEventGroups)
@@ -51,6 +53,8 @@ app.post('/getEventRegistration', server.registry.getEventRegistration)
 app.post('/addEntryLists', server.registry.addEntryLists)
 app.post('/buyRegistration', server.registry.buyRegistration)
 app.get('/getEventEntryLists', server.registry.getEventEntryLists)
+app.get('/getMainEventRegistration', server.registry.getMainEventRegistration)
+
 
 app.post('/updatePoints', server.points.updatePoints)
 app.get('/getPoints', server.points.getPoints)

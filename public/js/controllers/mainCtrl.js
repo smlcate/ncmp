@@ -1,4 +1,4 @@
-app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
   var monthNames =  ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
@@ -25,21 +25,41 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   
   $scope.currentPoints;
   $scope.selectedPointsClass;
+  $scope.classInfo;
   
   // console.log(sessionStorage);
   $scope.user;
-  if (sessionStorage.user) {
-    
-    $scope.user = JSON.parse(sessionStorage.user)
-    
-  }
-  // console.log($scope.user);
+  if ($scope.user == null && sessionStorage.user != null) {
+    console.log(sessionStorage.user);
+    $scope.user = JSON.parse(sessionStorage.user);
+    $('#signInUpHeaderInfoCell').css('display','none')
+    $('#userHeaderInfoCell').css('display','flex')
+  } 
+  console.log($scope.user);
 
   $('.headerNavAnc').on('click', function() {
       $('.headerNavAnc').css({'background':'#E1F5FE','color':'#154498'});
     $(this).css({'background':'#154498','color':'white'});
     // console.log('hit');
   })
+  
+  $scope.goTo = function(v) {
+    
+    $('.loginDisplays').css('display','none');
+    $('#'+v).css('display','flex');
+    window.location.href = '#!/login'
+  }
+  
+  $scope.signOut = function() {
+    
+    sessionStorage.user = null;
+    $scope.user = null;
+    console.log(sessionStorage);
+    $('#signInUpHeaderInfoCell').css('display','flex')
+    $('#userHeaderInfoCell').css('display','none')
+    
+  }
+  
 
   function init() {
     $http.get('getData')
@@ -47,11 +67,21 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       // console.log(data);
       $scope.events = data.data;
       console.log($scope.events);
+      
       giveAnnouncements();
+      getPoints();
+      // runBanner($scope.announcements.banner);
+      // $scope.announcements.banner[1] = $scope.announcements.news;
+      // $scope.announcements.banner[2] = $scope.currentPoints
+      console.log($scope.announcements);
+    })
+    .then(function() {
     })
     .catch(function(err) {
       console.log(err);
     })
+    
+    
 
     function makeDatePretty(d) {
 
@@ -70,6 +100,286 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   }
 
   init();
+  
+  function runBanner(b) {
+    // console.log($scope.announcements.length);
+    var html = '';
+    var i = 0;
+    function run() {
+      
+      console.log(b.length);
+      console.log(i);
+      var cell = b[i];
+      console.log(cell);
+      if (i == 0) {
+        html = '<div class="bannerDivs" id="eventsBannerDiv"><p>Upcoming Events</p>'
+        for (var j = 0; j < 4; j++) {
+          if (cell[j]) {
+            console.log(j);
+            html += '<div class="bannerEventCells"><p>'+cell[j].display_date+' '+cell[j].name+'</p>'
+            if (cell.openReg == true) {
+              html += '<a href="" ng-click="goToRegistration('+cell[j]+')">Register</a>'
+            }
+            html += '</div>'  
+          }
+        }
+        html += '</div>'
+        angular.element($('#headerNewsPrompter')).append($compile(html)($scope))  
+        setTimeout(function() {
+          $('.bannerDivs').animate({
+            marginLeft: '-=100vw'
+          }, 2000);
+          i++;
+          return run();
+        },5000)
+        
+      } else if(i == 1) {
+        html = '<div class="bannerDivs" id="newsBannerDiv"><p>Recent News</p>';
+        console.log(cell);
+        for (var j = 0; j < cell.length; j++) {
+          console.log(j);
+          html += '<div class="bannerNewsCells"><p>'+cell[j].title+'</p>'
+          if (cell.article != '') {
+            html += '<a href="" ng-click="">Read More</a>'
+          }
+          html += '</div>'
+        }
+        html += '</div>'
+        angular.element($('#headerNewsPrompter')).append($compile(html)($scope))  
+        setTimeout(function() {
+          $('.bannerDivs').animate({
+            marginLeft: '-=100vw'
+          }, 2000);
+          $('#welcomeBannerDiv').remove();
+          i++;
+          return run();
+        },5000)
+      } else {
+        // $('#eventsBannerDiv').remove();
+        var j = 0;
+        // var k = 0;
+        html = '<div class="bannerDivs" id="pointsBannerDiv"><p>KRA Points</p><div class="pointsBannerContainers" id="pointsBannerContainer"></div></div>'
+        console.log(html);
+        angular.element($('#headerNewsPrompter')).append($compile(html)($scope))  
+        
+        
+
+        function runPoints() {
+          console.log(j);
+          cl = cell[j];
+          sub_html = '<div class="bannerPointsClassCells" id="bannerPointsClassCell'+j+'"><h3>'+cl.name+'</h3>';
+          sub_html += '<p>1st '+cl.drivers[0].name+' - '+cl.drivers[0].results[14].position+'pts.</p>';
+          sub_html += '<p>2nd '+cl.drivers[1].name+' - '+cl.drivers[1].results[14].position+'pts.</p>';
+          sub_html += '<p>3rd '+cl.drivers[2].name+' - '+cl.drivers[2].results[14].position+'pts.</p></div>';
+          console.log(sub_html);
+          // setTimeout(function() {
+            if (j == 0) {
+              angular.element($('#pointsBannerContainer')).append($compile(sub_html)($scope));
+              setTimeout(function() {
+                console.log('hit 1');
+                $('.bannerDivs').animate({
+                  marginLeft: '-=100vw'
+                }, 3000);
+                $('#eventsBannerDiv').remove();
+                j++;
+                return runPoints();
+    
+              },5000)
+            } if(j == 1) {
+              console.log('hit 2');
+              angular.element($('#pointsBannerContainer')).append($compile(sub_html)($scope));
+              setTimeout(function() {
+                var margin = $('#pointsBannerContainer').css('width')
+                console.log(margin);
+                $('.bannerPointsClassCells').animate({
+                  marginLeft: '-=100vw'
+                }, 6000);
+                $('#newsBannerDiv').remove();
+                j++;
+                return runPoints();
+              },5000)
+            } else if(j == cell.length-1) {
+              // $('.bannerPointsClassCells').animate({
+              //   marginLeft: '-=100vw'
+              // }, 2000);
+              // $('#bannerPointsClassCell'+(j-2)).remove();
+              // j++;
+              // run()
+            } else if( j >= 2) {
+              console.log('hit ' + (j+1));
+              angular.element($('#pointsBannerContainer')).append($compile(sub_html)($scope));
+              setTimeout(function() {
+                var margin = $('#pointsBannerContainer').css('width')
+    
+                $('.bannerPointsClassCells').animate({
+                  marginLeft: '-=100vw'
+                }, 6000);
+                $('#bannerPointsClassCell'+(j-2)).remove();
+                j++;
+                return runPoints();
+    
+              }, 5000)
+            }
+    
+          // },5000)
+    
+          console.log(cl);
+        }
+        return runPoints();
+      }
+    }
+    return run()
+    console.log(html);
+  }
+  
+  function fillClassInfo() {
+
+      var classes = [
+        {
+          name: '125cc Shifter',
+          weight: ['ICC/Modified Moto 415 lbs, Stock Moto 390 lbs. Both engines will compete head to head with a weight break for the Stock Moto engine.'],
+          tires: 'Bridgestone YLM or YLC 450/710x5',
+          notes: 'Air Boxes Mandatory. Ages 15 and up.  ICC - SKUSA Engine Rules.   Stock Moto - SKUSA Engine Rules for S3 Class, and RS Intake Boot Legal Modified Bottom Ends Can Be Ran with Stock Cylinder, Head, Piston and Ignition Box',
+          rules:['']
+        },
+        {
+          name: 'Yamaha Junior Sportsman (Class #1 and #2, Runs Twice)',
+          weight: ['240 lbs'],
+          tires: 'YLC 450x5',
+          notes: 'Air Boxes Mandatory. Ages 8-12. All Drivers Must Use an SFI Approved Ribvest.'
+        },
+        {
+          name: 'Junior Novice Sportsman and Junior Novice',
+          weight: ['Sportsman 250 lbs, Junior 305 lbs'],
+          tires: 'Sportsman YLC: 450x5,   Junior YLC: 450x5 front, 600x5 rear, 710x5 rear (710x5 only after race #5)',
+          notes: 'Sportsman: Yamaha KT100 WA55 Carb Comer K80 can also be used at 235 lbs 8-12 Years Old SFI Approved Ribvest Mandatory.  Junior Novice: Yamaha KT100 WB3A Carb 12-15 Years Old SFI Approved Ribvest Recommended. (These classes are for less experienced kids and kids that need time to adjust to a racing environment. They are participation classes and not points classes.)'
+        },
+        {
+          name: 'Rookie Yamaha: Yamaha Rookie will run with the Novice classes. Rookie Yamaha will run for points and requires a 3 Hole YBX exhaust.',
+          weight: ['230 lbs'],
+          tires: 'YLC 450x5',
+          notes: 'Yamaha KT100 WA55 Carb 3 Hole YBX Can 7-12 Years Old SFI Approved Ribvest Mandatory'
+        },
+        {
+          name: 'Yamaha Junior Can (Class #1 and #2, Runs Twice)',
+          weight: ['305 lbs'],
+          tires: 'YLC: 450x5 front, 600x5 rear or 710x5 rear (710x5 Mandatory after Race #5)',
+          notes: 'Air Boxes Mandatory. 12-15 years old.'
+        },
+        {
+          name: 'Briggs LO206 CIK Senior',
+          weight: ['365 lbs'],
+          tires: 'YLC 450x5 Front, 710x5 Rear. *See rules below for max wheel width',
+          notes: '15 and up. Factory Briggs Rules for the LO206 engine. CIK Bodywork and Sprint Style Seats Legal Only. NCMP track race gas only, must pass tech. Scroll down to bottom of page for complete rules.',
+          rules: ['LO206 Engine Rules: Must run RLV 5507 Exhaust Header with 4104 Silencer. All engines must run Factory Briggs rules only. No disc clutches, shoe type only.','NCMP track 100 octane LO206 race gas only, must pass tech','Shoe Type Clutch Only, No Disc Clutches']
+        },
+        {
+          name: 'Briggs LO206 Senior',
+          weight: ['365 lbs'],
+          tires: 'YLC 450x5 Front, 710x5 Rear *See rules below for max wheel width',
+          notes: '15 and up. Factory Briggs Rules for the LO206 engine. NCMP track race gas only, must pass tech. Traditional 4 Cycle Bodywork and Seats Legal, CIK Bodywork and Sprint Seats also legal. Scroll down to bottom of page for complete rules.',
+          rules: ['LO206 Engine Rules: Must run RLV 5507 Exhaust Header with 4104 Silencer. All engines must run Factory Briggs rules only. No disc clutches, shoe type only.','NCMP track 100 octane LO206 race gas only, must pass tech','Shoe Type Clutch Only, No Disc Clutches','Seat - Laydown and Sprint Style seats allowed','Bodywork - Bodywork can be European CIK bodywork or traditional 4 cycle bodywork','Front Wheel Width - 6 1/4" Wide Outside to Outside Max. Rear Wheel Width - 9" Rear Outside to Outside Max']
+
+        },
+        {
+          name: 'Briggs LO206 CIK Masters',
+          weight: ['370 lbs'],
+          tires: 'YLC 450x5 Front, 710x5 Rear *See rules below for max wheel width.',
+          notes: '40 years old and up. Factory Briggs Rules for the LO206 engine. NCMP track race gas only, must pass tech. CIK Bodywork and Sprint Style Seats Legal Only. Scroll down to bottom of page for complete rules.',
+          rules: ['LO206 Engine Rules: Must run RLV 5507 Exhaust Header with 4104 Silencer. All engines must run Factory Briggs rules only. No disc clutches, shoe type only.','NCMP track 100 octane LO206 race gas only, must pass tech','Shoe Type Clutch Only, No Disc Clutches','Seat - Must use sprint style kart seat','Bodywork - Must use any CIK approved European style bodywork. Rear plastic bumper is optional','Front Wheel Width - 5 1/2" x 5" Max Overall Width, Outside to Outside.  Rear Wheel Width - 8 3/8" x 5" Max Overall Width, Outside to Outside']
+
+        },
+        {
+          name: 'Briggs LO206 Junior CIK: This class will run on track with the Yamaha Novice and Rookie Classes.',
+          weight: ['320 lbs'],
+          tires: 'YLC 450x5 Front, 710x5 Rear *See rules below for max wheel width',
+          notes: '12 to 15 years old. Factory Briggs Rules for the LO206 engine. Gold Carb Slide. CIK Bodywork and Sprint Style Seats Legal Only. NCMP track race gas only, must pass tech. Scroll down to bottom of page for complete rules.'
+        },
+        {
+          name: 'Briggs LO206 Sportsman CIK: This class will run on track with the Yamaha Novice and Rookie Classes.',
+          weight: ['250 lbs'],
+          tires: 'YLC 450x5',
+          notes: '8 to 12 years old. Factory Briggs Rules for the LO206 engine. Green Carb Slide. CIK Bodywork and Sprint Style Seats Legal Only. NCMP track race gas only, must pass tech. Scroll down to bottom of page for complete rules'
+        },
+        {
+          name: 'Yamaha Can Senior',
+          weight: ['335 lbs'],
+          tires: 'YLC',
+          notes: 'Air Boxes Mandatory 15 and up.'
+        },
+        {
+          name: 'Yamaha Can Masters',
+          weight: ['360 lbs'],
+          tires: 'YLC',
+          notes: 'Air Boxes Mandatory 30 years and up.'
+        },
+        {
+          name: 'TaG Super Lite',
+          weight: [
+            'PRD, Easy Kart - 325 lbs.',
+            'Leopard, Rotax, X30 - 335 lbs.',
+            'All Other Engines - 345 lbs.'
+          ],
+          tires: 'YLC',
+          notes: 'Air Boxes Mandatory 15 and up. WKA Engine Rules',
+          rules: ['Add 20 lbs to the minimum weight if you are running front brakes in any single speed class (does not include shifter class, no additional weight needed)','The Motori 7 engine is NOT allowed in any KRA TaG Class.']
+        },
+        {
+          name: 'TaG Senior',
+          weight: [
+            'PRD, Easy Kart - 350 lbs.',
+            'Leopard, Rotax, X30 - 360 lbs.',
+            'All Other Engines - 370 lbs.'
+          ],
+          tires: 'YLC',
+          notes: 'Air Boxes Mandatory 15 and up. WKA Engine Rules',
+          rules: ['Add 20 lbs to the minimum weight if you are running front brakes in any single speed class (does not include shifter class, no additional weight needed)','The Motori 7 engine is NOT allowed in any KRA TaG Class.']
+        },
+        {
+          name: 'TaG Heavy',
+          weight: [
+            'PRD, Easy Kart, Leopard - 395 lbs.',
+            'X30 - 405 lbs.',
+            'All Other Engines - 415 lbs.'
+          ],
+          tires: 'YLC',
+          notes: 'Air Boxes Mandatory 15 and up. WKA Engine Rules',
+          rules: ['Add 20 lbs to the minimum weight if you are running front brakes in any single speed class (does not include shifter class, no additional weight needed)','The Motori 7 engine is NOT allowed in any KRA TaG Class.']
+        },
+        {
+          name: 'TaG Junior',
+          weight: ['320 lbs.'],
+          tires: 'YLM',
+          notes: 'Air Boxes Mandatory. 12-15 years old. WKA Engine Rules. Leopard 25mm Header. X30 29mm Header.',
+          rules: ['Add 20 lbs to the minimum weight if you are running front brakes in any single speed class (does not include shifter class, no additional weight needed)','The Motori 7 engine is NOT allowed in any KRA TaG Class.']
+        },
+        {
+          name: 'Unlimited (Will Run with Shifter)',
+          weight: ['No minimum'],
+          tires: 'Any Bridgestone Tire',
+          notes: 'Air Boxes Mandatory. 15 and Up.',
+          rules:['Any Bridgestone Tire, No minimum weight. Any single speed purpose built kart engine gas or alcohol (The two speed Rotax DD2 is allowed) is permitted. Carburetor or fuel injection is allowed. Any motor that is deemed possible to produce 40hp or more will be required to use front and rear brakes.','Twin or single engine formulas are permitted. In this day of spec classes in all forms of motorsports this class offers innovation and creativity to the racers. This class is truly UNLIMITED, have fun!']
+        },
+        {
+          name: 'Kid Karts',
+          weight: ['150 lbs'],
+          tires: '450x5 YLC Tires Only. Max Rear Tire Circumference 33 in.',
+          notes: 'Class will Qualify and Race. 5-7 years old. All Drivers Must Use an SFI Approved Ribvest. The Honda GXH50 will be allowed to run in the class as well.'
+        }
+
+
+
+
+
+      ]
+
+      return classes;
+
+    }
+    
+  $scope.classInfo = fillClassInfo();
+    
+  
   
   function buildResults(data) {
     
@@ -124,12 +434,17 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     $http.get('getPoints')
     .then(function(data) {
       console.log(data);
-      $scope.currentPoints = buildResults(data.data[data.data.length-1]);
+      if (data.data.length != 0) {
+        
+        $scope.currentPoints = buildResults(data.data[data.data.length-1]);
+        $scope.announcements.banner[2] = $scope.currentPoints;
+        console.log($scope.announcements.banner);
+        runBanner($scope.announcements.banner)
+      }
       // console.log($scope.currentPoints);
     })
   }
   
-  getPoints();
   
   $scope.selectPointsClass = function(cl) {
     $scope.selectedPointsClass = cl;
@@ -146,12 +461,13 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       $scope.sponsors = data.data;
     })
     .catch(function(err) {
-      console.log(err);
+      console.log(err); 
     })
 
   }
   pullSponsors();
-
+  
+  
   function giveAnnouncements() {
 
     var date = new Date();
@@ -161,13 +477,71 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
     var announcements = {
       news: [],
-      events: []
+      events: [],
+      banner: []
     };
+    
+    function makeDatePretty(d) {
+      console.log('hit 3');
+      var month = monthNames[d.getMonth()];
+      var date = d.getDate();
+      var day = daysOfWeek[d.getDay()];
 
+      // console.log(day + ', ' + month + ' ' + date)
+
+      return day + ', ' + month + ' ' + date;
+
+    }
+    
+    console.log('GET NEWS');
     $http.get('getNews')
     .then(function(res) {
-      announcements.news = res.data;
+      // console.log(res.data);
+      var news = [];
+      for (var i = 0; i < res.data.length; i++) {
+        console.log(i);
+        var n = res.data[i];
+        n.set_type = JSON.parse(n.set_type);
+        var today = new Date().getTime();
+        var post_until = new Date(n.set_type.post_until).getTime();
+        console.log(today);
+        // console.log(n.set_type.post_until.getTime());
+        if (post_until) {  
+          console.log('Hit 1');
+          if (post_until >= today) {
+            console.log('Hit 2');
+            if (n.set_type.type == 'postpone') {
+              console.log(makeDatePretty(n.set_type.postponedUntil));
+              n.set_type.postponedUntil = makeDatePretty(n.set_type.postponedUntil);
+            } else if(n.set_type.type == 'delay') {
+              n.set_type.delayedUntil = makeTimePretty(n.set_type.delayedUntil)
+            }
+            news.push(n);
+            
+          }
+          
+        } else if(new Date(n.set_type.postponedUntil).getTime() >= today) {
+          
+          console.log('Hit 3');
+          if (n.set_type.type == 'postpone') {
+            console.log(makeDatePretty(n.set_type.postponedUntil));
+            n.set_type.postponedUntil = makeDatePretty(n.set_type.postponedUntil);
+          } else if(n.set_type.type == 'delay') {
+            n.set_type.delayedUntil = makeTimePretty(n.set_type.delayedUntil)
+          }
+          news.push(n);
+          
+          
+        }
+        if (i == res.data.length-1) {
+          announcements.news = news;
+          announcements.banner.push(news)
+          console.log(announcements);
+          // console.log(news);
+        }
+      }
     })
+      
 
     var stack = []; //contains a stack with the upcoming events
 
@@ -296,7 +670,7 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     // var newStack = [];
     
     if (newStack) {
-    
+      console.log('hit');
       // for (var i = 0; i < sortedStack.length; i++) {
       //   if (sortedStack[i].event_key) {
       //     if (eventKeys.length > 0) {
@@ -323,7 +697,12 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
       // } else {
       //   announcements.events = newStack;
       // }
+      // console.log(newStack);
+      // for (var i = 0; i < newStack.length; i++) {
+      // 
+      // }
       announcements.events = newStack;
+      console.log(announcements.events);
 
       // console.log(announcements.events)
 
@@ -340,8 +719,36 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
 
       for (var i = 0; i < announcements.events.length; i++) {
-
+        // console.log(announcements.events[i]);
         announcements.events[i].displayDate = makeDatePretty(announcements.events[i].date);
+        // $http.post('getEventRegistration',{seriesId:announcements.events[i].event_group_id})
+        // .then(function(data) {
+        //   console.log(announcements.events[i]);
+        //   var ev = {
+        //     name: announcements.events[i].name,
+        //     color: announcements.events[i].color,
+        //     id: announcements.events[i].id,
+        //     event_group_id: announcements.events[i].event_group_id,
+        //     date: announcements.events[i].date,
+        //     image: announcements.events[i].image,
+        //     imageUrl: announcements.events[i].imageUrl,
+        //     start: announcements.events[i].start,
+        //     end: announcements.events[i].end,
+        //     display_end: announcements.events[i].display_end,
+        //     display_start: announcements.events[i].display_start,
+        //     display_date: announcements.events[i].display_date,
+        //     displayDate: announcements.events[i].displayDate,
+        //     description: announcements.events[i].description,
+        //     layout: announcements.events[i].layout,
+        //     event_key: announcements.events[i].event_key,
+        //     registration: data.data
+        //   }
+        //   console.log(announcements.events);
+        //   announcements.events[i] = ev;
+        // })
+        // .catch(function(err) {
+        //   console.log(err);
+        // })
 
       }
 
@@ -379,8 +786,96 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
         announcements.events[i].display_start=makeTimePretty(announcements.events[i].start);
         announcements.events[i].display_end=makeTimePretty(announcements.events[i].end);
       }
-
+      announcements.banner.push(announcements.events);
       $scope.announcements = announcements;
+      // console.log();
+      var count = 0;
+      function giveEventRegistration() {
+        console.log(count);
+        // console.log();
+        if (count != $scope.announcements.events.length) {
+          $http.post('getEventRegistration',{seriesId:$scope.announcements.events[count].event_group_id})
+          .then(function(data) {
+            var ev = {
+              name: $scope.announcements.events[count].name,
+              color: $scope.announcements.events[count].color,
+              id: $scope.announcements.events[count].id,
+              event_group_id: $scope.announcements.events[count].event_group_id,
+              date: $scope.announcements.events[count].date,
+              image: $scope.announcements.events[count].image,
+              imageUrl: $scope.announcements.events[count].imageUrl,
+              start: $scope.announcements.events[count].start,
+              end: $scope.announcements.events[count].end,
+              display_end: $scope.announcements.events[count].display_end,
+              display_start: $scope.announcements.events[count].display_start,
+              display_date: $scope.announcements.events[count].display_date,
+              displayDate: $scope.announcements.events[count].displayDate,
+              description: $scope.announcements.events[count].description,
+              layout: $scope.announcements.events[count].layout,
+              event_key: $scope.announcements.events[count].event_key,
+              registration: data.data,
+              openReg:false
+            }
+            console.log(ev);
+            if (ev.registration.registry_data != null) {
+              ev.registration.registry_data = JSON.parse(ev.registration.registry_data);
+              var today = new Date();
+              var days;
+              if (ev.registration.registry_data.openReg.months) {
+                days = 30 * ev.registration.registry_data.openReg.qty;
+              } else if (ev.registration.registry_data.openReg.weeks) {
+                days = 7 * ev.registration.registry_data.openReg.qty;
+              } else if (ev.registration.registry_data.openReg.days) {
+                days = ev.registration.registry_data.openReg.qty;
+              }
+              var openDate = new Date(ev.date);
+              console.log(today);
+              console.log(days);
+              openDate.setDate(openDate.getDate() - days);
+              console.log(openDate);
+              if (today.getMonth() >= openDate.getMonth() && today.getMonth()-openDate.getMonth() <= 1) {
+                if (today.getMonth() > openDate.getMonth()) {
+                  var monthLength = $scope.monthDays[openDate.getMonth()];
+                  var difference = today.getDate() + (monthLength - openDate.getDate())
+                  if (difference <= days) {
+                    ev.openReg = true;
+                  }
+                } else if(today.getDate() >= openDate.getDate()) {
+                  var difference = today.getDate() - openDate.getDate()
+                  if (difference <= days) {
+                    ev.openReg = true;
+                  }
+                }
+              }
+            }
+            $scope.announcements.events[count] = ev;
+            
+            count++;
+            giveEventRegistration();
+          })
+          .catch(function(err) {
+            console.log(err);
+          })
+        }
+        console.log($scope.announcements.events);
+      }
+      giveEventRegistration();
+      // for (var i = 0; i < $scope.announcements.events.length; i++) {
+      //   console.log($scope.announcements.events[i]);
+      //   // $scope.announcements.events[i].displayDate = makeDatePretty($scope.announcements.events[i].date);
+      //   $http.post('getEventRegistration',{seriesId:$scope.announcements.events[i].event_group_id})
+      //   .then(function(data) {
+      //     console.log($scope.announcements.events[i]);
+      // 
+      //     console.log(announcements.events);
+      //     announcements.events[i] = ev;
+      //   })
+      //   .catch(function(err) {
+      //     console.log(err);
+      //   })
+      // 
+      // }
+      console.log($scope.announcements);
 
       if ($scope.todaysEvent === undefined) {
         if (date.getDay() != 1) {
@@ -436,28 +931,48 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     //   }
 
     // }
+  
 
 
 
   }
-
+  
   $scope.thisBit = function(b) {
     console.log(b);
     $scope.selectedBit = b;
 
   }
   
-  $scope.goToRegistration = function() {
-    $http.post('getEventRegistration', {seriesId:$scope.selectedBit.event_group_id})
-    .then(function(data) {
-      $scope.registrationForm = JSON.parse(data.data.registry_data);
-      $scope.registrationForm.eventId = $scope.selectedBit.id;
-      console.log($scope.registrationForm);
-      
-    })
-    .catch(function(err) {
-      console.log(err);
-    })
+  $scope.goToRegistration = function(e) {
+    console.log(e);
+    $scope.registrationForm = e.registration.registry_data;
+    $scope.registrationForm.eventId = e.id;
+    $scope.registrationForm.eventInfo = e
+    
+    function setReg() {
+      if ($scope.registrationForm == null || $scope.registrationForm == '') {
+        console.log('hit');
+        $scope.registrationForm = e.registration.registry_data;
+        setReg()
+      } else {
+        console.log($scope.registrationForm);
+        $window.location.href = "/#!/registration";      
+        
+      }
+    }
+    setReg();
+
+
+    // $http.post('getEventRegistration', {seriesId:$scope.selectedBit.event_group_id})
+    // .then(function(data) {
+    //   console.log(data);
+    //   $scope.registrationForm = JSON.parse(data.data.registry_data);
+        //   console.log($scope.registrationForm);
+    // 
+    // })
+    // .catch(function(err) {
+    //   console.log(err);
+    // })
     // $http.post('getEntryList', {seriesId:$scope.selectedBit.event_id})
     // .then(function(data) {
     //   $scope.entryList = JSON.parse(data.data.registry_data);
@@ -469,24 +984,25 @@ app.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
   }
   
 
-  $http.get('https://api.wunderground.com/api/7c8eaaf84b5e5dd0/conditions/q/IN/New_Castle.json')
-  .then(function(res) {
-
-    var weather = res.data.current_observation;
-    var url = weather.icon_url.slice(4);
-
-    weather.icon_url = "https" + url;
-
-    $scope.weather = weather;
-
-    // console.log($scope.weather);
-
-  })
-  $http.get('https://api.wunderground.com/api/7c8eaaf84b5e5dd0/forecast10day/q/IN/New_Castle.json')
-  .then(function(res) {
-
-    $scope.tenDayForecast = res.data.forecast.simpleforecast.forecastday;
-
-  })
+  // $http.get('api.openweathermap.org/data/2.5/weather?q=NewCastle,IN')
+  // .then(function(res) {
+  //   console.log('Weather info');
+  //   console.console.log(res);
+  //   // var weather = res.data.current_observation;
+  //   // var url = weather.icon_url.slice(4);
+  //   // 
+  //   // weather.icon_url = "https" + url;
+  //   // 
+  //   // $scope.weather = weather;
+  // 
+  //   // console.log($scope.weather);
+  // 
+  // })
+  // $http.get('https://api.wunderground.com/api/7c8eaaf84b5e5dd0/forecast10day/q/IN/New_Castle.json')
+  // .then(function(res) {
+  // 
+  //   $scope.tenDayForecast = res.data.forecast.simpleforecast.forecastday;
+  // 
+  // })
 
 }]);

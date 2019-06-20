@@ -153,23 +153,52 @@ exports.addEvents = function(req, res, next) {
     //   date: req.body
     // }
     var i = 0;
+    var evs = req.body.events;
+    var id = req.body.id+1;
     function update() {
       
-      knex('events')
-      .where({id:req.body.id+i})
-      .update(req.body.events[i])
-      .then(function() {
-        i++;
-        if (req.body.daysLength === i) {
-          res.send('success')
-        } else {
-          update();
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-        res.send(err)
-      })
+      console.log(i);
+      console.log(req.body.eventLength);
+      console.log(evs[i].date);
+      if (req.body.type == 'news') {
+        id = evs[i].id
+        knex('events')
+        .where({id:id})
+        .update({
+          display_date:evs[i].display_date,
+          date:evs[i].date,
+          // display_start:evs[i].display_start,
+          start:evs[i].start
+
+        })
+        .then(function() {
+          if (req.body.eventLength == i+1) {
+            res.send('success')
+          } else {
+            i++;
+            update();
+          }
+        })
+      } else {
+        
+        knex('events')
+        .where({id:id})
+        .update(evs[i])
+        .then(function() {
+          i++;
+          if (req.body.daysLength === i) {
+            res.send('success')
+          } else {
+            update();
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+          res.send(err)
+        })
+        
+      }
+      
       
     }
     update();

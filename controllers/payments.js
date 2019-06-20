@@ -7,11 +7,11 @@ var bodyParser = require('body-parser');
 var stripe = require('stripe')(process.env.STRIPE_API_KEY)
 exports.buyMembership = function(req, res, next) {
   
-  console.log(req.body);
+  // console.log(req.body);
   var token = req.body.token;
   var member = req.body.member;
   var user = req.body.user;
-  
+  console.log(user);
   // var token = stripe.tokens.create(info);
 
   
@@ -31,7 +31,7 @@ exports.buyMembership = function(req, res, next) {
       
     } else if(charge) {
       
-      console.log(charge);
+      // console.log(charge);
       knex('people')
       .where({email:user.email})
       .update({membership:member})

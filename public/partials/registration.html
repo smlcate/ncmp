@@ -1,51 +1,174 @@
 <div class="parentDisplays" id="registrationParentDisplay" ng-controller="registrationCtrl">
-  
-  <div class="" id="registrationForm">
+  <div class="" id="registrationDisplayHeader">
+    <h1>Pre-Registration for {{registrationForm.eventInfo.name}}</h1>
+  </div>
+  <div class="regFormDivs" id="memberOptRegFormDiv" ng-if="regForm.membership.isMember == false">
     
-    <div class="regFormDivs" id="memberOptRegFormDiv" ng-if="regForm.membership.isMember == false">
-      
-      <p>You are not currently a member. To register, you must have a KRA membership.</p>
-    
-      <a href="/#!/member" >Become a Member</a>
-      <p>
-        <b>OR</b>
-      </p>
-      <p >Fill in the form below for a 1-Membership that will only be valid through the event. The membership will be charged for each driver currently entering.</p>
-  
-    
-    </div>
-    
-    <div class="regFormDivs" ng-if="regForm.membership.isMember == false">
-      
-      <span>
-        <p>Name</p>
-        <input type="text" name="" value="" ng-model="temp.name">
-      </span>
-      <span>
-        <p>Address</p>
-        <input type="text" name="" value=""ng-model="temp.address">
-      </span>
-      <span>
-        <p>City</p>
-        <input type="text" name="" value="" ng-model="temp.city">
-      </span>
-      <span>
-        <p>State</p>
-        <input type="text" name="" value="" ng-model="temp.state">
-      </span>
-      <span>
-        <p>Zip Code</p>
-        <input type="number" name="" value="" ng-model="temp.zip_code">
-      </span>
-      
-    </div>
-    
-    <div class="regFormDivs" id="driverInfoRegFormDiv">
-      <div id="driverInfoRegFormCells">
-        
+    <p>It appears you are not a KRA member. To register, either</p>
+    <a href="/#!/member" >Become a Member</a>
+    <p>or fill in the form below for a temporary membership that will only be valid through the event. The membership will be charged for each driver you are currently entering.</p>
+
+    <div class="" id="tempMemberFormContainer">
+      <div class="tempMemberFormDivs" id="tempMemberInfoFormDiv">
+        <h2>Temporary Member Form</h2>
         <span>
+          <p>Name</p>
+          <input id="tempMemberNameInput" type="text" name="" value="" ng-model="temp.name">
+          <p style="color:red;font-size:200%;width:20px;">*</p>
+        </span>
+        <span id="tempMemberFormDivLocInputSpan">
+          <p>City</p>
+          <input id="tempMemberCityInput" type="text" name="" value="" ng-model="temp.city">
+          <p>State</p>
+          <input id="tempMemberStateInput" type="text" name="" value="" ng-model="temp.state">
+        </span>
+        <span>
+          <p>Email</p>
+          <input id="tempMemberEmail1Input" type="text" name="" value="" ng-model="temp.contacts.email_1">
+          <p style="color:red;font-size:200%;width:20px;">*</p>
+        </span>
+        <span>
+          <p>Email 2</p>
+          <input type="text" name="" value="" ng-model="temp.contacts.email_2">
+        </span>
+        <span>
+          <p>Phone</p>
+          <input type="text" name="" value="" placeholder="(###)-###-####" ng-model="temp.contacts.phone_1">
+        </span>
+        <span>
+          <p>Phone 2</p>
+          <input type="text" name="" value=""  ng-model="temp.contacts.phone_2">
+        </span>
+      </div>
+      <div class=tempMemberFormDivs>
+        <p>Parents and guardians are urged to put in their own information. The drivers will register seperately, and are not required to fill out form</p>
+        <p>Temporary membership fees will be added to registrations total cost</p>
+        <div class="" id="tempMemberFormNotifyContainer">
+          <p>Would you like to be notified about event news and updates?</p>
+          <span>
+            <p>Notify by Email</p>
+            <input type="checkbox" name="" value="" ng-model="temp.contacts.notify_email">
+          </span>
+          <span>
+            <p>Notify by Phone</p>
+            <input type="checkbox" name="" value="" ng-model="temp.contacts.notify_phone">
+          </span>
+        </div>
+        <div class="">
+          <a href="" ng-click="checkTempMembership()">Continue to Registration ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="regFormDivs" id="registrationForm">
+    
+    <div class="" id="driverCardContainer">
+      
+    </div>
+    <button type="button" name="button" ng-click="newDriver()" id="newDriverBtn">New Driver</button>
+    
+    
+    <div class="regFormDivs" id="regFormOptionDiv">
+      <p>Pit Passes</p>
+      <span ng-repeat="p in registrationForm.passes" ng-if="p.available == true">
+        <p>{{p.name}}</p>
+        <p>${{p.price}}</p>
+        <input type="number" class="numberInputs" name="" value="0" min="0" id="option{{opt.$$hashKey.slice(7)}}" ng-model="p.amnt_ordered" ng-change="selectPass(p)">
+        <!-- <p ng-if="opt.quantity_option == true">Quantity</p> -->
+        <!-- <input type="number" name="" class="numberInputs" value="0" ng-if="opt.quantity_option == true" ng-model="opt.quantity" min="0" max="{{opt.quantity_limit}}" id="optionQuantity{{opt.$$hashKey.slice(7)}}" ng-change="selectOption(opt)" > -->
+      </span>
+    </div>
+    <div class="regFormDivs" id="regFormCostsDiv">
+      <div class="regFormCostsSplitters">
+        <h1>Checkout Totals</h1>
+        <div class="totalCostContainers" id="totalEntryCostsContainer">
+          <div class="" id="totalEntryCostContainerHeader">
+            <p>Driver</p>
+            <p>Entries</p>
+            <p>Total</p>
+          </div>
+          <span class="totalCostContainerSpans" ng-repeat="d in regForm.drivers">
+            <p>{{d.name}}</p>
+            <p class="regPriceTotals">x{{d.classes.length}}</p>  
+            <p class="regPriceTotals">${{d.totalPrice}}</p>
+          </span>
+        </div>
+        <span class="totalCostContainerSpans" id="totalTempMemCostContainerSpan" ng-if="regForm.membership.isMember == false">
+          <p style="width:autp;">Temporary Membership</p>
+          <p class="regPriceTotals">x{{regForm.drivers.length}}</p>  
+          <p class="regPriceTotals">${{regForm.drivers.length * 5}}</p>
+        </span>
+        <p ng-if="regForm.options.length > 0">Options</p>
+        <span class="totalCostContainerSpans" ng-repeat="p in regForm.passes" ng-if="p.amnt_ordered > 0">
+          <p>{{p.name}}</p>
+          <p>x{{p.amnt_ordered}}</p>
+          <p>${{p.price * p.amnt_ordered}}</p>
+        </span>
+        <span class="totalCostContainerSpans" ng-if="costs.totalTransponderRentals > 0">
+          <p >Transponder Rentals</p>
+          <p>x{{costs.totalTransponderRentals}}</p>
+          <p>{{costs.totalTransponderRentals * registrationForm.trans_rental_price}}</p>
+        </span>
+        <span>
+          <p>Total</p>
+          <p>${{costs.total}}</p>
+        </span>
+        
+      </div>
+      <div class="regFormCostsSplitters">
+        <div class="">
+          <h4><b></b></h4>
+        </div>
+        
+        <form action="/charge" method="post" id="payment-form">
+          <div class="form-row">
+            <label for="card-element">
+              Credit or debit card
+            </label>
+            <div id="card-element">
+              <!-- a Stripe Element will be inserted here. -->
+            </div>
+            
+            <!-- Used to display form errors -->
+            <div id="card-errors" role="alert"></div>
+          </div>
+          
+          <button>Submit Payment</button>
+        </form>
+        
+      </div>
+      
+    </div>
+    
+    
+    
+  </div>
+  
+    <!-- <span>
+      <p>Address</p>
+      <input type="text" name="" value=""ng-model="temp.address">
+    </span> -->
+    <!-- <span>
+    </span> -->
+    <!-- <span>
+      <p>Zip Code</p>
+      <input type="number" name="" value="" ng-model="temp.zip_code">
+    </span> -->
+    
+  </div>
+    
+    <!-- <div class="regFormDivs" ng-if="regForm.membership.isMember == false">
+      
+      
+      
+    </div> -->
+    
+    <!-- <div class="regFormDivs" id="driverInfoRegFormDiv"> -->
+      
+        
+        <!-- <span>
           <p>Driver Name</p>
-          <input type="text" name="" value="" ng-model="driver.name">
+          <input type="text" name="" value="" ng-model="regForm.drivers[0].name">
           <p>Age</p>
           <input type="number" class="numberInputs" name="" value="" ng-model="driver.age">
         </span>
@@ -54,11 +177,11 @@
           <div class="selectedClasses" id="" ng-repeat="cl in regForm.classes[0]">
             
             <span>
-              <p>{{cl.name}}</p>
+              <p>{{cl.name}}</p> -->
               <!-- <p>Transponder ##</p> -->
-              <input type="text" name="" value="" placeholder="Transponder" id="transponder{{cl.$$hashKey.slice(7)}}">
+              <!-- <input type="text" name="" value="" placeholder="Transponder" id="transponder{{cl.$$hashKey.slice(7)}}"> -->
               <!-- <p>Kart ##</p> -->
-              <input type="number" class="numberInputs" name="" value="" placeholder="##" id="kartNumber{{cl.$$hashKey.slice(7)}}">
+              <!-- <input type="number" class="numberInputs" name="" value="" placeholder="##" id="kartNumber{{cl.$$hashKey.slice(7)}}">
             </span>
             
           </div>
@@ -69,14 +192,13 @@
             <span class="classSelectSpans" id="classSelectSpan{{cl.$$hashKey.slice(7)}}" ng-repeat="cl in registrationForm.classes" ng-click="selectClass(cl)">
               <p>{{cl.name}}</p>
             </span>
-          </div>
+          </div> -->
           
-        </div>
+        <!-- </div> -->
         <!-- <button type="button" name="button" ng-click="newClass()">add</button> -->
-      </div>
       
       
-    </div>
+    <!-- </div> -->
     <!-- <div class="regFormDivs" id="kartSpecsRegFormDiv"> -->
       <!-- <p>Leave transponder blank if Renting</p>
       <span>
@@ -88,62 +210,5 @@
       <!-- <span>
       </span> -->
     <!-- </div> -->
-    <button type="button" name="button" ng-click="newDriver()">New Driver</button>
     
-    
-    <div class="regFormDivs">
-      <p>Options</p>
-      <span ng-repeat="opt in registrationForm.options">
-        <p>{{opt.name}}</p>
-        <p>${{opt.price}}</p>
-        <input type="checkbox" name="" value="" id="option{{opt.$$hashKey.slice(7)}}" ng-model="opt.selected" ng-change="selectOption(opt)">
-        <p ng-if="opt.quantity_option == true">Quantity</p>
-        <input type="number" name="" class="numberInputs" value="1" ng-if="opt.quantity_option == true" ng-model="opt.quantity" min="1" max="{{opt.quantity_limit}}" id="optionQuantity{{opt.$$hashKey.slice(7)}}">
-      </span>
-    </div>
-    
-    
-    
-  </div>
-  <div class="regFormDivs" id="regFormCostsDiv">
-    
-    <span>
-      <p>Entries</p>
-      <p>x{{costs.entries}}</p>  
-      <p>${{registrationForm.price * costs.entries}}</p>
-    </span>
-    <span ng-if="regForm.membership.isMember == false">
-      <p>Temporary Membership</p>
-      <p>x{{regForm.drivers.length}}</p>  
-      <p>${{regForm.drivers.length * 5}}</p>
-    </span>
-    <p>Options</p>
-    <span ng-repeat="opt in regForm.options">
-      <p>{{opt.name}}</p>
-      <p ng-if="opt.quantity">x{{opt.quantity}}</p>
-      <p>${{opt.price * (opt.quantity || 1)}}</p>
-    </span>
-    <span>
-      <p>Total</p>
-      <p>${{costs.total}}</p>
-    </span>
-    
-  </div>
-  
-  <form action="/charge" method="post" id="payment-form">
-    <div class="form-row">
-      <label for="card-element">
-        Credit or debit card
-      </label>
-      <div id="card-element">
-        <!-- a Stripe Element will be inserted here. -->
-      </div>
-
-      <!-- Used to display form errors -->
-      <div id="card-errors" role="alert"></div>
-    </div>
-
-    <button>Submit Payment</button>
-  </form>
-  
 </div>

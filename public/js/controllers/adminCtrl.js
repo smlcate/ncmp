@@ -20,9 +20,50 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   
   $scope.selectedEvent;
   
+  $scope.news = {
+    series:[],
+    selectedEvent: {
+    },
+    selectedSeries: {
+    },
+    delayedUntil:'',
+    postponedUntil:'',
+    postUntil:'',
+    type:'normal',
+    color:'',
+    title:'',
+    article:'',
+    postedAt: new Date()
+  }
+  
   $scope.registry = {
     options: [],
-    classes: []
+    classes: [],
+    price_1: 0,
+    price_2: 0,
+    openReg: {
+      qty:10,
+      days:true,
+      weeks:false,
+      months:false
+    },
+    passes: {
+      one_day:{
+        name:"One Day",
+        available:false,
+        price:null
+      },
+      two_day:{
+        name:"Two Day",
+        available:false,
+        price:null
+      },
+      three_day:{
+        name:"Three Day",
+        available:false,
+        price:null
+      }
+    }
   }
   
   
@@ -72,6 +113,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   .then(function(data) {
     var lists = [];
     for (var i = 0; i < data.data.length; i++) {
+      console.log(JSON.parse(data.data[i].entries))
       var l = {
         original:data.data[i],
         entries: JSON.parse(data.data[i].entries)
@@ -325,6 +367,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     console.log(data);
     var d = JSON.parse(data.results);
     // var d = JSON.parse(d.data)
+    console.log(d);
     for (var i = 0; i < d.length; i++) {
       for (var j = 0; j < d[i].drivers.length; j++) {
         for (var k = 0; k < d[i].drivers[j].results.length; k++) {
@@ -372,7 +415,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   function getPoints() {
     $http.get('getPoints')
     .then(function(data) {
-      console.log(data);
+      // console.log(data);
       $scope.currentPoints = buildResults(data.data[data.data.length-1]);
       // console.log($scope.currentPoints);
     })
@@ -380,13 +423,343 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   getPoints();
 
 $('.adminResultsDriversCells').on('mouseenter', function() {
-  console.log('hit');
+  // console.log('hit');
   $(this).css('border-bottom','1px solid lightgrey')
 })
 .on('mouseleave', function() {
   $this.css('border-bottom','none')
 })
 
+  // function buildNewsController() {
+  //   // console.log('hit');
+  //   for (var i = 0; i < $scope.eventGroups.length; i++) {
+  //     console.log('hit');
+  //     var s = $scope.eventGroups[i];
+  //     s.events = [];
+  //     console.log(s);
+  //     for (var j = 0; j < $scope.events.length; j++) {
+  //       if (s.id == $scope.events[j].event_group_id) {
+  //         // console.log('hit');
+  //         s.events.push($scope.events[j])
+  //       }
+  //       if (j == $scope.events.length-1) {
+  //         $scope.news.series.push(s);
+  //         console.log($scope.news.series);
+  //       }
+  //     }
+  // 
+  //   }
+  // }
+  // buildNewsController();
+  
+  $scope.selectNewsType = function(t) {
+    
+    $scope.news.type = t;
+    
+    $('#newsControllerTypeNav a').css('background','white');
+    $('#newsControllerTypeNav a').css('color','#154498');
+    
+    $('#'+t+'NewsTypeAnc').css('background','#154498');
+    $('#'+t+'NewsTypeAnc').css('color','#E1F5FE');
+    
+    if (t == 'normal') {
+      $('.newsInputSpans').css('display','none');
+      $('#newsWarningSpan p').css('display','none');
+
+    } else if(t == 'delay') {
+      $('.newsInputSpans').css('display','none');
+      $('#newsDelayInputSpan').css('display','flex');
+      $('#newsWarningSpan p').css('display','flex');
+
+    } else if(t == 'postpone') {
+      $('.newsInputSpans').css('display','none');
+      $('#newsPostponeInputSpan').css('display','flex');
+      $('#newsWarningSpan p').css('display','flex');
+    } else {
+      $('.newsInputSpans').css('display','none');
+      $('#newsWarningSpan p').css('display','flex');
+    }
+  }
+  
+  $scope.selectNewsSeries = function(s) {
+    // console.log(s);
+    // $('#newsEventSelectNav').css('display','flex');
+    // $('#newsEventSelectNav').css('border-bottom','#154498');
+    $scope.news.selectedEvent = {};
+    console.log($scope.selectedSeries.color);
+    $('.newsSeriesCells').css('background','white');
+    $('#'+$scope.news.selectedSeries.id+'newsSeriesCell').css('color',$scope.news.selectedSeries.color);
+    $('#noNewsEventBtn').css('background','#154498');
+    $('#noNewsEventBtn').css('color','#E1F5FE');
+    if (s != 'none') {
+      $('#noNewsSeriesBtn').css('background','white');
+      $('#noNewsSeriesBtn').css('color','#154498');
+      
+      $('#newsEventSelectNav').css('border-top','2px solid '+s.color);
+      // $('#noNewsSeriesBtn').css('color','#154498');
+      $('#'+s.id+'newsSeriesCell').css('background',s.color);
+      $('#'+s.id+'newsSeriesCell').css('color','white')
+
+      s.events = [];
+      console.log($scope.events);
+      for (var i = 0; i < $scope.events.length; i++) {
+        if (s.id == $scope.events[i].event_group_id) {
+          s.events.push($scope.events[i]);     
+        }
+        if (i == $scope.events.length-1) {
+          $scope.news.selectedSeries = s;
+          console.log($scope.news.selectedSeries);      
+        }
+      }
+    } else {
+      $scope.news.selectedSeries = {
+        name:s,
+        color:'#154498'
+      }
+      $('#noNewsSeriesBtn').css('background','#154498');
+      $('#noNewsSeriesBtn').css('color','#E1F5FE');
+      
+      $('#newsEventSelectNav').css('border-top','2px solid #154498');
+
+      // $('#newsEventSelectNav').css('display','none');
+    }
+  }
+  
+  $scope.selectNewsEvent = function(e) {
+    $('#newsEventSelectNav .newsEventCells').css('background','white');
+    $('#newsEventSelectNav .newsEventCells').css('color',e.color);
+    
+    $scope.news.selectedEvent = e;
+    if (e == 'none') {
+      $('#newsEventSelectNav .newsEventCells').css('background','white');
+      $('#newsEventSelectNav .newsEventCells').css('color',$scope.news.selectedSeries.color);
+      $('#noNewsEventBtn').css('background','#154498');
+      $('#noNewsEventBtn').css('color','#E1F5FE');
+    } else {
+      $('#'+e.id+'newsEventCell').css('background',e.color);
+      $('#'+e.id+'newsEventCell').css('color','white');
+      $('#noNewsEventBtn').css('background','white');
+      $('#noNewsEventBtn').css('color','#154498');
+    }
+
+
+
+
+  }
+  
+  
+  
+  $scope.checkNewsVars = function() {
+    console.log($scope.news.selectedEvent);
+  }
+
+  $scope.changeNewsEvent = function(e) {
+    console.log($scope.news.selectedEvent.e);
+    // console.log(JSON.parse($scope.news.selectedEvent));
+    // $scope.news.selectedEvent.info = $scope.news.selectedEvent;
+    // $scope.news.selectedEvent.display_date = JSON.parse($scope.news.selectedEvent).display_date;
+ 
+  }
+  $scope.saveNews = function() {
+    
+    function AdjTime(t) {
+      if (t.getUTCHours()-5 < 0) {
+        n = 24-(5-t.getUTCHours());
+        return n+':'+t.getUTCMinutes()+'0';
+      } else  {
+        return t.getUTCHours()-5+':'+t.getUTCMinutes()+'0';
+      }
+    }
+    var evs = []
+    var body = {
+      events:[],
+      type:'news',
+      eventLength:1
+    }
+    console.log($scope.news);
+    if ($scope.news.type == 'delay' || $scope.news.type == 'postpone') {
+      console.log('HIT HERE');
+      if ($scope.news.selectedEvent.display_date.slice(9).length > 2) {
+        console.log("HIT HERE 3");
+        console.log('Multiple days');
+        f = $scope.news.selectedEvent.display_date.slice(12);
+        t = $scope.news.selectedEvent.display_date.slice(9,-3);
+        // console.log(f-t);
+        // console.log(($scope.news.selectedEvent.display_date.slice(12) - $scope.news.selectedEvent.display_date.slice(9)));
+        e = $scope.news.selectedEvent;
+        console.log($scope.news.selectedEvent.date);
+        $scope.news.postUntil = $scope.news.selectedEvent.date;
+        console.log($scope.news.postUntil);
+        
+        body.eventLength = (f-t)+1;
+        console.log(body.eventLength);
+        if (typeof(e.date) != 'string') {
+          e.date = e.date.toISOString();
+        }
+        for (var i = 0; i < (f-t)+1; i++) {
+          var m = Number(e.date.slice(5,-17));
+          var d = e.date.slice(8,-14);
+          var y = e.date.slice(0,-20);
+          var nd = Number(d) + i;
+          var event = {
+            id:e.id,
+            name: e.name,
+            date: m + '/' + nd + '/' + y,
+            color: e.color,
+            start: e.start,
+            end: e.end,
+            
+            display_end: e.display_end,
+            event_key: e.event_key,
+            event_group_id:e.event_group_id,
+            image: e.image
+          }
+          event.id += i;
+          if ($scope.news.type == 'postpone') {
+            
+            var d = new Date($scope.news.postponedUntil).toDateString()
+            
+            var day = d.slice(0,-12),
+            month = d.slice(4,-8),
+            date = d.slice(8,-5),
+            edate = Number(d.slice(8,-5))+(f-t)
+            
+            event.display_date = day + ' ' + month + ', ' + date;
+            
+            if ((f-t)+1 > 1) {
+              event.display_date = day + ' ' + month + ', ' + date + '-' + edate;
+              event.display_start = null;
+            }
+            
+            date += i;
+            if (monthDays[month-1] < date) {
+              date = (date - monthDays[month-1]);
+              month ++;
+            }
+            
+            var y = new Date().getFullYear();
+            
+            event.date = new Date(y, month-1, date);
+            console.log(event.date);
+          }
+          
+            // console.log(makeTimePretty(AdjTime(c.startTime)));
+          if ($scope.news.type == 'delay') {
+            event.start = $scope.news.delayedUntil;
+            if (AdjTime(c.info.startTime).slice(0,-3)<12) {
+              event.display_start = AdjTime($scope.news.delayedUntil) + 'am'
+            } else {
+              event.display_start = (AdjTime($scope.news.delayedUntil).slice(0,-3) - 12) + (AdjTime($scope.news.delayedUntil).slice(2)) + 'pm'
+            }
+            // if (AdjTime(c.info.endTime).slice(0,-3)<12) {
+            //   e.display_end = AdjTime(c.info.endTime) + 'am'
+            // } else {
+            //   e.display_end = (AdjTime(c.info.endTime).slice(0,-3) - 12) + (AdjTime(c.info.endTime).slice(2)) + 'pm'
+            // }
+            event.display_end = e.display_end;
+
+          } else {
+            event.display_start = e.display_start;
+            event.display_end = e.display_end;
+          }
+            // eventInfo.display_start = makeTimePretty(AdjTime(c.startTime));
+            // eventInfo.display_end = makeTimePretty(AdjTime(c.endTime));
+          
+          evs.push(event);
+        }
+        
+      } else {
+        console.log('HIT HERE 1');
+        // f = $scope.news.selectedEvent.display_date.slice(12);
+        // t = $scope.news.selectedEvent.display_date.slice(9,-3);
+        // console.log(f-t);
+        // console.log(($scope.news.selectedEvent.display_date.slice(12) - $scope.news.selectedEvent.display_date.slice(9)));
+        e = $scope.news.selectedEvent;
+        $scope.news.postUntil = $scope.news.selectedEvent.date;
+        console.log($scope.news.postUntil);
+        
+        body.eventLength = 1;
+        
+        if (typeof(e.date) != 'string') {
+          e.date = e.date.toISOString();
+        }
+
+        var m = Number(e.date.slice(5,-17));
+        var d = e.date.slice(8,-14);
+        var y = e.date.slice(0,-20);
+        var nd = Number(d) + i;
+        var event = {
+          id:e.id,
+          name: e.name,
+          date: m + '/' + nd + '/' + y,
+          color: e.color,
+          start: e.start,
+          end: e.end,
+          event_key: e.event_key,
+          event_group_id:e.event_group_id,
+          image: e.image
+        }
+        
+        // event.id += i;
+        if ($scope.news.type == 'postpone') {
+          var d = new Date($scope.news.postponedUntil).toDateString()
+          
+          var day = d.slice(0,-12),
+          month = d.slice(4,-8),
+          date = d.slice(8,-5),
+          edate = Number(d.slice(8,-5))
+          
+          event.display_date = day + ' ' + month + ', ' + date;
+          
+          
+          event.date = $scope.news.postponedUntil;
+          // if ((f-t)+1 > 1) {
+          //   event.display_date = day + ' ' + month + ', ' + date + '-' + edate;
+          //   event.display_start = null;
+          // }
+        }
+        
+          // console.log(makeTimePretty(AdjTime(c.startTime)));
+        if ($scope.news.type == 'delay') {
+          event.start = $scope.news.delayedUntil;
+          if (AdjTime($scope.news.delayedUntil.startTime).slice(0,-3)<12) {
+            event.display_start = AdjTime($scope.news.delayedUntil) + 'am'
+          } else {
+            event.display_start = (AdjTime($scope.news.delayedUntil).slice(0,-3) - 12) + (AdjTime($scope.news.delayedUntil).slice(2)) + 'pm'
+          }
+          // if (AdjTime(c.info.endTime).slice(0,-3)<12) {
+          //   e.display_end = AdjTime(c.info.endTime) + 'am'
+          // } else {
+          //   e.display_end = (AdjTime(c.info.endTime).slice(0,-3) - 12) + (AdjTime(c.info.endTime).slice(2)) + 'pm'
+          // }
+          event.display_end = e.display_end;
+
+        } else {
+          event.display_start = e.display_start;
+          event.display_end = e.display_end;
+        }
+          // eventInfo.display_start = makeTimePretty(AdjTime(c.startTime));
+          // eventInfo.display_end = makeTimePretty(AdjTime(c.endTime));
+        
+        evs.push(event);
+        
+      }
+      body.events = evs;
+      body.type = 'news';
+      console.log(body);
+      $http.post('editEvent',body)
+      .then(function(res) {
+        console.log(res);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    }
+    $http.post('saveNews',{news:$scope.news})
+    .then(function(res) {
+      console.log(res);
+    })
+  }
 
   $scope.dropdown = function() {
     $('#seriesName').css('display','flex');
@@ -396,8 +769,16 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $scope.selectedPointsClass = cl;
   }
 
-  $scope.selectRegistration = function(list) {
+  $scope.selectRegistration = function(list, index) {
     console.log(list);
+    console.log(index);
+    $('.mainRegistryCells').css('background',list.ev.color);
+    $('.mainRegistryCells').css('color','black');
+
+
+    $('#'+index+'registryCell').css('background','#154498','color','#E1F5FE');
+    $('#'+index+'registryCell').css('color','#E1F5FE');
+
     $scope.selectedRegistration = list;
     for (var i = 0; i < list.entries.members.length; i++) {
       var mem = list.entries.members[i];
@@ -414,7 +795,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         }
       }
       for (var l = 0; l < list.entries.options.length; l++) {
-        console.log(list.entries.options[l]);
+        // console.log(list.entries.options[l]);
         for (var m = 0; m < list.entries.options[l].list.length; m++) {
           if (list.entries.options[l].list[m].member_id == mem.id) {
             mem.options.push({
@@ -427,10 +808,18 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       }
       $scope.selectedRegistrationMembers.push(mem);
     }
-    console.log($scope.selectedRegistrationMembers);
+    // console.log($scope.selectedRegistrationMembers);
   }
   
-  $scope.selectRegistrationList = function(list) {
+  $scope.selectRegistrationList = function(list,index) {
+    $('.registryClassCell').css('background','white');
+    $('.registryClassCell h1').css('color','#154498');
+    console.log(index);
+
+    $('#'+index+'registryClassCell').css('background','#154498');
+    $('#'+index+'registryClassCell h1').css('color','#E1F5FE');
+    // $('#'+index+'registryClassCell ').css('color','#154498');
+
     console.log(list);
     $scope.selectedRegistrationList = list;
   }
@@ -447,7 +836,19 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   }
   $scope.selectRegistryView = function(v) {
     $('.registriesViews').css('display','none');
+    // $('.mainRegistryCells').css('background','white');
     $('#'+v+'RegistriesView').css('display','flex');
+    
+    $('#registryViewNav a').css('background','white');
+    $('#registryViewNav a').css('color','#154498');
+
+    $('#selectReg'+v+'View').css('background','#154498');
+    $('#selectReg'+v+'View').css('color','#E1F5FE');
+    
+    // $('.mainRegistryCells').css('color','black');
+
+
+    
   }
   
   $scope.updatePoints = function() {
@@ -486,7 +887,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
                 }
               }
               
-            } else if(j >= 5) {
+            } else if(j >= 4) {
               var driver = {
                 name: row[j].split(',')[0],
                 results: []
@@ -563,14 +964,28 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       $scope.edit.events = 'view';
       $http.post('getEventRegistration', {seriesId:s.id})
       .then(function(res) {
-        console.log(res.data);
-        var reg = JSON.parse(res.data.registry_data);
-        $scope.savedReg = reg;
-        $scope.registry.price = reg.price;
-        $scope.registry.req_member = reg.req_member;
-        $scope.registry.start_preentry = reg.start_preentry;
-        $scope.registry.options = reg.options;
-        $scope.registry.classes = reg.classes;
+        if (res.data != "") {
+          
+          console.log(res.data);
+          var reg = JSON.parse(res.data.registry_data);
+          $scope.savedReg = reg;
+            
+          $scope.registry.price_1 = reg.price_1;
+          $scope.registry.price_2 = reg.price_2;
+          $scope.registry.main_registration = reg.main_registration;
+
+          $scope.registry.req_member = reg.req_member;
+          $scope.registry.start_preentry = reg.start_preentry;
+          $scope.registry.options = reg.options;
+          $scope.registry.classes = reg.classes;
+          $scope.registry.passes = reg.passes;
+          $scope.registry.passes.one_day.name = "One Day";
+          $scope.registry.passes.two_day.name = "Two Day";
+          $scope.registry.passes.three_day.name = "Three Day";
+
+          $scope.registry.trans_rental_price = reg.trans_rental_price;
+          
+        }
       })
       for (var i = 0; i < $scope.events.length; i++) {
         // console.log($scope.events[i], s.id)
@@ -756,6 +1171,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       $('#registryClassesContainer').css('display','none')
     }
   }
+  
+  
   $scope.saveEventRegistry = function() {
     
     var reg = {
@@ -1038,6 +1455,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   }
 
   $scope.deleteEvent = function(e) {
+    
+    console.log("HIIITTTTTT");
 
     console.log(e);
     
@@ -1063,14 +1482,14 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       };
       toDelete.push(ed);
       console.log(toDelete);
-      if (i === days-1) {
+      if (i === days-1) { 
         
         $http.post('deleteEvent', toDelete)
         .then(function(res) {
           $http.get('getData')
           .then(function(res) {
             $scope.events = res.data;
-            // console.log($scope.events);
+            console.log($scope.events);
             buildEvents($scope.events);
             
             $scope.eventPreviews = [];
@@ -1210,6 +1629,50 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   $scope.changeAdminDisplay = function(d) {
     $('.adminControlGroups').css('display','none');
     $('#admin'+d+'Control').css('display','flex');
+    
+    if (d == 'Registrations' && $scope.selectedRegistration == null) {
+      
+      var list = $scope.registrations.entry_lists[0];
+      console.log(list);
+      // console.log(index);
+      // $('.mainRegistryCells').css('background',list.ev.color);
+      // $('.mainRegistryCells').css('color','black');
+
+
+      $('#1registryCell').css('background','#154498','color','#E1F5FE');
+      $('#1registryCell').css('color','#E1F5FE');
+
+      $scope.selectedRegistration = list;
+      for (var i = 0; i < list.entries.members.length; i++) {
+        var mem = list.entries.members[i];
+        mem.entries = [];
+        mem.options = [];
+        for (var j = 0; j < list.entries.classes.length; j++) {
+          for (var k = 0; k < list.entries.classes[j].list.length; k++) {
+            if (list.entries.classes[j].list[k].member_id == mem.id) {
+              mem.entries.push({
+                driver:list.entries.classes[j].list[k],
+                name:list.entries.classes[j].name
+              });
+            }
+          }
+        }
+        for (var l = 0; l < list.entries.options.length; l++) {
+          // console.log(list.entries.options[l]);
+          for (var m = 0; m < list.entries.options[l].list.length; m++) {
+            if (list.entries.options[l].list[m].member_id == mem.id) {
+              mem.options.push({
+                option:list.entries.options[l].list[m],
+                name:list.entries.options[l].name
+              });
+            }
+            
+          }
+        }
+        $scope.selectedRegistrationMembers.push(mem);
+      }
+      
+    }
   }
 
   $http.get('getAllEventGroups')

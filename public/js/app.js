@@ -43,4 +43,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/registration',
       templateUrl: '../partials/registration.html'
   })
+  .state('welcome', {
+      url: '/welcomePage',
+      templateUrl: '../partials/welcomePage.html'
+  })
 })

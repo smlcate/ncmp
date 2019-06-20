@@ -9,6 +9,8 @@ var stripe = require('stripe')(process.env.STRIPE_API_KEY)
 exports.saveEventRegistry = function(req, res, next) {
   console.log(req.body);
   
+  console.log(req.body.registry);
+  
   knex('eventRegistry')
   .where({series_id:req.body.series.id})
   .select('*')
@@ -44,10 +46,31 @@ exports.getEventEntryLists = function(req, res, next) {
   knex('entry_list')
   .select('*')
   .then(function(data) {
+    console.log(data);
     res.send(data)
   })
 }
 
+exports.getMainEventRegistration = function(req, res, next) {
+  knex('eventRegistry')
+  .select('*')
+  .then(function(data) {
+    // console.log(data);
+    res.send(data);
+    // for (var i = 0; i < data.length; i++) {
+    //   console.log('HIT',data[i]);
+    //   if (data[i].registry_data.main_registration == true) {
+    //     console.log('here',data[i]);
+    // 
+    //     res.send(data[i]);
+    // 
+    //   }
+    // }
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+}
 exports.getEventRegistration = function(req, res, next) {
   console.log(req.body);
   knex('eventRegistry')
@@ -156,53 +179,57 @@ exports.buyRegistration = function(req, res, next) {
         var driverData = req.body.data;
         var list = JSON.parse(data[0].entries)
         console.log('Driver Data::::', driverData);
+        console.log('LIST::::::', list)
+        console.log('DRIVERS::::::',driverData.drivers);
+        console.log('CLASSES:::::::',driverData.classes);
         for (var i = 0; i < driverData.drivers.length; i++) {
-          for (var j = 0; j < driverData.classes[i].length; j++) {
-            for (var k = 0; k < list.classes.length; k++) {
+          for (var j = 0; j < driverData.drivers[i].classes.length; j++) {
+            for (var k = 0; k < list.classes.length; k++) { 
+              console.log(list.classes);
               console.log(list.classes[k].name);
               console.log(driverData.classes[i]);
-              if (list.classes[k].name == driverData.classes[i][j].name) {
-                console.log('hit');
+              if (list.classes[k].name == driverData.drivers[i].classes[j].name) {
+                console.log(driverData.drivers[i].classes[j]);
                 list.classes[k].list.push({
                   member_id: list.members.length+1,
                   name: driverData.drivers[i].name,
-                  transponder: driverData.classes[i][j].transponder,
-                  number: driverData.classes[i][j].number
+                  transponder: driverData.drivers[i].classes[j].transponder,
+                  number: driverData.drivers[i].classes[j].number
                 })
                 
-              }
-            }
-            if (i+1 == driverData.drivers.length && j+1 == driverData.classes[i].length) {
-              var mem = driverData.membership;
-              mem.id = list.members.length+1
-              list.members.push(mem)
-              for (var l = 0; l < driverData.options.length; l++) {
-                var opt = driverData.options[l];
-                opt.member_id = list.members.length
-                for (var m = 0; m < list.options.length; m++) {
-                  if (list.options[m].name == driverData.options[l].name) {
-                    list.options[m].list.push(opt)
+                if (i+1 == driverData.drivers.length && j+1 == driverData.drivers[i].classes.length) {
+                  var mem = driverData.membership;
+                  mem.id = list.members.length+1
+                  list.members.push(mem)
+                  for (var l = 0; l < driverData.options.length; l++) {
+                    var opt = driverData.options[l];
+                    opt.member_id = list.members.length
+                    for (var m = 0; m < list.options.length; m++) {
+                      if (list.options[m].name == driverData.options[l].name) {
+                        list.options[m].list.push(opt)
+                      }
+                    }
                   }
+                  console.log('hit2');
+                  knex('entry_list')
+                  .where({event_id:req.body.eventId})
+                  .update({
+                    entries:JSON.stringify(list)
+                  })
+                  .then(function() {
+                    res.send('success')
+                  })
+                  .catch(function(err) {
+                    console.log(err);
+                    res.send(err)
+                  })
                 }
               }
-              console.log('hit2');
-              knex('entry_list')
-              .where({event_id:req.body.eventId})
-              .update({
-                entries:JSON.stringify(list)
-              })
-              .then(function() {
-                res.send('success')
-              })
-              .catch(function(err) {
-                console.log(err);
-                res.send(err)
-              })
             }
           }
         }
         console.log(driverData);
-        console.log(list);
+        console.log('NEW LIST::::',list);
       })
       .catch(function(err) {
         console.log(err);

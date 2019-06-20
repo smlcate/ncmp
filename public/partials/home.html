@@ -7,7 +7,28 @@
       <img src="./images/NCMP-Logo-2017-FINAL.GIF" alt="">
 
     </div>
-
+    <div id="welcomeQuickView">
+      <div ng-if="announcements.events.length > 0" class="welcomeQuickViewContainers" id="welcomeEventQuickView">
+        <h2>Upcoming Events</h2>
+        <span style="background:{{announcements.events[0].color}};">
+          <p>{{announcements.events[0].name}} - {{announcements.events[0].displayDate}}</p>
+          <a href="" ng-if="announcements.events[0].openReg == true" ng-click="goToRegistration(announcements.events[0])">Register</a>
+        </span>
+        <span ng-if="announcements.events[1]" style="background:{{announcements.events[1].color}};">
+          <p>{{announcements.events[1].name}} - {{announcements.events[1].displayDate}}</p>
+        </span>
+        
+      </div>
+      <div ng-if="announcements.news.length > 0" class="welcomeQuickViewContainers" id="welcomeNewssQuickView">
+        <h2>Recent News</h2>
+        <span ng-repeat="n in announcements.news" style="background:{{n.set_type.color}};">
+          <p ng-if="n.set_type != 'normal'" style="color:red;"><b>!</b></p>
+          <p>{{n.title}}</p>
+          <!-- <p ng-if="n.set_type.type == 'postpone'">{{n.set_type.postponedUntil}}</p> -->
+          <a href="" ng-if="n.article != ''">Read More</a>
+        </span>
+      </div>
+    </div>
     <div id="welcomeViewNav">
 
       <a href="/#!/kartowners">Kart Owners</a>
@@ -32,96 +53,7 @@
 
   </div>
 
-  <div id="homeNewsView">
-
-    <div id="homeNewsViewContainer">
-
-      <div id="homeNewsViewContentContainer">
-
-        <a href="#" id='homeNewsViewContent'style="background-image:url({{selectedBit.imageUrl}})">
-
-          <div class="viewContentDiv" id="topViewContentDiv" >
-
-            <!-- <img src="{{selectedBit.imageUrl}}" alt=""> -->
-
-            <div class="" id="topViewContentInfo" style="background: {{selectedBit.color}};">
-
-              <h1>{{selectedBit.name}}</h1>
-              <h2>{{selectedBit.display_date}}</h2>
-              <p>{{selectedBit.display_start}}-{{selectedBit.display_end}}</p>
-              <!-- <a href="#"><b>More...</b></a> -->
-            </div>
-            <!-- <div class="">
-              
-              <a href="#">Register</a>
-              
-            </div> -->
-            
-            
-
-          </div>
-          <div class="viewContentDiv" id="bottomViewContentDiv">
-            
-            <!-- <a href="#">Register</a> -->
-            <p>{{selectedBit.description}}</p>
-
-          </div>
-
-        </a>
-
-      </div>
-      <div id="homeNewsViewNav">
-
-        <div class="homeNewsViewNavDiv">
-
-          <div class="homeNewsViewNavDivHeader">
-
-            <h3>Today</h3>
-
-          </div>
-          <div class="homeNewsViewNavDivCell" style="background:{{todaysEvent.color}};" ng-click="thisBit(todaysEvent)">
-
-            <p>{{todaysEvent.name}}</p>
-
-          </div>
-
-          <div class="homeNewsViewNavDivHeader">
-
-            <h3>Coming Up</h3>
-
-          </div>
-
-          <div class="homeNewsViewNavDivCell" ng-repeat="el in announcements.events" style="background:{{el.color}};" ng-click="thisBit(el)">
-
-            <p >{{el.name}}</p>
-            <a href="/#!/registration" ng-click="goToRegistration()"><b>Register</b></a>
-
-          </div>
-
-        </div>
-        <div class="homeNewsViewNavDiv">
-          <div class="homeNewsViewNavDivHeader">
-
-            <h3>News</h3>
-
-          </div>
-
-          <div class="homeNewsViewNavDivCell" ng-repeat="el in announcements.news">
-
-            <p>{{el.title}}</p>
-
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-  </div>
+  
 
 
 
