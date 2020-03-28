@@ -16,6 +16,7 @@ var server = {
   news: require('./controllers/news.js'),
   login: require('./controllers/login.js'),
   sponsors: require('./controllers/sponsors.js'),
+  members: require('./controllers/members.js'),
   registry: require('./controllers/eventRegistries.js'),
   payments: require('./controllers/payments.js'),
   points: require('./controllers/points.js')
@@ -62,6 +63,8 @@ app.get('/getPoints', server.points.getPoints)
 
 app.get('/getSponsors', server.sponsors.getSponsors)
 app.post('/addSponsor', server.sponsors.addSponsor)
+
+app.get('/getMembers', server.members.getMembers)
 
 
 app.post('/signUp', server.login.signUp)

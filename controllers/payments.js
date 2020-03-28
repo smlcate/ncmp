@@ -4,9 +4,9 @@ var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
-var stripe = require('stripe')(process.env.STRIPE_API_KEY)
+var stripe = require('stripe')('sk_test_qU6GDXGLTMU9nhpJPF982Ksb')
 exports.buyMembership = function(req, res, next) {
-  
+
   // console.log(req.body);
   var token = req.body.token;
   var member = req.body.member;
@@ -14,9 +14,9 @@ exports.buyMembership = function(req, res, next) {
   console.log(user);
   // var token = stripe.tokens.create(info);
 
-  
+
   console.log(token);
-  // 
+  //
   stripe.charges.create({
     amount: 2000,
     currency: "usd",
@@ -25,12 +25,12 @@ exports.buyMembership = function(req, res, next) {
   }, function(err, charge) {
     // asynchronously called
     if (err) {
-      
+
       console.log(err);
       res.send(err);
-      
+
     } else if(charge) {
-      
+
       // console.log(charge);
       knex('people')
       .where({email:user.email})
@@ -47,9 +47,9 @@ exports.buyMembership = function(req, res, next) {
       .catch(function(err) {
         console.log(err);
       })
-      
-      
+
+
     }
   });
-  
+
 }

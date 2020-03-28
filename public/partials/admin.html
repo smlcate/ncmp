@@ -13,94 +13,186 @@
     <a href="" ng-click="changeAdminDisplay('News')">News</a>
     <a href="" ng-click="changeAdminDisplay('Images')">Images</a>
     <a href="" ng-click="changeAdminDisplay('Results')">Results</a>
+    <a href="" ng-click="changeAdminDisplay('Accounts')">Accounts</a>
     <a href="" ng-click="changeAdminDisplay('Settings')">Settings</a>
 
   </div>
-  
+
+  <div class="adminControlGroups" id="adminAccountsControl">
+
+    <div class="" id="adminAccountsHeader">
+      <button type="button" name="button">New Account</button>
+    </div>
+
+    <div class="accountCells" ng-repeat="person in peopleToShow">
+
+      <p>{{person.email}}</p>
+      <a href="" ng-if="person.membership != null">Membership</a>
+      <a href="" ng-if="person.membership == null">Add Membership</a>
+
+      <a href="">Edit</a>
+
+    </div>
+
+  </div>
+
   <div class="adminControlGroups" id="adminRegistrationsControl">
-    
+
     <div class="registriesNavs" id="mainRegistryCellDiv">
-      
+
+      <!-- <div class="">
+
+        <span>
+          <p>No</p>
+          <input type="text" name="" value="" ng-model="competitors[0][0]">
+        </span>
+        <span>
+          <p>Class</p>
+          <input type="text" name="" value="" ng-model="competitors[0][1]">
+        </span>
+        <span>
+          <p>FirstName</p>
+          <input type="text" name="" value="" ng-model="competitors[0][2]">
+        </span>
+        <span>
+          <p>LastName</p>
+          <input type="text" name="" value="" ng-model="competitors[0][3]">
+        </span>
+        <span>
+          <p>CarRegistration</p>
+          <input type="text" name="" value="" ng-model="competitors[0][4]">
+        </span>
+        <span>
+          <p>DriverRegistration</p>
+          <input type="text" name="" value="" ng-model="competitors[0][5]">
+        </span>
+        <span>
+          <p>Transponder1</p>
+          <input type="text" name="" value="" ng-model="competitors[0][6]">
+        </span>
+        <span>
+          <p>Transponder2</p>
+          <input type="text" name="" value="" ng-model="competitors[0][7]">
+        </span>
+        <span>
+          <p>Country</p>
+          <input type="text" name="" value="" ng-model="competitors[0][8]">
+        </span>
+        <span>
+          <p>Motor</p>
+          <input type="text" name="" value="" ng-model="competitors[0][9]">
+        </span>
+        <span>
+          <p>Chassis</p>
+          <input type="text" name="" value="" ng-model="competitors[0][10]">
+        </span>
+        <span>
+          <p>City</p>
+          <input type="text" name="" value="" ng-model="competitors[0][11]">
+        </span>
+        <span>
+          <p>Title</p>
+          <input type="text" name="" value="" ng-model="competitors[0][12]">
+        </span>
+        <span>
+          <p>Additional Class</p>
+          <input type="text" name="" value="" ng-model="competitors[0][13]">
+        </span>
+        <span>
+          <p>Tire</p>
+          <input type="text" name="" value="" ng-model="competitors[0][14]">
+        </span>
+        <span>
+          <p>Email</p>
+          <input type="text" name="" value="" ng-model="competitors[0][15]">
+        </span>
+
+
+      </div> -->
+
       <div class="mainRegistryCells" id="{{$index}}registryCell" ng-if="list.ev" ng-repeat="list in registrations.entry_lists track by $index" ng-click="selectRegistration(list, $index)" style="background:{{list.ev.color}}">
-        
+
         <h2>{{list.ev.name}}</h2>
         <!-- <h2>{{list}}</h2> -->
-        
-        
+
+
       </div>
-      
+
     </div>
     <div class="registriesNavs" id="registryViewNav">
-      
+
       <a id="selectRegClassesView" href="" ng-click="selectRegistryView('Classes')">Entry Lists</a>
       <a id="selectRegExtrasView" href="" ng-click="selectRegistryView('Extras')">Extra Purchases Lists</a>
       <a id="selectRegMembersView" href="" ng-click="selectRegistryView('Members')">Entered Memberships</a>
-      
+
     </div>
     <div class="registriesViews" id="ClassesRegistriesView">
-      
-      <div class="registriesNavs" id="lassesRegistryCellDiv">
-        
+
+      <button type="button" name="button" ng-click="download_csv()">CSV</button>
+
+
+      <div class="registriesNavs" id="classesRegistryCellDiv">
+
         <div href="" class="registryClassCell" id="{{$index}}registryClassCell" ng-repeat="cl in selectedRegistration.entries.classes track by $index" ng-click="selectRegistrationList(cl.list,$index)">
-          
+
           <h1>{{cl.name}}</h1>
           <div class="regListLengthsCell">
             <p class="regListLengths">{{cl.list.length}}</p>
           </div>
         </div>
-        
+
       </div>
       <div class="" id="entryListRegistryDiv">
-        
+
         <div class="" id="entryListHeader">
           <h3>Name</h3>
           <h3 class="entryCellNumbers">Kart number</h3>
           <h3 class="entryCellTransponders">Transponder</h3>
         </div>
-        
+
         <span class="entryListCells" ng-repeat="e in selectedRegistrationList">
-          
+
           <p class="entryCellNames">{{e.name}}</p>
           <p class="entryCellNumbers">{{e.number}}</p>
           <p class="entryCellTransponders">{{e.transponder}}</p>
           <!-- <p></p> -->
-          
+
         </span>
-        
+
       </div>
-      
+
     </div>
     <div class="registriesViews" id="ExtrasRegistriesView">
-      
+
       <div class="registriesNavs">
-        
+
         <div class="registriesOptionsCells" ng-repeat="opt in selectedRegistration.entries.options" ng-click="selectRegistrationOption(opt.list)">
-          
+
           <h1>{{opt.name}}</h1>
-          
+
         </div>
-        
+
       </div>
       <div class="" id="extrasRegistriesDisplay">
-        
+
         <div class="registriesOptionListCells" ng-repeat="ord in selectedRegistrationOption">
-          
+
           <p>{{ord.membership.name}}</p>
           <p ng-if="ord.quantity">Quantity x {{ord.quantity}}</p>
-          
+
         </div>
-        
+
       </div>
-      
+
     </div>
     <div class="registriesViews" id="MembersRegistriesView">
-      
+
       <div class="registriesMembersCells" ng-repeat="mem in selectedRegistrationMembers">
-        
+
         <h3>{{mem.primary.fName + ' ' + mem.primary.mName[0] + '. ' + mem.primary.lName}}</h3>
-        
+
         <div class="registriesMembersCellEntriesDisplays">
-          
+
           <p><b>Entries</b></p>
           <div class="registriesMembersCellEntries" ng-repeat="ent in mem.entries">
             <p>{{ent.name}}</p>
@@ -108,39 +200,39 @@
             <p>{{ent.driver.kart_number}}</p>
             <p>{{ent.driver.transponder}}</p>
           </div>
-          
+
         </div>
         <div class="registriesMembersCellOptionsDisplays">
-          
+
           <p ng-if="mem.options.length > 0"><b>Extras</b></p>
           <div class="registriesMembersCellOptions" ng-repeat="opt in mem.options">
             <p>{{opt.name}}</p>
             <p>{{opt.option.quantity}}</p>
-            
+
           </div>
-          
+
         </div>
-        
+
       </div>
-      
+
     </div>
-    
+
   </div>
-  
+
   <div class="adminControlGroups" id="adminResultsControl">
-    
+
     <input type="file" name="" value="" multiple id="pointsInput">
     <button type="button" name="button" ng-click="updatePoints()"></button>
-    
+
     <div class="" id="adminResultsView">
-      
+
       <div class="" id="adminResultsClassNav">
-        
+
         <a href="" ng-repeat="cl in currentPoints" ng-click="selectPointsClass(cl)">{{cl.name}}</a>
-        
+
       </div>
       <div class="" id="adminResultsPointsDisplay">
-        
+
         <div class="" id="adminResultsPointsDatesDiv">
           <p ng-repeat="date in selectedPointsClass.dates.slice(0,-1)">{{date}}</p>
           <p>Points</p>
@@ -154,16 +246,16 @@
             </div>
           </div>
         </div>
-        
+
       </div>
-      
+
     </div>
-    
+
   </div>
-  
+
   <div class="adminControlGroups" id="adminSettingsControl">
-    
-    
+
+
     <span>
       <p>Track Open Date</p>
       <input type="date" name="" value="">
@@ -172,9 +264,9 @@
       <p>Track Close Date</p>
       <input type="date" name="" value="">
     </span>
-    
+
     <div class="" id="sponsorSettingsDiv">
-      
+
       <span>
         <p>Sponsor Link</p>
         <input type="text" name="" value="" ng-model="sponsor.pageURL">
@@ -182,16 +274,16 @@
         <input type="file" name="" id="sponsorInput" value="" ng-model="sponsor.image">
         <button type="button" name="button" ng-click="addSponsor()">Add</button>
       </span>
-      
-      
+
+
       <div id="sponsorCellContainer">
-        
+
         <img class="sponsorCell" src="{{s.image_data_url}}" ng-repeat="s in sponsors">
-        
+
       </div>
-      
+
     </div>
-    
+
   </div>
 
   <div class="adminControlGroups" id="adminImagesControl">
@@ -222,18 +314,18 @@
   </div>
 
   <div class="adminControlGroups" id="adminNewsControl">
-    
+
     <button type="button" name="button">New Article</button>
-    
+
     <div class="" id="newsControllerDiv">
-      
+
       <nav id="newsControllerTypeNav">
         <a id="normalNewsTypeAnc" href="" ng-click="selectNewsType('normal')">Normal</a>
         <a id="delayNewsTypeAnc" href="" ng-click="selectNewsType('delay')">Delay</a>
         <a id="postponeNewsTypeAnc" href="" ng-click="selectNewsType('postpone')">Post-pone</a>
         <a id="cancelationNewsTypeAnc" href="" ng-click="selectNewsType('cancelation')">Cancelation</a>
       </nav>
-      
+
       <!-- <div class="newsControllerNavHeaders">
         <p>Series</p>
       </div> -->
@@ -242,7 +334,7 @@
         <p id="noNewsSeriesBtn" style="background:#154498;color:#E1F5FE;" ng-click="selectNewsSeries('none')">None</p>
         <p class="newsSeriesCells" id="{{g.id}}newsSeriesCell" ng-repeat="g in eventGroups" style="color:{{g.color}};" ng-click="selectNewsSeries(g)">{{g.name}}</p>
       </nav>
-        
+
       <nav class="newsSelectNavs"  ng-if="news.selectedSeries" id="newsEventSelectNav" name="" value="{{e.name}}">
         <p class="newsSelectTags">Event</p>
         <p id="noNewsEventBtn" style="background:#154498;color:#E1F5FE;" ng-click="selectNewsEvent('none')">None</p>
@@ -256,7 +348,7 @@
         </select>
       </span> -->
       <div class="" id="newsControllerInputDiv">
-        
+
         <span class="" id="newsWarningSpan">
           <p style="color:red;" ng-if="news.selectedEvent.name == null">You must have an Event selected</p>
         </span>
@@ -270,7 +362,14 @@
           <input type="date" name="" value="" ng-model="news.postponedUntil">
           <!-- <p style="color:red;" ng-if="news.selectedEvent.name == null">You must have an Event selected</p> -->
         </span>
-        
+        <span class="newsInputSpans" id="newsNormalInputSpan">
+          <p>Post until</p>
+          <input type="date" name="" value="" ng-model="news.postUntil">
+
+          <p>Keep Posted for Now</p>
+          <input type="checkbox" name="" value="true" ng-model="news.postRemains">
+        </span>
+
         <span id="newsTitleSpan">
           <p>Title</p>
           <input type="text" name="" id="newsTitleInput" value="" ng-model="news.title">
@@ -281,7 +380,7 @@
           <textarea type="textarea" name="" id="newsArticleInput" value="" ng-model="news.article"></textarea>
         </div>
         <button id="saveNewsButton" type="button" name="button" ng-click="saveNews()">Save</button>
-        
+
       </div>
     </div>
 
@@ -291,10 +390,10 @@
 
 
   <div class="adminControlGroups" id=adminEventsControl>
-    
+
 
     <div id="adminEventsControlContainer">
-      
+
       <div id="eventGroupDisplay">
 
         <div class="eventGroupCell" ng-click="selectSeries('new')" id="newEventGroupCell">
@@ -311,15 +410,15 @@
       </div>
 
       <div id="adminEventsControlContainerDiv">
-        
+
         <div class="adminEventsControlPanels">
-          
+
           <div class="adminEventsControlPanelCells"  ng-if="selectedSeries === 'new'">
-            
+
             <h2>New Series</h2>
-            
+
           </div>
-          
+
           <div class="adminEventsControlPanelCells" ng-if="selectedSeries !== 'new'">
             <a href="" class="seriesDeleteBtns" ng-click="deleteSeries()">
               <img src="../images/glyphicons_free/glyphicons/png/glyphicons-17-bin.png" alt="">
@@ -355,20 +454,20 @@
           </div>
 
           <div class="adminEventsControlPanelCells" ng-if="edit.events === 'editSeries'">
-            
+
             <button type="button" name="button" ng-click="saveEdit()">Save</button>
             <button type="button" name="button" ng-click="cancelEdit()">Cancel</button>
 
           </div>
-          
+
         </div>
         <div class="adminEventsControlPanels" id="seriesEventInfoControlPanel" >
-          
-          <h2>Event Info</h3>
+
+          <h2>Event Info</h2>
           <button type="button" name="button" ng-ig="edit.events === 'view'" ng-click="addView()">Add event(s)</button>
-          
+
           <div class="adminEventsControlPanelCellDivs" ng-if="edit.events === 'select'">
-            
+
             <p>{{selectedEvent.name}}</p>
             <span>
               <p>
@@ -388,27 +487,27 @@
             <button type="button" name="button" ng-click="edit()">Edit</button>
           </div>
           <div class="adminEventsControlPanelCellDivs" ng-if="edit.events === 'add' || edit.events === 'edit'">
-            
+
             <div class="adminEventsControlPanelCells">
-              
+
               <!-- <h2 ng-if="edit.events === 'edit'">Edit</h2>
               <h2 ng-if="edit.events !== 'edit'">Add</h2> -->
-              
+
             </div>
-            
-            
+
+
             <div class="adminEventsControlPanelCells">
-              
+
               <span>Event Name <input class="eventInfoInputs" type="text" ng-model="controller.info.eventName"></span>
-              
+
             </div>
-            
+
             <div class="adminEventsControlPanelCells">
-              
+
               <span>Start<input type="time" name="" value="" class="timeInputs" ng-model="controller.info.startTime"></span>
               <span>End<input type="time" name="" value="" class="timeInputs" ng-model="controller.info.endTime"></span>
               <span>Length <input type="number" name="" value="1" min="1" class="numberInputs" ng-model="controller.daysLength">Day(s)</span>
-              
+
             </div>
             <div class="adminEventsControlPanelCells">
               <input class="eventInfoInputs" type="date" name="" value="" ng-model="controller.info.date">
@@ -418,46 +517,46 @@
               <button ng-if="controller.toAdd.length > 0" type="button" name="button" ng-click="submitEvents()">Save</button>
             </div>
             <div class="adminEventsControlPanelCells" ng-if="edit.events === 'edit'">
-              
+
               <button type="button" name="button" ng-click="saveEventEdit()">Save</button>
               <button type="button" name="button" ng-click="cancelEventEdit()">Cancel</button>
             </div>
-            
-            
+
+
           </div>
           <div class="adminEventsControlPanelCells" id="adminEventsPreviewPanelCell">
-            
+
             <div class="events{{event.tag}}PreviewCells" id="event{{event.id}}PreviewCell" ng-repeat="event in eventPreviews track by $index" ng-click="selectEventPreview(event)">
-              
-              
+
+
               <!-- <h2 ng-if="event.displayDate">{{event.displayDate}}</h2> -->
               <h2>{{event.name}}</h2>
               <h2 ng-if="event.display_date">{{event.display_date}}</h2>
-              
+
               <p>{{event.display_start}}-{{event.display_end}}</p>
-              
+
               <div class="eventsPreviewCellHeader">
-                
-                
-                
+
+
+
               </div>
-              
+
             </div>
-            
+
           </div>
-          
+
         </div>
-        
-              
+
+
       </div>
-      
+
       <div class="adminEventsControlPanelCells" id="adminEventsRegistryControlPanelCell">
         <button type="button" name="button" ng-click="addRegistry()">Add Registry</button>
         <div class="" id="adminEventRegistryContainer">
-          
+
           <div class="adminRegistryDivs" id="adminRegistryController">
             <div class="registrySplitters">
-              
+
               <span>
                 <p>KRA Registration</p>
                 <input type="checkbox" name="" value="" ng-model="registry.main_registration">
@@ -482,10 +581,10 @@
                 <p>Month(s)</p>
                 <input type="checkbox" name="" value="" ng-model="registry.openReg.months">
               </span>
-                
+
             </div>
             <div class="registrySplitters">
-              
+
               <h3>Pit Passes</h3>
               <span>
                 <p>1-Day</p>
@@ -505,7 +604,7 @@
                 <p>Price $</p>
                 <input type="number" class="numberInputs" name="" value="" ng-model="registry.passes.three_day.price">
               </span>
-              
+
             </div>
           </div>
           <!-- <div class="adminRegistryDivs">
@@ -537,7 +636,7 @@
             <button type="button" name="button" ng-click="addRegistryOption()">Add</button>
           </span>
           <h3>Classes</h3>
-          <span>  
+          <span>
             <p>Price $</p>
             <input type="number" class="numberInputs" name="" value="" ng-model="registry.price_1">
             <p>additional Entries Price $</p>
@@ -554,16 +653,16 @@
             <input type="number" class="numberInputs" min=1 name="" value="" ng-model="registry.class.entry_cap">
             <button type="button" name="button" ng-click="addRegistryClass()">Add</button>
           </span>
-            
-          
+
+
           <div class="adminRegistryDivs" id="adminRegistryDisplay">
             <div class="" id="registryOptionsContainer">
-              
+
               <span class="registryOptionCells" ng-repeat="opt in registry.options">
                 <p>{{opt.name}}</p>
                 <p>${{opt.price}}</p>
               </span>
-              
+
             </div>
             <span>
               <p>{{registry.classes.length}} Class(es)</p>
@@ -580,8 +679,8 @@
           <button type="button" name="button" ng-click="saveEventRegistry()">Save</button>
         </div>
       </div>
-      
-      
+
+
 
       <!-- <div id="adminEventsControlContainerFooter">
 
@@ -591,20 +690,20 @@
         <button ng-if="edit.events === 'add'" type="button" name="button" ng-click="submitEvents()">Submit</button>
 
       </div>   -->
-      
+
     </div>
-    
+
     <div class="pageInfoSplitters">
       <p>Next</p>
     </div>
-    
+
     <div class="eventCells" id="event{{nextEvent.id}}Cell" style="background:{{nextEvent.color}};" ng-click="selectEvent(nextEvent.id)" >
 
       <div class="eventCellHeaders">
 
         <h1>{{nextEvent.name}}</h1>
         <h1>{{nextEvent.displayDate}}</h1>
-        
+
         <a href="">
           <img src="../images/glyphicons_free/glyphicons/png/glyphicons-151-edit.png" alt="">
         </a>
@@ -628,21 +727,21 @@
       <p>All Events</p>
     </div>
     <div class="eventCells" id="event{{event.id}}Cell" ng-repeat="event in events track by $index" ng-click="selectEvent(event.id)"  style="background:{{event.color}};">
-      
+
       <div class="eventCellHeaders">
-        
+
         <h1>{{event.name}}</h1>
         <h1>{{event.display_date}}</h1>
-        
+
       </div>
       <div class="eventCellInfoContainers">
-        
+
         <h2>{{event.display_start}} - {{event.display_end}}</h2>
-        
+
         <p>{{event.description}}</p>
-        
+
       </div>
-      
+
     </div>
     <!-- <div id="eventCellContainer">
 

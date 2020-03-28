@@ -4,13 +4,13 @@ var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
-var stripe = require('stripe')(process.env.STRIPE_API_KEY)
+var stripe = require('stripe')('sk_test_qU6GDXGLTMU9nhpJPF982Ksb')
 
 exports.saveEventRegistry = function(req, res, next) {
   console.log(req.body);
-  
+
   console.log(req.body.registry);
-  
+
   knex('eventRegistry')
   .where({series_id:req.body.series.id})
   .select('*')
@@ -19,7 +19,7 @@ exports.saveEventRegistry = function(req, res, next) {
       knex('eventRegistry')
       .where({series_id:req.body.series.id})
       .update({registry_data:req.body.registry})
-      .then(function() {  
+      .then(function() {
         res.send('success')
       })
       .catch(function(err) {
@@ -31,7 +31,7 @@ exports.saveEventRegistry = function(req, res, next) {
         series_id:req.body.series.id,
         registry_data:req.body.registry
       })
-      .then(function() {  
+      .then(function() {
         res.send('success')
       })
       .catch(function(err) {
@@ -39,7 +39,7 @@ exports.saveEventRegistry = function(req, res, next) {
       })
     }
   })
-  
+
 }
 
 exports.getEventEntryLists = function(req, res, next) {
@@ -61,9 +61,9 @@ exports.getMainEventRegistration = function(req, res, next) {
     //   console.log('HIT',data[i]);
     //   if (data[i].registry_data.main_registration == true) {
     //     console.log('here',data[i]);
-    // 
+    //
     //     res.send(data[i]);
-    // 
+    //
     //   }
     // }
   })
@@ -86,13 +86,13 @@ exports.getEventRegistration = function(req, res, next) {
 }
 exports.addEntryLists = function(req, res, next) {
   console.log(req.body);
-  
+
   var i = 0;
-  
+
   function addList() {
-  
+
     console.log('hit1');
-    
+
     knex('entry_list')
     .insert({
       event_id:req.body.eventIds[i],
@@ -109,12 +109,12 @@ exports.addEntryLists = function(req, res, next) {
     .catch(function(err) {
       console.log(err);
     })
-    
+
   }
-  
-  
+
+
   function checkEntryList() {
-    
+
     knex('entry_list')
     .where({event_id:req.body.eventIds[i]})
     .select('*')
@@ -131,32 +131,32 @@ exports.addEntryLists = function(req, res, next) {
         }
       }
     })
-    
+
   }
 
   checkEntryList()
-    
-  
+
+
   // res.send('success')
 }
 // exports.getEntryList = function(req, res, next) {
-// 
+//
 //   knex('entry_list')
 //   .where({})
-// 
+//
 // }
 exports.buyRegistration = function(req, res, next) {
-  
+
   console.log(req.body);
-  
+
   var token = req.body.token;
   var member = req.body.member;
   var price = req.body.price*100;
   // var token = stripe.tokens.create(info);
 
-  
+
   console.log(token);
-  // 
+  //
   stripe.charges.create({
     amount: price,
     currency: "usd",
@@ -165,12 +165,12 @@ exports.buyRegistration = function(req, res, next) {
   }, function(err, charge) {
     // asynchronously called
     if (err) {
-      
+
       console.log(err);
       res.send(err);
-      
+
     } else if(charge) {
-      
+
       knex('entry_list')
       .select('*')
       .where({event_id:req.body.eventId})
@@ -184,7 +184,7 @@ exports.buyRegistration = function(req, res, next) {
         console.log('CLASSES:::::::',driverData.classes);
         for (var i = 0; i < driverData.drivers.length; i++) {
           for (var j = 0; j < driverData.drivers[i].classes.length; j++) {
-            for (var k = 0; k < list.classes.length; k++) { 
+            for (var k = 0; k < list.classes.length; k++) {
               console.log(list.classes);
               console.log(list.classes[k].name);
               console.log(driverData.classes[i]);
@@ -196,7 +196,7 @@ exports.buyRegistration = function(req, res, next) {
                   transponder: driverData.drivers[i].classes[j].transponder,
                   number: driverData.drivers[i].classes[j].number
                 })
-                
+
                 if (i+1 == driverData.drivers.length && j+1 == driverData.drivers[i].classes.length) {
                   var mem = driverData.membership;
                   mem.id = list.members.length+1
@@ -234,10 +234,10 @@ exports.buyRegistration = function(req, res, next) {
       .catch(function(err) {
         console.log(err);
       })
-      
+
     }
   });
-  
+
   // res.send('success')
-  
+
 }

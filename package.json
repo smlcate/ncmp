@@ -15,18 +15,27 @@
   "dependencies": {
     "@uirouter/angularjs": "^1.0.7",
     "angular": "^1.6.6",
-    "bcrypt": "1.0.3",
+    "bcrypt": "^3.0.6",
     "checkout": "^1.0.1",
     "crypto": "^1.0.1",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "gitignore": "^0.6.0",
-    "knex": "^0.13.0",
-    "nodemon": "^1.19.0",
+    "knex": "^0.20.11",
+    "nodemon": "^2.0.2",
     "passport-twitter": "^1.0.4",
-    "pg": "^7.4.0",
+    "pg": "^7.18.2",
     "sass": "^1.0.0-beta.2",
     "stripe": "^5.4.0",
     "stripe.js": "0.0.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smlcate/ncmp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/smlcate/ncmp/issues"
+  },
+  "homepage": "https://github.com/smlcate/ncmp#readme"
 }
