@@ -31,7 +31,7 @@ module.exports = {
     connection: {
       database: 'HEROKU_POSTGRESQL_YELLOW',
       // user:     'username',
-      // password: 'ncmpTk88'
+      password: 'ncmpTk88'
     },
     // pool: {
     //   min: 2,
