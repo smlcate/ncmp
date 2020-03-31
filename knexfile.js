@@ -31,11 +31,11 @@ module.exports = {
     // The next line is where the application will read that environment variable to connect to the database
     connection: process.env.DATABASE_URL,
     migrations: {
-        directory: __dirname + '/db/migrations',
+        directory: '/migrations',
     },
-    seeds: {
-        directory: __dirname + '/db/seeds/production',
-    },
+    // seeds: {
+    //     directory: __dirname + '/db/seeds/production',
+    // },
     // client: 'pg',
     // connection: {
     //   database: 'HEROKU_POSTGRESQL_YELLOW',
