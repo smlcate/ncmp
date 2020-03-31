@@ -29,9 +29,9 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
-      database: 'samcate',
+      database: 'HEROKU_POSTGRESQL_YELLOW',
       // user:     'username',
-      password: 'ncmpTk88'
+      // password: 'ncmpTk88'
     },
     // pool: {
     //   min: 2,
