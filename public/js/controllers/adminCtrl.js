@@ -20,6 +20,11 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
   $scope.selectedEvent;
 
+  $scope.newAccount = {
+    email:'',
+    password:''
+  }
+
   $scope.people = [];
   $scope.peopleToShow = [];
 
@@ -467,6 +472,93 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   // }
   // buildNewsController();
 
+  $scope.addNewAccount = function() {
+
+    console.log($scope.newAccount)
+
+    // $http.get('getUsers')
+    // .then(function(res) {
+    //   var people = res.data;
+      var pass = true;
+    //   console.log(people);
+
+      for(var i = 0;i < $scope.people.length;i++) {
+        if ($scope.people[i].email === $scope.newAccount.email) {
+          pass = false;
+          $('#emailErrorMessage').css('display','flex')
+        }
+      }
+      if ($scope.newAccount.checkPassword !== $scope.newAccount.password) {
+        pass = false;
+        $('#passwordErrorMessage').css('display','flex')
+      }
+
+      if (pass === true) {
+
+        console.log(true);
+
+        $http.post('signUp', {auth:$scope.newAccount})
+        .then(function(res) {
+          console.log(res.data);
+
+          $http.get('getMembers')
+          .then(function(data) {
+            $scope.people = data.data;
+            $scope.peopleToShow = data.data;
+            console.log(data);
+          })
+          .catch(function(err) {
+            console.log(err);
+          })
+          // sessionStorage.setItem('user',JSON.stringify(res.data));
+          //
+          // $scope.user = res.data;
+          // console.log($scope.user);
+          // $('.loginDisplays').css('display','none');
+          // $('#accCreatedDisplay').css('display','flex');
+          // $('#signInUpHeaderInfoCell').css('display','none')
+          // $('#userHeaderInfoCell').css('display','flex')
+          // window.location.href = '#!/welcomePage';
+        })
+
+      }
+
+    // })
+
+  }
+
+  $scope.filterAccounts = function() {
+
+    $scope.peopleToShow = [];
+    if ($scope.searchAccounts.membersOnly == true) {
+      for (var i = 0; i < $scope.people.length; i++) {
+        if ($scope.people[i].membership != null) {
+          $scope.peopleToShow.push($scope.people[i]);
+        }
+      }
+
+    } else {
+      $scope.peopleToShow = $scope.people;
+    }
+  }
+
+  $scope.removeAllGroups = function() {
+    $http.post('removeAllGroups')
+    .then(function(data) {
+      console.log(data);
+    } )
+    .catch(function(err) {
+      console.log(err);
+    })
+    $http.post('removeAllEvents')
+    .then(function(data) {
+      console.log(data);
+    } )
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
   $scope.selectNewsType = function(t) {
 
     $scope.news.type = t;
@@ -855,13 +947,17 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
             // csv += "\n";
             console.log(csv);
 
+            if (j == clList.list.length-1) {
+              var hiddenElement = document.createElement('a');
+              hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+              hiddenElement.target = '_blank';
+              hiddenElement.download = clList.name+'.csv';
+              hiddenElement.click();
+            }
+
           }
 
-          var hiddenElement = document.createElement('a');
-          hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-          hiddenElement.target = '_blank';
-          hiddenElement.download = clList.name+'.csv';
-          hiddenElement.click();
+
 
         }
 

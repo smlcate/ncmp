@@ -109,26 +109,36 @@ exports.addEvents = function(req, res, next) {
   }
 
   exports.deleteEvent = function(req, res, next) {
-    
+
     console.log(req.body);
 
     for (var i = 0; i < req.body.length; i++) {
-      
+
       knex('events')
       .where({id:req.body[i].id})
       .delete()
       .then(function() {
-        
+
       })
       .catch(function(err) {
         res.send(err);
       })
-      
+
       res.send('success');
     }
 
   }
-  
+  exports.removeAllEvents = function(req, res, next) {
+    knex('events')
+    .delete()
+    .then(function() {
+      res.send('success')
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+
+}
   exports.editEventsBySeries = function(req, res, next) {
     knex('events')
     .where({event_group_id:req.body.series.id})
@@ -144,7 +154,7 @@ exports.addEvents = function(req, res, next) {
       console.log(err);
     })
   }
-  
+
   exports.editEvent = function(req, res, next) {
     console.log('BODY',req.body.events);
     // var newEvent = {
@@ -156,7 +166,7 @@ exports.addEvents = function(req, res, next) {
     var evs = req.body.events;
     var id = req.body.id+1;
     function update() {
-      
+
       console.log(i);
       console.log(req.body.eventLength);
       console.log(evs[i].date);
@@ -180,7 +190,7 @@ exports.addEvents = function(req, res, next) {
           }
         })
       } else {
-        
+
         knex('events')
         .where({id:id})
         .update(evs[i])
@@ -196,12 +206,12 @@ exports.addEvents = function(req, res, next) {
           console.log(err);
           res.send(err)
         })
-        
+
       }
-      
-      
+
+
     }
     update();
-    
-    
+
+
   }

@@ -77,6 +77,17 @@ exports.editEventGroup = function(req, res, next) {
   })
 }
 
+exports.removeAllGroups = function(req, res, next) {
+  knex('event_groups')
+  .delete()
+  .then(function() {
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+}
+
 exports.deleteEventGroup = function(req, res, next) {
   knex('event_groups')
   .where({id:req.body.id})

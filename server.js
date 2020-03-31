@@ -32,6 +32,7 @@ app.post('/addEvents', server.events.addEvents)
 app.post('/deleteEvent', server.events.deleteEvent)
 app.post('/editEventsBySeries', server.events.editEventsBySeries)
 app.post('/editEvent', server.events.editEvent)
+app.post('/removeAllEvents', server.events.removeAllEvents)
 
 
 app.post('/uploadImage', server.images.uploadImage)
@@ -48,6 +49,8 @@ app.post('/getEventGroup', server.event_groups.getEventGroup)
 app.post('/addEventGroup', server.event_groups.addEventGroup)
 app.post('/editEventGroup', server.event_groups.editEventGroup)
 app.post('/deleteEventGroup', server.event_groups.deleteEventGroup)
+app.post('/removeAllGroups', server.event_groups.removeAllGroups)
+
 
 app.post('/saveEventRegistry', server.registry.saveEventRegistry)
 app.post('/getEventRegistration', server.registry.getEventRegistration)

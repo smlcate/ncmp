@@ -21,10 +21,25 @@
   <div class="adminControlGroups" id="adminAccountsControl">
 
     <div class="" id="adminAccountsHeader">
-      <button type="button" name="button">New Account</button>
+      <!-- <span>addNewAccount
+      </span> -->
+      <p>Email</p>
+      <input type="text" name="" value="" ng-model="newAccount.email">
+      <p>Password</p>
+      <input type="text" name="" value="" ng-model="newAccount.password">
+      <p>Check Password</p>
+      <input type="text" name="" value="" ng-model="newAccount.checkPassword">
+      <button type="button" name="button" ng-click="addNewAccount()">Add Account</button>
     </div>
 
-    <div class="accountCells" ng-repeat="person in peopleToShow">
+    <div class="" id="adminAccountsNav">
+      <p>Search</p>
+      <input type="text" name="" value="" ng-model="searchAccounts.email">
+      <p>Members Only</p>
+      <input type="checkbox" name="" value="" ng-model="searchAccounts.membersOnly" ng-change="filterAccounts()">
+    </div>
+
+    <div class="accountCells" ng-repeat="person in peopleToShow | filter:searchAccounts.email:strict">
 
       <p>{{person.email}}</p>
       <a href="" ng-if="person.membership != null">Membership</a>
@@ -394,7 +409,10 @@
 
     <div id="adminEventsControlContainer">
 
+      <a href="" ng-click="removeAllGroups()">Delete All Event Groups</a>
+
       <div id="eventGroupDisplay">
+
 
         <div class="eventGroupCell" ng-click="selectSeries('new')" id="newEventGroupCell">
           <h2>New</h2>

@@ -89,6 +89,16 @@ a {
   display: flex;
   align-items: center;
 }
+#adminAccountsNav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 120%;
+}
+#adminAccountsNav input {
+  height: 35px;
+  font-size: 150%;
+}
 .accountCells {
   display: flex;
   align-items: center;

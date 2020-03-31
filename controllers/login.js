@@ -8,16 +8,18 @@ var crypto = require('crypto');
 
 exports.signUp = function(req, res, next) {
 
-  console.log(req.body);  
+  console.log("sMAck");
+
+  console.log(req.body);
   var auth = req.body.auth;
-  
+
   var user = {
     email:auth.email
   }
-  
+
   const saltRounds = 10;
   const plainTextPassword = auth.password;
-  
+
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(plainTextPassword, salt, function(err, hash) {
       // Store hash in your password DB.
@@ -34,17 +36,17 @@ exports.signUp = function(req, res, next) {
       .catch(function(err) {
         console.log(err);
       })
-  
+
     });
   });
-  
-  
+
+
 
 
 }
 
 exports.signIn = function(req, res, next) {
-  
+
   var auth = req.body.auth;
   var login;
   knex('people')
@@ -60,13 +62,13 @@ exports.signIn = function(req, res, next) {
         } else if(acc) {
           console.log(res);
           if (acc === true) {
-            
+
             user = {
               email: data[0].email,
               membership: data[0].membership
             }
             res.send(user)
-            
+
           } else {
             res.send(acc)
           }
@@ -94,9 +96,9 @@ exports.signIn = function(req, res, next) {
   })
   // .then(function() {
   //   res.send(login);
-  // 
+  //
   // })
-  
+
 }
 exports.getUsers = function(req, res, next) {
   console.log(req.body);
