@@ -384,10 +384,10 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
   function buildResults(data) {
 
-    // console.log(data);
+    console.log(data);
     var d = JSON.parse(data.results);
-    // var d = JSON.parse(d.data)
-    // console.log(d);
+    var d = JSON.parse(d.data)
+    console.log(d);
     for (var i = 0; i < d.length; i++) {
       for (var j = 0; j < d[i].drivers.length; j++) {
         for (var k = 0; k < d[i].drivers[j].results.length; k++) {
@@ -435,7 +435,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   function getPoints() {
     $http.get('getPoints')
     .then(function(data) {
-      // console.log(data);
+      console.log(data);
       $scope.currentPoints = buildResults(data.data[data.data.length-1]);
       // console.log($scope.currentPoints);
     })
@@ -1051,7 +1051,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   $scope.updatePoints = function() {
 
     var fileUpload = document.getElementById("pointsInput");
-    // console.log(fileUpload.files  );
+    console.log(fileUpload.files  );
 
     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
 
@@ -1098,7 +1098,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
                   var stringData = JSON.stringify(classes)
                   $http.post('updatePoints', {data:stringData})
                   .then(function(res) {
-                    // console.log(res.data);
+                    console.log(res.data);
                   })
                   .catch(function(err) {
                     console.log(err);

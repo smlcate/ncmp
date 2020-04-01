@@ -385,7 +385,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
     // console.log(data);
     var d = JSON.parse(data.results);
-    // var d = JSON.parse(d.data)
+    var d = JSON.parse(d.data)
     for (var i = 0; i < d.length; i++) {
       for (var j = 0; j < d[i].drivers.length; j++) {
         for (var k = 0; k < d[i].drivers[j].results.length; k++) {
@@ -439,7 +439,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         $scope.currentPoints = buildResults(data.data[data.data.length-1]);
         $scope.announcements.banner[2] = $scope.currentPoints;
         console.log($scope.announcements.banner);
-        runBanner($scope.announcements.banner)
+        // runBanner($scope.announcements.banner)
       }
       // console.log($scope.currentPoints);
     })
