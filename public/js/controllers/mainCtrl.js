@@ -30,12 +30,12 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   // console.log(sessionStorage);
   $scope.user;
   if ($scope.user == null && sessionStorage.user != null) {
-    console.log(sessionStorage.user);
+    // console.log(sessionStorage.user);
     $scope.user = JSON.parse(sessionStorage.user);
     $('#signInUpHeaderInfoCell').css('display','none')
     $('#userHeaderInfoCell').css('display','flex')
   }
-  console.log($scope.user);
+  // console.log($scope.user);
 
   $('.headerNavAnc').on('click', function() {
       $('.headerNavAnc').css({'background':'#E1F5FE','color':'#154498'});
@@ -54,7 +54,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
     sessionStorage.user = null;
     $scope.user = null;
-    console.log(sessionStorage);
+    // console.log(sessionStorage);
     $('#signInUpHeaderInfoCell').css('display','flex')
     $('#userHeaderInfoCell').css('display','none')
 
@@ -66,14 +66,14 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     .then(function(data) {
       // console.log(data);
       $scope.events = data.data;
-      console.log($scope.events);
+      // console.log($scope.events);
 
       giveAnnouncements();
       getPoints();
       // runBanner($scope.announcements.banner);
       // $scope.announcements.banner[1] = $scope.announcements.news;
       // $scope.announcements.banner[2] = $scope.currentPoints
-      console.log($scope.announcements);
+      // console.log($scope.announcements);
     })
     .then(function() {
     })
@@ -107,15 +107,15 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     var i = 0;
     function run() {
 
-      console.log(b.length);
-      console.log(i);
+      // console.log(b.length);
+      // console.log(i);
       var cell = b[i];
-      console.log(cell);
+      // console.log(cell);
       if (i == 0) {
         html = '<div class="bannerDivs" id="eventsBannerDiv"><p>Upcoming Events</p>'
         for (var j = 0; j < 4; j++) {
           if (cell[j]) {
-            console.log(j);
+            // console.log(j);
             html += '<div class="bannerEventCells"><p>'+cell[j].display_date+' '+cell[j].name+'</p>'
             if (cell.openReg == true) {
               html += '<a href="" ng-click="goToRegistration('+cell[j]+')">Register</a>'
@@ -135,9 +135,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
       } else if(i == 1) {
         html = '<div class="bannerDivs" id="newsBannerDiv"><p>Recent News</p>';
-        console.log(cell);
+        // console.log(cell);
         for (var j = 0; j < cell.length; j++) {
-          console.log(j);
+          // console.log(j);
           html += '<div class="bannerNewsCells"><p>'+cell[j].title+'</p>'
           if (cell.article != '') {
             html += '<a href="" ng-click="">Read More</a>'
@@ -159,24 +159,24 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         var j = 0;
         // var k = 0;
         html = '<div class="bannerDivs" id="pointsBannerDiv"><p>KRA Points</p><div class="pointsBannerContainers" id="pointsBannerContainer"></div></div>'
-        console.log(html);
+        // console.log(html);
         angular.element($('#headerNewsPrompter')).append($compile(html)($scope))
 
 
 
         function runPoints() {
-          console.log(j);
+          // console.log(j);
           cl = cell[j];
           sub_html = '<div class="bannerPointsClassCells" id="bannerPointsClassCell'+j+'"><h3>'+cl.name+'</h3>';
           sub_html += '<p>1st '+cl.drivers[0].name+' - '+cl.drivers[0].results[14].position+'pts.</p>';
           sub_html += '<p>2nd '+cl.drivers[1].name+' - '+cl.drivers[1].results[14].position+'pts.</p>';
           sub_html += '<p>3rd '+cl.drivers[2].name+' - '+cl.drivers[2].results[14].position+'pts.</p></div>';
-          console.log(sub_html);
+          // console.log(sub_html);
           // setTimeout(function() {
             if (j == 0) {
               angular.element($('#pointsBannerContainer')).append($compile(sub_html)($scope));
               setTimeout(function() {
-                console.log('hit 1');
+                // console.log('hit 1');
                 $('.bannerDivs').animate({
                   marginLeft: '-=100vw'
                 }, 3000);
@@ -186,11 +186,11 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
               },5000)
             } if(j == 1) {
-              console.log('hit 2');
+              // console.log('hit 2');
               angular.element($('#pointsBannerContainer')).append($compile(sub_html)($scope));
               setTimeout(function() {
                 var margin = $('#pointsBannerContainer').css('width')
-                console.log(margin);
+                // console.log(margin);
                 $('.bannerPointsClassCells').animate({
                   marginLeft: '-=100vw'
                 }, 6000);
@@ -206,7 +206,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
               // j++;
               // run()
             } else if( j >= 2) {
-              console.log('hit ' + (j+1));
+              // console.log('hit ' + (j+1));
               angular.element($('#pointsBannerContainer')).append($compile(sub_html)($scope));
               setTimeout(function() {
                 var margin = $('#pointsBannerContainer').css('width')
@@ -223,7 +223,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
           // },5000)
 
-          console.log(cl);
+          // console.log(cl);
         }
         return runPoints();
       }
@@ -383,7 +383,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
   function buildResults(data) {
 
-    console.log(data);
+    // console.log(data);
     var d = JSON.parse(data.results);
     // var d = JSON.parse(d.data)
     for (var i = 0; i < d.length; i++) {
@@ -425,7 +425,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         }
       }
     }
-    console.log(d);
+    // console.log(d);
     return d;
 
   }
@@ -433,7 +433,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   function getPoints() {
     $http.get('getPoints')
     .then(function(data) {
-      console.log(data);
+      // console.log(data);
       if (data.data.length != 0) {
 
         $scope.currentPoints = buildResults(data.data[data.data.length-1]);
@@ -442,6 +442,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         runBanner($scope.announcements.banner)
       }
       // console.log($scope.currentPoints);
+    })
+    .catch(function(err) {
+      console.log(err);
     })
   }
 
@@ -457,11 +460,11 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
     $http.get('getSponsors')
     .then(function(data) {
-      console.log(data.data);
+      // console.log(data.data);
       $scope.sponsors = data.data;
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
 
   }
@@ -482,7 +485,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     };
 
     function makeDatePretty(d) {
-      console.log('hit 3');
+      // console.log('hit 3');
       var month = monthNames[d.getMonth()];
       var date = d.getDate();
       var day = daysOfWeek[d.getDay()];
@@ -493,15 +496,15 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
     }
 
-    console.log('GET NEWS');
+    // console.log('GET NEWS');
     $http.get('getNews')
     .then(function(res) {
       // console.log(res.data);
       var news = [];
       for (var i = 0; i < res.data.length; i++) {
-        console.log(i);
+        // console.log(i);
         var n = res.data[i];
-        console.log(n);
+        // console.log(n);
         n.set_type = JSON.parse(n.set_type);
         var today = new Date().getTime();
         if (n.set_type.post_until === true) {
@@ -509,15 +512,15 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         } else {
 
           var post_until = new Date(n.set_type.post_until).getTime();
-          console.log(today);
+          // console.log(today);
           // console.log(n.set_type.post_until.getTime());
-          console.log(post_until);
+          // console.log(post_until);
           if (post_until) {
-            console.log('Hit 1');
+            // console.log('Hit 1');
             if (post_until >= today) {
-              console.log('Hit 2');
+              // console.log('Hit 2');
               if (n.set_type.type == 'postpone') {
-                console.log(makeDatePretty(n.set_type.postponedUntil));
+                // console.log(makeDatePretty(n.set_type.postponedUntil));
                 n.set_type.postponedUntil = makeDatePretty(n.set_type.postponedUntil);
               } else if(n.set_type.type == 'delay') {
                 n.set_type.delayedUntil = makeTimePretty(n.set_type.delayedUntil)
@@ -528,9 +531,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
           } else if(new Date(n.set_type.postponedUntil).getTime() >= today) {
 
-            console.log('Hit 3');
+            // console.log('Hit 3');
             if (n.set_type.type == 'postpone') {
-              console.log(makeDatePretty(n.set_type.postponedUntil));
+              // console.log(makeDatePretty(n.set_type.postponedUntil));
               n.set_type.postponedUntil = makeDatePretty(n.set_type.postponedUntil);
             } else if(n.set_type.type == 'delay') {
               n.set_type.delayedUntil = makeTimePretty(n.set_type.delayedUntil)
@@ -544,7 +547,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         if (i == res.data.length-1) {
           announcements.news = news;
           announcements.banner.push(news)
-          console.log(announcements);
+          // console.log(announcements);
           // console.log(news);
         }
       }
@@ -678,7 +681,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     // var newStack = [];
 
     if (newStack) {
-      console.log('hit');
+      // console.log('hit');
       // for (var i = 0; i < sortedStack.length; i++) {
       //   if (sortedStack[i].event_key) {
       //     if (eventKeys.length > 0) {
@@ -710,7 +713,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       //
       // }
       announcements.events = newStack;
-      console.log(announcements.events);
+      // console.log(announcements.events);
 
       // console.log(announcements.events)
 
@@ -799,7 +802,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       // console.log();
       var count = 0;
       function giveEventRegistration() {
-        console.log(count);
+        // console.log(count);
         // console.log();
         if (count != $scope.announcements.events.length) {
           $http.post('getEventRegistration',{seriesId:$scope.announcements.events[count].event_group_id})
@@ -824,7 +827,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
               registration: data.data,
               openReg:false
             }
-            console.log(ev);
+            // console.log(ev);
             if (ev.registration.registry_data != null) {
               ev.registration.registry_data = JSON.parse(ev.registration.registry_data);
               var today = new Date();
@@ -837,10 +840,10 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
                 days = ev.registration.registry_data.openReg.qty;
               }
               var openDate = new Date(ev.date);
-              console.log(today);
-              console.log(days);
+              // console.log(today);
+              // console.log(days);
               openDate.setDate(openDate.getDate() - days);
-              console.log(openDate);
+              // console.log(openDate);
               if (today.getMonth() >= openDate.getMonth() && today.getMonth()-openDate.getMonth() <= 1) {
                 if (today.getMonth() > openDate.getMonth()) {
                   var monthLength = $scope.monthDays[openDate.getMonth()];
@@ -865,7 +868,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
             console.log(err);
           })
         }
-        console.log($scope.announcements.events);
+        // console.log($scope.announcements.events);
       }
       giveEventRegistration();
       // for (var i = 0; i < $scope.announcements.events.length; i++) {
@@ -883,7 +886,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       //   })
       //
       // }
-      console.log($scope.announcements);
+      // console.log($scope.announcements);
 
       if ($scope.todaysEvent === undefined) {
         if (date.getDay() != 1) {
@@ -946,13 +949,13 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   }
 
   $scope.thisBit = function(b) {
-    console.log(b);
+    // console.log(b);
     $scope.selectedBit = b;
 
   }
 
   $scope.goToRegistration = function(e) {
-    console.log(e);
+    // console.log(e);
     $scope.registrationForm = e.registration.registry_data;
     $scope.registrationForm.eventId = e.id;
     $scope.registrationForm.eventInfo = e
