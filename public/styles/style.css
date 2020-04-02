@@ -83,6 +83,36 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
+}
+#adminDriversDiv {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 150%;
+}
+.adminAccountsDriverCells {
+  width: 60vw;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  font-size: 150%;
+}
+.adminAccountsDriverCells img {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+}
+.adminAccountsDriverCells p {
+  padding: 5px;
+}
+.adminAccountsDriverCells span {
+  display: flex;
+}
+.adminAccountsDriverCellsNames {
+  display: flex;
+  width: 500px;
+  padding-left: 30px;
 }
 #adminAccountsHeader {
   height: 50px;

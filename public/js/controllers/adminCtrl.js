@@ -28,6 +28,9 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   $scope.people = [];
   $scope.peopleToShow = [];
 
+  $scope.drivers = [];
+  $scope.driversToShow = [];
+
   $scope.news = {
     series:[],
     selectedEvent: {
@@ -122,6 +125,22 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     $scope.people = data.data;
     $scope.peopleToShow = data.data;
     // console.log(data);
+    for (var i = 0; i < $scope.people.length; i++) {
+      $scope.people[i].membership = JSON.parse($scope.people[i].membership);
+      console.log($scope.people[i].membership);
+      if ($scope.people[i].membership != null) {
+        for (var j = 0; j < $scope.people[i].membership.members.length; j++) {
+          if ($scope.people[i].membership.members[j].fName != '') {
+            $scope.drivers.push($scope.people[i].membership.members[j]);
+            $scope.driversToShow.push($scope.people[i].membership.members[j]);
+          }
+        }
+      }
+    }
+
+    console.log($scope.people);
+    console.log($scope.drivers);
+
   })
   .catch(function(err) {
     console.log(err);
