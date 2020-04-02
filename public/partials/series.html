@@ -12,7 +12,7 @@
     <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('Classes')">Classes & Rules</a>
     <!-- <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('News')">News</a> -->
     <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('Points')">Points</a>
-    <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('Pre-Register')">Pre-Register</a>
+    <a class="seriesNavAncs" href="" ng-click="selectSeriesInfo('PreRegister')">PreRegister</a>
 
   </div>
 
@@ -358,6 +358,59 @@
 
     </div>
 
+  </div>
+  <div class="seriesPageInfoContainers" id="seriesPreRegisterPageInfoContainer">
+    <div class="pageInfoSplitters">
+      <p>Pre-Register</p>
+    </div>
+    <div class="" id="preRegNavBar">
+      <h2 ng-repeat="ev in announcements.events track by $index">{{ev.name}}</h2>
+    </div>
+    <div class="" id="registrationViewDiv">
+
+      <div class="" id="registrationEventInfoDiv">
+        <span>
+          <h2>{{announcements.events[0].name}}</h2>
+          <p>{{announcements.events[0].displayDate}}</p>
+        </span>
+        <a href="" ng-click="goToRegistration(announcements.events[0])">Register Now!</a>
+
+      </div>
+      <div class="" id="seriesPageEntryListsView">
+
+        <div class="registriesNavs" id="classesRegistryCellDiv">
+
+          <div href="" class="registryClassCell" id="{{$index}}registryClassCell" ng-repeat="cl in entry_lists[1].entries.classes track by $index" ng-click="selectRegistrationList(cl.list,$index)">
+
+            <h1>{{cl.name}}</h1>
+            <div class="regListLengthsCell">
+              <p class="regListLengths">{{cl.list.length}}</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="" id="entryListRegistryDiv">
+
+          <div class="" id="entryListHeader">
+            <h3>Name</h3>
+            <h3 class="entryCellNumbers">Kart number</h3>
+            <h3 class="entryCellTransponders">Transponder</h3>
+          </div>
+
+          <span class="entryListCells" ng-repeat="e in selectedRegistrationList">
+
+            <p class="entryCellNames">{{e.name}}</p>
+            <p class="entryCellNumbers">{{e.number}}</p>
+            <p class="entryCellTransponders">{{e.transponder}}</p>
+            <!-- <p></p> -->
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
   </div>
 
 </div>

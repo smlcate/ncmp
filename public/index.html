@@ -21,95 +21,97 @@
 
   <link rel="stylesheet" href="./styles/style.css">
 
+  <title>New Castle Motorsports Park</title>
+
 </head>
 <body ng-app='mainApp' ng-controller="mainCtrl">
 
   <header id="mainHeader">
 
     <div id="headerContainer">
-      
+
       <a href="/#!/home"><img src="./images/NCMP-Logo-2017-FINAL.GIF" alt="" id="headerLogo"><a>
-        
+
         <div id="headerSideContainer">
-          
+
           <div id="headerInfoDisplay">
-            
+
             <div class="headerInfoCell">
-              
+
               <p>NewCastle, IN</p>
               <p>{{headerInfo.displayDate}}</p>
               <p style="color:{{todaysEvent.color}};background:rgba(0,0,0,0.5);padding:0 5 0 5px;">{{todaysEvent.name}}</p>
             </div>
             <div class="headerInfoCell">
-              
+
               <a>Track Weather</a>
               <p>{{ weather.feelslike_f }}°f / {{ weather.feelslike_c }}°c</p>
               <p>{{ weather.weather }}</p>
               <img ng-src="{{weather.icon_url}}" alt="">
-              
+
             </div>
-            
+
             <div class="headerInfoCell" id="signInUpHeaderInfoCell">
-              
+
               <!-- <a href="" ng-click="goTo('signUpDisplay')">Sign Up</a> -->
               <a href="" ng-click="goTo('signInDisplay')">Sign In</a>
-              
+
             </div>
             <div class="headerInfoCell" id="userHeaderInfoCell">
-              
+
               <p>{{user.email}}</p>
               <a href="#" ng-click="signOut()">Sign Out</a>
               <!-- <p>Sign In</p> -->
-              
+
             </div>
-            
+
           </div>
-          
+
           <nav id="headerNav">
-            
+
             <a href="/#!/series" class="headerNavAnc">Series</a>
             <a href="/#!/news" class="headerNavAnc">News</a>
             <a href="/#!/calendar" class="headerNavAnc">Schedule</a>
             <a href="/#!/kartowners" class="headerNavAnc">Kart Owners</a>
-            
+
             <a href="/#!/rentalkarts" class="headerNavAnc">Rental Karts</a>
             <!-- <a href="/#!/corporateevents" class="headerNavAnc">Corporate Events</a> -->
             <a href="/#!/about" class="headerNavAnc">About</a>
             <a href="/#!/weather" class="headerNavAnc">Weather</a>
-            
+
           </nav>
         </div>
       </div>
-      
+
       <div id="headerBottomBar">
-        
+
         <div id="headerNewsPrompter">
-          
+
           <div class="bannerDivs" id="welcomeBannerDiv">
             <h2>Welcome to NewCastle Motorspots Park</h2>
           </div>
-          
+
           <!-- <div class="resultsPromptDivs" ng-repeat="cl in currentPoints">
-            
+
             <span class="resultsPromptDivSpans" id="newsPromptSpan">
               <h3>Today:<h3 style="color:{{todaysEvent.color}}">{{todaysEvent.name}}</h3></h3> -->
               <!-- <h3 style="color:{{todaysEvent.color}}">{{todaysEvent.name}}</h3> -->
             <!-- </span>
-            
+
             <span class="resultsPromptDivSpans" id="resultsPromptTitleSpan">
               <h1>{{cl.name}} Current Points</h1> -->
               <!-- <h1>Current Points</h1> -->
             <!-- </span>
-            
+
             <span class="resultsPromptDivSpans" ng-repeat="dr in cl.drivers.slice(0,-(cl.drivers.length-3))">
               <h1>{{$index+1}}.</h1>
               <h3>{{dr.name}} - {{dr.results[14].position}}pts.</h3>
             </span>
-            
+
           </div> -->
-          
+
         </div>
-        
+
       </div>
 
 

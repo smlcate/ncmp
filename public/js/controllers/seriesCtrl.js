@@ -1,5 +1,9 @@
 app.controller('seriesCtrl', ['$scope', '$http', function($scope, $http) {
 
+  $scope.openRegistrations = [];
+  $scope.entry_lists = [];
+
+
   $('.seriesNavAncs').on('click', function() {
       $('.seriesNavAncs').css({'background':'#154498','color':'white'});
     $(this).css({'background':'white','color':'#154498'});
@@ -152,31 +156,96 @@ app.controller('seriesCtrl', ['$scope', '$http', function($scope, $http) {
 
     }
 
-  function buildPage() {
+    function buildPreRegistration() {
+      console.log($scope.announcements.events[0]);
+      // for (var i = 0; i < $scope.announcements.events.length; i++) {
+      //
+      // }
 
-    $('.seriesPageInfoContainers').css('display','none');
-    $('#seriesAboutPageInfoContainer').css('display','flex');
+      $http.post('getEventRegistration',{seriesId:$scope.announcements.events[0].event_group_id})
+      .then(function(res) {
+        console.log(res.data);
+        var reg = res.data;
+        $scope.openRegistrations.push(reg);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+      $http.get('getEventEntryLists')
+      .then(function(data) {
+        var lists = [];
+        for (var i = 0; i < data.data.length; i++) {
+          // console.log(JSON.parse(data.data[i].entries))
+          var l = {
+            original:data.data[i],
+            entries: JSON.parse(data.data[i].entries)
+          }
+          lists.push(l);
+          for (var j = 0; j < $scope.events.length; j++) {
+            if (l.original.event_id === $scope.events[j].id) {
+              l.ev = $scope.events[j]
+            }
+          }
+        }
+        // console.log(lists);
+        $scope.entry_lists = lists;
+        console.log($scope.entry_lists);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+      // $scope.openRegistrations.push($scope.announcements.events[0]);
 
-    $scope.classInfo = fillClassInfo().map(function(e) {
-      e.displayName = e.name.split(':')[0];
-      e.displayName = e.displayName.split('(')[0];
-      return e;
-    },[]);
+    }
+    buildPreRegistration();
 
-    $scope.selectedClass = $scope.classInfo[0];
-  }
-  buildPage();
+    function buildPage() {
 
-  $scope.thisClass = function(c) {
-    $scope.selectedClass = c;
-  }
+      $('.seriesPageInfoContainers').css('display','none');
+      $('#seriesAboutPageInfoContainer').css('display','flex');
 
-  $scope.selectSeriesInfo = function (p) {
-    $('.seriesPageInfoContainers').css('display','none');
-    $('#series'+p+'PageInfoContainer').css('display', 'flex');
-  }
+      $scope.classInfo = fillClassInfo().map(function(e) {
+        e.displayName = e.name.split(':')[0];
+        e.displayName = e.displayName.split('(')[0];
+        return e;
+      },[]);
 
+      $scope.selectedClass = $scope.classInfo[0];
+    }
+    buildPage();
 
+    $scope.thisClass = function(c) {
+      $scope.selectedClass = c;
+    }
+
+    $scope.selectSeriesInfo = function (p) {
+      $('.seriesPageInfoContainers').css('display','none');
+      $('#series'+p+'PageInfoContainer').css('display', 'flex');
+    }
+
+    $scope.selectRegistrationList = function(list,index) {
+      $('.registryClassCell').css('background','white');
+      $('.registryClassCell h1').css('color','#154498');
+      // console.log(index);
+
+      $('#'+index+'registryClassCell').css('background','#154498');
+      $('#'+index+'registryClassCell h1').css('color','#E1F5FE');
+      // $('#'+index+'registryClassCell ').css('color','#154498');
+
+      // console.log(list);
+      $scope.selectedRegistrationList = list;
+    }
+    $scope.selectRegistrationOption = function(list) {
+      var l = list;
+      for (var i = 0; i < l.length; i++) {
+        for (var j = 0; j < $scope.selectedRegistration.entries.members.length; j++) {
+          if (l[i].member_id == $scope.selectedRegistration.entries.members[j].id) {
+            l[i].membership = $scope.selectedRegistration.entries.members[j];
+          }
+        }
+      }
+      $scope.selectedRegistrationOption = l;
+    }
 
   // $scope.selectSeriesInfo = function(option) {
   //
