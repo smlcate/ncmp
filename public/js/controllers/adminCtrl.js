@@ -386,7 +386,7 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
     console.log(data);
     var d = JSON.parse(data.results);
-    var d = JSON.parse(d.data)
+    // var d = JSON.parse(d.data)
     console.log(d);
     for (var i = 0; i < d.length; i++) {
       for (var j = 0; j < d[i].drivers.length; j++) {
@@ -1072,7 +1072,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
           }
           var row = cl.split('\n');
           for (var j = 0; j < row.length; j++) {
-            // console.log(row[j]);
+            console.log(row[j]);
             if (j === 0) {
               classObject.name = row[j].split(',')[0];
               // console.log(classObject.name);
@@ -1093,8 +1093,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
                 i++
                 classes.push(classObject)
-                if (i === fileUpload.files.length) {
-                  // console.log(classes);
+                if (i >= fileUpload.files.length-1) {
+                  console.log(classes);
                   var stringData = JSON.stringify(classes)
                   $http.post('updatePoints', {data:stringData})
                   .then(function(res) {

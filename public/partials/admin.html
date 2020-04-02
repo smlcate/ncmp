@@ -249,12 +249,13 @@
       <div class="" id="adminResultsPointsDisplay">
 
         <div class="" id="adminResultsPointsDatesDiv">
+          <p style="width:200px;">Name</p>
           <p ng-repeat="date in selectedPointsClass.dates.slice(0,-1)">{{date}}</p>
           <p>Points</p>
         </div>
         <div class="" id="adminResultsDriversDiv">
           <div class="adminResultsDriversCells" ng-repeat="driver in selectedPointsClass.drivers">
-            <p>{{driver.name}}</p>
+            <p class="resultNames">{{driver.name}}</p>
             <div class="adminResultsDriversCellsResultsDivs" ng-repeat="r in driver.results" style="{{r.style}}">
               <p>{{r.position}}</p>
               <p>{{r.points}}</p>

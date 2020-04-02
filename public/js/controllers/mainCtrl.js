@@ -385,7 +385,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
     // console.log(data);
     var d = JSON.parse(data.results);
-    var d = JSON.parse(d.data)
+    // var d = JSON.parse(d.data)
     for (var i = 0; i < d.length; i++) {
       for (var j = 0; j < d[i].drivers.length; j++) {
         for (var k = 0; k < d[i].drivers[j].results.length; k++) {
@@ -846,8 +846,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
               // console.log(openDate);
               if (today.getMonth() >= openDate.getMonth() && today.getMonth()-openDate.getMonth() <= 1) {
                 if (today.getMonth() > openDate.getMonth()) {
-                  var monthLength = $scope.monthDays[openDate.getMonth()];
-                  var difference = today.getDate() + (monthLength - openDate.getDate())
+                  // console.log($scope.monthDays);
+                  var monthLength = monthDays[openDate.getMonth()];
+                  var difference = today.getDate() + (monthLength - openDate.getDate());
                   if (difference <= days) {
                     ev.openReg = true;
                   }
