@@ -394,14 +394,15 @@
           <div class="" id="entryListHeader">
             <h3>Name</h3>
             <h3 class="entryCellNumbers">Kart number</h3>
-            <h3 class="entryCellTransponders">Transponder</h3>
+            <!-- <h3 class="entryCellTransponders">Transponder</h3> -->
           </div>
 
           <span class="entryListCells" ng-repeat="e in selectedRegistrationList">
 
+            <img src="{{e.image}}" alt="">
             <p class="entryCellNames">{{e.name}}</p>
             <p class="entryCellNumbers">{{e.number}}</p>
-            <p class="entryCellTransponders">{{e.transponder}}</p>
+            <!-- <p class="entryCellTransponders">{{e.transponder}}</p> -->
             <!-- <p></p> -->
 
           </span>

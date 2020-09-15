@@ -11,6 +11,7 @@
     <a href="" ng-click="changeAdminDisplay('Events')">Events</a>
     <a href="" ng-click="changeAdminDisplay('Registrations')">Registrations</a>
     <a href="" ng-click="changeAdminDisplay('News')">News</a>
+    <a href="" ng-click="changeAdminDisplay('Rules')">KRA Rules/Schedule</a>
     <a href="" ng-click="changeAdminDisplay('Images')">Images</a>
     <a href="" ng-click="changeAdminDisplay('Results')">Results</a>
     <a href="" ng-click="changeAdminDisplay('Accounts')">Accounts/Drivers</a>
@@ -42,7 +43,7 @@
 
         </span>
         <span>
-          <span ng-repeat="cl in driver.classes" ng-if="cl.name != ''">
+          <span ng-repeat="cl in driver.classes" ng-if=" cl && cl.name != ''">
             <p>{{cl.name}}</p>
             <p>#{{cl.number}}</p>
           </span>
@@ -89,6 +90,89 @@
 
 
   </div>
+
+  <div class="adminControlGroups" id="adminRulesControl">
+
+    <div class="adminClubDisplays" id="adminClubRulesDisplay">
+
+      <div class="adminClubDisplayHeaders">
+        <div class="adminClubDisplayTitleDivs">
+
+          <h3>Rules</h3>
+          <h3>|</h3>
+          <h3>{{clubRules.ruleLists[clubRules.currentList].name}}</h3>
+          <h3>|</h3>
+          <a href="" ng-if="clubRules.inputs.edit == false" id="clubRulesEditBtn" ng-click="editClubRules()">Edit</a>
+          <a href="" ng-if="clubRules.inputs.edit == true" id="cancelClubRulesEditBtn" ng-click="cancelClubRulesEdit()">Cancel</a>
+
+
+        </div>
+        <div ng-if="clubRules.inputs.edit == true" class="adminClubDisplayEditBars">
+          <div class="adminClubDisplayListDivs">
+            <a href="" id="clubRulesList{{l.id}}" ng-repeat="l in clubRules.ruleLists" ng-click="thisRuleList(l.id)">{{l.name}}</a>
+          </div>
+          <a href="" ng-if="clubRules.inputs.addNewList == false" ng-click="newRuleList()">New List</a>
+          <a href="" ng-if="clubRules.inputs.addNewList == true" ng-click="cancelNewRuleList()">Cancel</a>
+          <span ng-if="clubRules.inputs.addNewList == true">
+            <p>List Name</p>
+            <input type="text" name="" value="" ng-model="clubRules.inputs.newList">
+            <a href="" ng-click="addRuleList()">Add</a>
+          </span>
+
+        </div>
+        <a ng-if="clubRules.inputs.edit == true" href="" ng-click="saveRuleLists()">Save</a>
+      </div>
+
+      <div class="adminClubInfoDisplays">
+        <div class="adminClubInfoDisplayClassesDivs">
+          <span ng-if="clubRules.inputs.edit == true">
+            <p>Classes</p>
+            <input type="text" name="" value="" ng-model="clubRules.inputs.newClass">
+            <a href="" ng-click="addClassToRuleList()">Add</a>
+          </span>
+          <a href="" ng-click="thisClubRuleClass(c.id)" ng-repeat="c in clubRules.ruleLists[clubRules.currentList].classes">{{c.name}}</a>
+        </div>
+        <div class="adminClubInfoDisplayDivs">
+          <div class="adminClubInfoNewRuleDivs" ng-if="clubRules.inputs.edit == true">
+            <textarea name="name" rows="8" cols="80" name="" value="" ng-model="clubRules.inputs.newRule"></textarea>
+            <a href="" ng-click="addClubRule()">Add</a>
+          </div>
+          <div class="adminClubInfoDisplayRules" ng-repeat="r in clubRules.ruleLists[clubRules.currentList].classes[clubRules.currentClass].rules">
+            <a href="" ng-if="clubRules.inputs.edit == true" ng-click="removeClubRule(r.id)">X</a>
+            <p>{{r.rule}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="adminClubDisplays" id="adminClubScheduleDisplay">
+      <div class="adminClubDisplayHeaders">
+
+        <div class="adminClubDisplayTitleDivs">
+
+          <h3>Schedule</h3>
+          <h3>|</h3>
+          <a href="">Edit</a>
+
+        </div>
+
+        <div class="adminClubDisplayEditBars">
+          <span>
+            <p>Class</p>
+            <input type="text" name="" value="">
+            <a href="">Add</a>
+          </span>
+        </div>
+        <a href="">Save</a>
+
+      </div>
+      <div class="adminClubInfoDisplays">
+
+      </div>
+    </div>
+
+  </div>
+
 
   <div class="adminControlGroups" id="adminRegistrationsControl">
 
@@ -337,6 +421,35 @@
 
       </div>
 
+
+    </div>
+    <div class="" id="seriesClassesAndRulesDiv">
+
+      <span>
+        <p>Class Name</p>
+        <input type="text" name="" value="" ng-model="newClass.name">
+      </span>
+      <span>
+        <p>Entry Cap</p>
+        <input type="number" name="" value="" ng-model="newClass.entryCap">
+        <p>None</p>
+        <input type="checkbox" name="" value="true" ng-model="newClass.noEntryCap">
+      </span>
+      <span>
+        <p>Weight</p>
+        <input type="text" name="" value=""ng-model="newClass.weight">
+      </span>
+      <span>
+        <p>Tire Rule(s)</p>
+        <input type="text" name="" value="" ng-model="newClass.tires">
+      </span>
+      <span>
+        <p>Other Rules</p>
+        <input type="text" name="" value="" ng-model="newOtherRule">
+        <button type="button" name="button" ng-click="addRule()">Add Rule</button>
+      </span>
+      <p ng-repeat="r in newClass.otherRules">{{r}}</p>
+
     </div>
 
   </div>
@@ -395,7 +508,7 @@
         <p id="noNewsEventBtn" style="background:#154498;color:#E1F5FE;" ng-click="selectNewsEvent('none')">None</p>
         <p class="newsEventCells" id="{{e.id}}newsEventCell" ng-repeat="e in news.selectedSeries.events" style="color:{{e.color}}" ng-click="selectNewsEvent(e)">{{e.name}}</p>
       </nav>
-      <!-- <button type="button" name="button" ng-click="checkNewsVars()">Check</button> -->
+      <!-- <button type="button" name="button" ng-click=" checkNewsVars()">Check</button> -->
       <!-- <span>
         <p>Series:</p>
         <select class="" name="" ng-model="news.selectedSeries">

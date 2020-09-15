@@ -1,14 +1,14 @@
 <div class="parentDisplays" id="membershipFormDisplay" ng-controller="membersCtrl">
-  
+
   <script type="text/javascript" src="../js/controllers/membersCtrl.js">
-    
+
   </script>
-  
+
   <div class="pageInfoSplitters">
     <p>New Members</p>
   </div>
   <div class="memberDivContainers" id="memberHeaderDivContainer">
-    
+
     <div class="" id="newMemberAboutDiv">
       <p>Members get to register for KRA events, as well as recieve a discount on practice passes.</p>
       <p>Single Membership - $50.00</p>
@@ -22,7 +22,7 @@
   <div class="memberDivContainers" id="memberDivsContainer">
     <div class="memberInfoDivs" id="familyMemberInfoDiv">
       <div class="memberInfoDivContainers" id="memberParentDivContainer">
-        
+
         <div class="memberParentInfoDivLeftContainers">
           <span>
             <p style="width:auto;height:auto;display:flex;justify-content:center;">Parent or Guardian Form</p>
@@ -48,7 +48,7 @@
                 <p style="width: auto">State</p>
                 <input style="width:40px;" type="text" name="" value="" ng-model="memberForm.mem_parent.state">
               </span>
-            </div>    
+            </div>
           </div>
           <div class="memberParentInfoDivRightContainers">
             <span>
@@ -69,29 +69,29 @@
               <input type="text" name="" value="">
             </span>
           </div>
-          
+
           <!-- <p>If signing up a minor, parents or guardians fill out this portion. Each driver will fill out the rest of the form below.</p> -->
         </div>
       <!-- <p style="width:auto;height:60px;margin-bottom:0px;">Parents or guardians should sign this part if registering minors.</p> -->
-      
-      
-      
+
+
+
       <div class="memberInfoDivContainers" id="familyMemberInfoDivContainer">
         <div class="famMemDriverCell">
-          
+
           <div class="memberInfoLeftDivContainers">
-            
+
             <h2>Driver 1</h2>
-            
+
             <div class="memberInfoTopInputs">
-              <span class="memberInfoIdInputDivs"> 
-                
-                <div class="memberPictureInputDivs">      
+              <span class="memberInfoIdInputDivs">
+
+                <div class="memberPictureInputDivs">
+                  <img class="memberImagePreviews" alt="No Image Selected" id="memberImagePreview0" src="../images/placeholder-profile-pic.png" alt="Select Image" />
                   <input type="file" alt="no image selected" onchange="angular.element(this).scope().selectFile(event,0)" />
-                  <img class="memberImagePreviews" alt="No Image Selected" id="memberImagePreview0" src="#" alt="Select Image" />
                 </div>
-                
-                <div class="">
+
+                <div class="memberInfoIdInputNameDivs">
                   <span>
                     <input class="memberNameInputs" type="text" name="" placeholder="First Name" value="" ng-model="memberForm.members[0].fName">
                     <p style="color:red;width:10px;">*</p>
@@ -100,36 +100,42 @@
                     <input class="memberNameInputs" type="text" name="" placeholder="Last Name" value="" ng-model="memberForm.members[0].lName">
                     <p style="color:red;width:10px;">*</p>
                   </span>
-                  <span id="initAndBdaySpan">
-                    <input type="text" name="" id="memberMidInitInput"  placeholder="Mid Init" value=""ng-model="memberForm.members[0].mName">
-                    <input type="date" name="" placeholder="Birthday" value="" ng-model="memberForm.members[0].bDay">
+                  <span class="initAndBdaySpans">
+                    <input class="initInputs" type="text" name="" id=""  placeholder="M" value=""ng-model="memberForm.members[0].mName">
+                    <span>
+                      <p>Birthday</p>
+                      <input type="date" name="" placeholder="Birthday" value="" ng-model="memberForm.members[0].bDay">
+                    </span>
                   </span>
                 </div>
-                
+
               </span>
-              
+
               <div class="memberInfoBottomInputs" id="memberInfoBottomInput0">
+                <h3>Class Info</h3>
+                <p>This helps you get through pre-registration quicker, and visitors to the website will be able to see who is running what classes</p>
+
                 <div class="memberClassSelectInputDivs" id="0memberClassSelectInputDiv0">
-                  
-                  <button type="button" ng-if="memberForm.members[0].classes[0].name.length > 0" name="button" ng-click="deleteMemClass(1,0)">X</button>
-                  
+
+                  <button type="button" ng-if="memberForm.members[0].classes[0].name.length > 0" name="button" ng-click="deleteMemClass(0,0)">X</button>
+
                   <select class="memberClassSelectInput" ng-model="memberForm.members[0].classes[0].name">
                     <option class="memberClassOptions" value="{{cl.name}}" ng-repeat="cl in memberForm.class_choices" >{{cl.name}}</option>
                   </select>
-                  
+
                   <input type="number" class="memberKartNumberInputs" id="memberKartNumberInput" placeholder="##" name="" value="" ng-model="memberForm.members[0].classes[0].number">
                   <input type="text" placeholder="Transponder" name="" value="" ng-model="memberForm.members[0].classes[0].transponder">
                   <input type="text" name="" placeholder="chassis" value="" ng-model="memberForm.members[0].classes[0].chassis">
-                
+
                 </div>
               </div>
+              <button type="button" class="addMemberClassButtons" ng-if="memberForm.members[0].classes[0] && memberForm.members[0].classes[0].name != ''" name="" ng-click="addMemberClass(0,0)">+</button>
             </div>
-            <button type="button" name="" ng-click="addMemberClass(0,0)">+</button>
           </div>
           <div class="memberInfoRightDivContainers">
-            
+
             <div class="memberInfoDivContainers" id="memberInfoDivRightContainer">
-              
+
               <h3>About</h3>
               <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[0].about"></textarea>
               <!-- <span class="memberInfoSocialSpans">
@@ -143,19 +149,19 @@
             </div>
           </div>
         </div>
-        
+
         <div class="famMemDriverCell">
-          
+
           <div class="memberInfoLeftDivContainers">
             <h2>Driver 2</h2>
-            
+
             <div class="memberInfoTopInputs">
-              <span class="memberInfoIdInputDivs"> 
-                <div class="memberPictureInputDivs">      
+              <span class="memberInfoIdInputDivs">
+                <div class="memberPictureInputDivs">
                   <input type="file" placeholder="no image selected" onchange="angular.element(this).scope().selectFile(event,1)" />
                   <img class="memberImagePreviews" alt="No Image Selected" id="memberImagePreview1" src="../images/placeholder-profile-pic.png" alt="Select Image" />
                 </div>
-                <div class="">
+                <div class="memberInfoIdInputNameDivs">
                   <span>
                     <input class="memberNameInputs" type="text" name="" placeholder="First Name" value="" ng-model="memberForm.members[1].fName">
                     <p style="color:red;width:10px;">*</p>
@@ -164,9 +170,12 @@
                     <input class="memberNameInputs" type="text" name="" placeholder="Last Name" value="" ng-model="memberForm.members[1].lName">
                     <p style="color:red;width:10px;">*</p>
                   </span>
-                  <span id="initAndBdaySpan">
-                    <input type="text" name="" id="memberMidInitInput"  placeholder="Mid Init" value=""ng-model="memberForm.members[1].mName">
-                    <input type="date" name="" placeholder="Birthday" value="" ng-model="memberForm.members[1].bDay">
+                  <span class="initAndBdaySpans">
+                    <input class="initInputs" type="text" name="" id=""  placeholder="M" value=""ng-model="memberForm.members[1].mName">
+                    <span>
+                      <p>Birthday</p>
+                      <input type="date" name="" placeholder="Birthday" value="" ng-model="memberForm.members[1].bDay">
+                    </span>
                   </span>
                 </div>
               </span>
@@ -177,25 +186,27 @@
                 </span>
               </div> -->
               <div class="memberInfoBottomInputs" id="memberInfoBottomInput1">
+                <h3>Class Info</h3>
+
                 <div class="memberClassSelectInputDivs" id="1memberClassSelectInputDiv0">
-                  
-                  <button type="button" ng-if="memberForm.members[0].classes[0].name.length > 0" name="button" ng-click="deleteMemClass(1,1)">X</button>
-                  
-                  <select class="memberClassSelectInput" ng-model="memberForm.members[1].classes[1].name">
+
+                  <button type="button" ng-if="memberForm.members[1].classes[0].name.length > 0" name="button" ng-click="deleteMemClass(1,1)">X</button>
+
+                  <select class="memberClassSelectInput" ng-model="memberForm.members[1].classes[0].name">
                     <option class="memberClassOptions" value="{{cl.name}}" ng-repeat="cl in memberForm.class_choices" >{{cl.name}}</option>
                   </select>
-                  <input type="number" class="memberKartNumberInputs" id="memberKartNumberInput" placeholder="##" name="" value="" ng-model="memberForm.members[1].classes[1].number">
-                  <input type="text" placeholder="Transponder" name="" value="" ng-model="memberForm.members[1].classes[1].transponder">
-                  <input type="text" name="" placeholder="chassis" value="" ng-model="memberForm.members[1].classes[1].chassis">
+                  <input type="number" class="memberKartNumberInputs" id="memberKartNumberInput" placeholder="##" name="" value="" ng-model="memberForm.members[1].classes[0].number">
+                  <input type="text" placeholder="Transponder" name="" value="" ng-model="memberForm.members[1].classes[0].transponder">
+                  <input type="text" name="" placeholder="chassis" value="" ng-model="memberForm.members[1].classes[0].chassis">
                 </div>
               </div>
+              <button type="button" class="addMemberClassButtons" name="" ng-if="memberForm.members[1].classes[0] && memberForm.members[1].classes[0].name != ''" ng-click="addMemberClass(1,0)">+</button>
             </div>
-            <button type="button" name="" ng-click="addMemberClass(1,0)">+</button>
           </div>
           <div class="memberInfoRightDivContainers">
-            
+
             <div class="memberInfoDivContainers" id="memberInfoDivRightContainer">
-              
+
               <h3>About</h3>
               <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[1].about"></textarea>
               <!-- <span class="memberInfoSocialSpans">
@@ -209,25 +220,25 @@
             </div>
           </div>
         </div>
-          
+
       </div>
     </div>
     <div class="memberInfoDivs" id="singleMembershipFormDisplay">
       <div class="famMemDriverCell">
-        
+
         <div class="memberInfoLeftDivContainers">
-          
+
           <h2>Driver Info</h2>
-          
+
           <div class="memberInfoTopInputs">
-            <span class="memberInfoIdInputDivs"> 
-              
-              <div class="memberPictureInputDivs">      
-                <input type="file" alt="no image selected" onchange="angular.element(this).scope().selectFile(event,0)" />
-                <img class="memberImagePreviews" alt="No Image Selected" id="memberImagePreview0" src="#" alt="Select Image" />
+            <span class="memberInfoIdInputDivs">
+
+              <div class="memberPictureInputDivs">
+                <img class="memberImagePreviews" alt="No Image Selected" id="memberImagePreviewSingle" src="../images/placeholder-profile-pic.png" alt="Select Image" />
+                <input type="file" alt="no image selected" onchange="angular.element(this).scope().selectFile(event,0,true)" />
               </div>
-              
-              <div class="">
+
+              <div class="memberInfoIdInputNameDivs">
                 <span>
                   <input class="memberNameInputs" type="text" name="" placeholder="First Name" value="" ng-model="memberForm.members[0].fName">
                   <p style="color:red;width:10px;">*</p>
@@ -236,39 +247,47 @@
                   <input class="memberNameInputs" type="text" name="" placeholder="Last Name" value="" ng-model="memberForm.members[0].lName">
                   <p style="color:red;width:10px;">*</p>
                 </span>
-                <span id="initAndBdaySpan">
-                  <input type="text" name="" id="memberMidInitInput"  placeholder="Mid Init" value=""ng-model="memberForm.members[0].mName">
-                  <input type="date" name="" placeholder="Birthday" value="" ng-model="memberForm.members[0].bDay">
+                <span class="initAndBdaySpans">
+                  <input type="text" class="initInputs" name="" id=""  placeholder="M" value=""ng-model="memberForm.members[0].mName">
+                  <span>
+                    <p>Birthday</p>
+                    <input type="date" class="memBirthdayInputs" name="" placeholder="Birthday" value="" ng-model="memberForm.members[0].bDay">
+                  </span>
                 </span>
               </div>
-              
+
             </span>
-            
+
             <div class="memberInfoBottomInputs" id="singleMemberInfoBottomInput">
+
+
+              <h3>Class Info</h3>
+              <p>This helps you get through pre-registration quicker, and visitors to the website will be able to see who is running what classes</p>
+
               <div class="memberClassSelectInputDivs" id="singleMemberClassSelectInputDiv">
-                
+
                 <button type="button" ng-if="memberForm.members[0].classes[0].name.length > 0" name="button" ng-click="deleteMemClass(0,0)">X</button>
-                
+
                 <select class="memberClassSelectInput" ng-model="memberForm.members[0].classes[0].name">
                   <option class="memberClassOptions" value="{{cl.name}}" ng-repeat="cl in memberForm.class_choices" >{{cl.name}}</option>
                 </select>
-                
+
                 <input type="number" class="memberKartNumberInputs" id="memberKartNumberInput" placeholder="##" name="" value="" ng-model="memberForm.members[0].classes[0].number">
                 <input type="text" placeholder="Transponder" name="" value="" ng-model="memberForm.members[0].classes[0].transponder">
                 <input type="text" name="" placeholder="chassis" value="" ng-model="memberForm.members[0].classes[0].chassis">
-              
+
               </div>
             </div>
+            <button type="button" class="addMemberClassButtons" name="" ng-click="addMemberClass(0,0)" ng-if="memberForm.members[0].classes[0] && memberForm.members[0].classes[0].name != ''">+</button>
           </div>
-          <button type="button" name="" ng-click="addMemberClass(0,0)">+</button>
         </div>
         <div class="memberInfoRightDivContainers">
-          
+
           <div class="memberInfoDivContainers" id="memberInfoDivRightContainer">
-            
+
             <h3>About</h3>
             <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[0].about"></textarea>
-            
+
             <div id="singleMemContactDiv">
               <span>
                 <p>Email</p>
@@ -294,8 +313,8 @@
                 <input type="checkbox" style="width:auto;" name="" value="" ng-model="memberForm.members[0].contacts.update_phone">
               </span>
             </div>
-            
-            
+
+
             <!-- <span class="memberInfoSocialSpans">
               <p>@</p>
               <input type="text" placeholder="twitter" name="" value="" ng-model="memberForm.members[0].social.twitter">
@@ -308,14 +327,14 @@
         </div>
       </div>
     </div>
-      
+
   </div>
-  
+
   <button type="button" name="button" ng-if="memberForm.single == false" ng-click="addMember()">Add Member</button>
   <!-- <div class="formDisplays">
     <!-- <p>Hello, why should you become a KRA member?</p>
     <p>KRA Members are elligiable to sign up for KRA Series Events! Non-members may sign up, but there will be a small one-time member fee.</p> -->
-    
+
     <!-- <span>
       <p>Single Membership</p>
       <input type="checkbox" id="singleCheckBox" name="" value="true" ng-model="member.single" ng-change="selectFormType('single')">
@@ -324,39 +343,39 @@
       <p>Family Membership</p>
       <input type="checkbox" id="familyCheckBox" name="" value="false" ng-model="member.family" ng-change="selectFormType('family')">
     </span>
-    
+
     <div class="membershipFormDisplays" id="singleMembershipFormDisplay">
-      
+
       <div class="membershipFormDivs" id="singleMembershipFormPersonalDiv">
-        
+
         <span>
           <p>First Name</p>
-          <input type="text" name="" value="" ng-model="member.primary.fName">  
+          <input type="text" name="" value="" ng-model="member.primary.fName">
         </span>
         <span>
           <p>Last Name</p>
           <input type="text" name="" value="" ng-model="member.primary.lName">
         </span>
         <span>
-          <p>Middle Name</p>
+          <p>Mdle Name</p>
           <input type="text" name="" value="" ng-model="member.primary.mName">
         </span>
         <span>
           <p>Birth Date</p>
           <input type="date" name="" value="" ng-model="member.primary.bDate">
         </span>
-        
+
       </div>
-      
+
       <div class="membershipFormDivs">
-        
-        <span>      
+
+        <span>
           <p>Driver Name</p>
           <select class="" name="">
             <option value="" ng-repeat="cl in memberForm.classes" ng-click="selectClass(0, cl)">{{cl.name}}</option>
           </select>
         </span>
-        
+
         <span>
           <p>Add Class</p>
           <a href="" type="button" name="button" ng-click="addClass()">+</a>
@@ -369,39 +388,39 @@
           <p>Kart Number</p>
           <input type="number" name="" value="" ng-model="member.drivers[0].kart_number">
         </span>
-        
+
         <span>
           <p>Chassis Brand</p>
           <input type="text" name="" value="" ng-model="member.drivers[0].chassis">
         </span>
-        
+
         <span>
           <p>Transponder ##</p>
           <input type="text" name="" value="" ng-model="member.drivers[0].transponder">
         </span> -->
-        
+
         <!-- <div class="" id="membershipFormSelectedClassesDiv">
-          
+
           <span class="membershipFormClassesCell" ng-repeat='class in selectedClasses'>
             <p>{{class.name}}</p>
             <p>{{class.number}}</p>
             <p>{{class.chassis}}</p>
             <p>{{class.transponder}}</p>
           </span>
-          
+
         </div> -->
-        
+
       <!-- </div>
-      
-      
-      
+
+
+
     </div>
     <div class="membershipFormDisplays" id="familyMembershipFormDisplay">
-      
-      <div class="membershipFormDivs" id="">      
-        
+
+      <div class="membershipFormDivs" id="">
+
           <p>Primary Member Info</p>
-          
+
         <span>
           <p>First Name</p>
           <input type="text" name="" value="" ng-model="member.primary.fName">
@@ -411,20 +430,20 @@
           <input type="text" name="" value="" ng-model="member.primary.lName">
         </span>
         <span>
-          <p>Middle Name</p>
+          <p>Mdle Name</p>
           <input type="text" name="" value="" ng-model="member.primary.mName">
         </span>
         <span>
           <p>Birth Date</p>
           <input type="date" name="" value="" ng-model="member.primary.bDate">
         </span>
-        
-      </div> 
-      
-      <div class="membershipFormDivs" id="">      
-        
+
+      </div>
+
+      <div class="membershipFormDivs" id="">
+
           <p>Driver #1 Info</p>
-          
+
         <span>
           <p>First Name</p>
           <input type="text" name="" value="" ng-model="member.drivers[0].fName">
@@ -434,51 +453,51 @@
           <input type="text" name="" value="" ng-model="member.drivers[0].lName">
         </span>
         <span>
-          <p>Middle Name</p>
+          <p>Mdle Name</p>
           <input type="text" name="" value="" ng-model="member.drivers[0].mName">
         </span>
         <span>
           <p>Birth Date</p>
           <input type="date" name="" value="" ng-model="member.drivers[0].bDate">
         </span>
-        
-      </div> 
-      
+
+      </div>
+
       <div class="membershipFormDivs" id="1membershipFormClassesDiv"> -->
-        
-        <!-- <span>      
+
+        <!-- <span>
           <p>Driver Name</p>
-          <input type="text" name="" value="" ng-model="member.drivers[0].name">    
+          <input type="text" name="" value="" ng-model="member.drivers[0].name">
         </span> -->
-        
+
         <!-- <span>
           <p>Add Class</p>
           <a href="" type="button" name="button" ng-click="addClass(0)">+</a>
         </span>
         <div class="" id="0memClass">
-          
-          
-          
+
+
+
         </div> -->
-        
+
         <!-- <div class="" id="membershipFormSelectedClassesDiv">
-          
+
           <span class="membershipFormClassesCell" ng-repeat='class in selectedClasses'>
             <p>{{class.name}}</p>
             <p>{{class.number}}</p>
             <p>{{class.chassis}}</p>
             <p>{{class.transponder}}</p>
           </span>
-          
+
         </div> -->
         <!-- <button type="button" name="button" ng-click="test()"></button>
-        
+
       </div>
-      
-      <div class="membershipFormDivs" id="">      
-        
+
+      <div class="membershipFormDivs" id="">
+
           <p>Driver #2 Info</p>
-          
+
         <span>
           <p>First Name</p>
           <input type="text" name="" value="" ng-model="member.drivers[1].fName">
@@ -488,29 +507,29 @@
           <input type="text" name="" value="" ng-model="member.drivers[1].lName">
         </span>
         <span>
-          <p>Middle Name</p>
+          <p>Mdle Name</p>
           <input type="text" name="" value="" ng-model="member.drivers[1].mName">
         </span>
         <span>
           <p>Birth Date</p>
           <input type="date" name="" value="" ng-model="member.drivers[1].bDate">
         </span>
-        
-      </div> 
-      
+
+      </div>
+
       <div class="membershipFormDivs"> -->
-        
-        <!-- <span>      
+
+        <!-- <span>
           <p>Driver Name</p>
-          <input type="text" name="" value="" ng-model="member.drivers[0].name">    
+          <input type="text" name="" value="" ng-model="member.drivers[0].name">
         </span> -->
-        
+
         <!-- <span>
           <p>Add Class</p>
           <a href="" type="button" name="button" ng-click="addClass(1)">+</a>
         </span>
         <div class="" id="1memClass">
-          
+
         </div> -->
         <!-- <span> -->
           <!-- <p>Select Class</p>
@@ -522,35 +541,35 @@
           <p>Kart Number</p>
           <input type="number" name="" value="" ng-model="member.drivers[1].kart_number">
         </span>
-        
+
         <span>
           <p>Chassis Brand</p>
           <input type="text" name="" value="" ng-model="member.drivers[1].chassis">
         </span>
-        
+
         <span>
           <p>Transponder ##</p>
           <input type="text" name="" value="" ng-model="member.drivers[1].transponder">
         </span> -->
-        
+
         <!-- <div class="" id="membershipFormSelectedClassesDiv"> -->
-          
+
           <!-- <span class="membershipFormClassesCell" ng-repeat='cl in memberForm.classes'>
             <p>{{cl.name}}</p>
             <p>{{cl.number}}</p>
             <p>{{cl.chassis}}</p>
             <p>{{cl.transponder}}</p>
           </span> -->
-          
+
         <!-- </div>
-        
+
       </div>
-      
+
     </div>
-    
+
   </div> -->
   <!-- <div class="membershipFormDisplays" id="membershipFormAddressDisplay">
-    
+
     <span>
       <p>Address</p>
       <input type="text" name="" value="" ng-model="mailing.address">
@@ -567,10 +586,10 @@
       <p>Zip</p>
       <input type="city" name="" value="" ng-model="mailing.zip">
     </span>
-    
+
   </div> -->
   <div class="membershipFormDisplays" id="membershipFormPaymentDiv">
-    
+
     <!-- <span>
       <p>Card Holders Name</p>
       <input type="text:cc-name" name="" value="" ng-model="payment.name">
@@ -588,9 +607,9 @@
       <p>CVC</p>
       <input type="number" name="" value="" ng-model="payment.cvc">
     </span> -->
-    
+
     <!-- <button type="button" name="button" ng-click="pay()">Pay</button> -->
-    
+
     <form action="/charge" method="post" id="payment-form">
       <div class="form-row">
         <label for="card-element">
@@ -620,7 +639,7 @@
       </script>
       <button type="submit" name="button"></button>
     </form> -->
-    
-  </div> -->
-  
+
+  </div>
+
 </div>

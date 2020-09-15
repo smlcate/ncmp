@@ -149,6 +149,57 @@ a {
   /* padding: 10px; */
 }
 
+#adminRulesControl {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  font-size: 140%;
+}
+.adminClubDisplays {
+  display: flex;
+  flex-direction: column;
+}
+.adminClubDisplayHeaders {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  /* justify-content: space-between; */
+}
+.adminClubDisplayEditBars {
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+.adminClubDisplayTitleDivs {
+  display: flex;
+  align-items: center;
+  width: 200px;
+}
+.adminClubDisplayEditBars span {
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+.adminClubDisplayEditBars input {
+  height: 35px;
+  margin-left: 10px;
+}
+.adminClubInfoDisplays {
+  display: flex;
+  width: 100%;
+}
+.adminClubInfoDisplayClassesDivs {
+  display: flex;
+  flex-direction: column;
+}
+.adminClubInfoDisplayClassesDivs span {
+  display: flex;
+  align-items: center;
+}
+
+
 #adminEventsRegistryControlPanelCell {
   display: flex;
   flex-direction: column;
@@ -466,6 +517,9 @@ a {
 }
 .newsInputSpans p {
   margin-right: 10px;
+}
+#newsNormalInputSpan {
+  display: flex;
 }
 #newsTitleSpan {
   display: flex;
@@ -2216,10 +2270,30 @@ align-items: center;
   /* width: 100%; */
   /* height:100%; */
   justify-content: space-between;
+  align-content: center;
+  border-bottom: 2px solid #154498;
+}
+.memberInfoIdInputNameDivs {
+  height: 175px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.memberInfoIdInputNameDivs input {
+  height: 40px;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.9);
+  border: none;
+  border-radius: 5px;
+  font-size: 130%;
+  padding: 0px 10px 0px 10px;
+}
+.memberInfoIdInputNameDivs p {
+  height: 10px;
 }
 .memberInfoIdInputDivs span {
   display: flex;
   justify-content: space-between;
+  align-items:flex-start;
 }
 #memberStateInput {
   width: 60px;
@@ -2286,10 +2360,13 @@ align-items: center;
 #updateInputLabel {
   width:150px;
 }
+
+
+
 .memberInfoAboutInputs {
   width: 100%;
   height: 180px;
-  padding: 10px;
+  padding: 1px;
   font-size: 21px;
   /* vertical-align:text-top; */
 }
@@ -2307,7 +2384,7 @@ align-items: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  padding: 15px;
   border-bottom: 1px solid grey;
 }
 /* .memberInfoTopInputs input {
@@ -2319,8 +2396,24 @@ align-items: center;
   display: flex;
   flex-direction: column;
   width:100%;
-
-
+  justify-content: center;
+}
+.addMemberClassButtons {
+  width:40px;
+  height: 40px;
+  font-size: 130%;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.memberInfoBottomInputs h3 {
+  height: 30px;
+  margin-bottom: 0px;
+}
+.memberInfoBottomInputs p {
+  /* height: 20px; */
+  margin-top: 0px;
 }
 .memberClassSelectInputDivs {
   /* width: 400px; */
@@ -2330,6 +2423,7 @@ align-items: center;
   /* flex-direction: column; */
   /* justify-content: space-between; */
 }
+
 .memberClassSelectInputDivs button {
   height: 30px;
   width: 30px;
@@ -2357,14 +2451,31 @@ align-items: center;
 .memberClassOptions {
   /* width: 40px; */
 }
-#initAndBdaySpan {
+.initAndBdaySpans {
   width:300px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
-#memberMidInitInput {
-  width: 30%;
+.initInputs {
+  width: 38px;
 }
+.initAndBdaySpans span {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* margin-right: 0px; */
+}
+.initAndBdaySpans span input{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-left: 5px;
+}
+/* #initAndBdaySpan input {
+  height: 30px;
+  width: 120px;
+} */
 
 
 .memberPictureInputDivs {
@@ -2384,15 +2495,21 @@ align-items: center;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  /* box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.9); */
+
 }
 .memberPictureInputDivs img {
   height: 150px;
+  width: 150px;
   /* height: 150px; */
-  /* border-radius: 100px; */
+  border-radius: 75px;
   image-orientation: center;
   /* border-radius: 50px; */
   background-position: center;
-  padding:15px;
+  background-size:auto;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.9);
+  /* padding:15px; */
+  /* border: 1px solid #154498; */
   /* -webkit-clip-path: circle(50% at 50% 50%);
   clip-path: circle(50% at 50% 50%); */
 }

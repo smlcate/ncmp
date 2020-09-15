@@ -47,6 +47,37 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     postedAt: new Date()
   }
 
+  $scope.clubRules = {
+    ruleLists:[
+      {
+        id:0,
+        name:'KRA 1',
+        classes:[]
+      }
+    ],
+    inputs: {
+      edit:false,
+      newClass:'',
+      newList:'',
+      newRule:'',
+      addNewList:false
+    },
+    currentList:0,
+    currentClass:0
+  };
+  $scope.clubSchedule = {
+    schedules:[
+      {
+        name:'KRA 1',
+        classes:[]
+      }
+    ],
+    inputs: {
+      newClass:'',
+      newSchedule:''
+    }
+  }
+
   $scope.registry = {
     options: [],
     classes: [],
@@ -77,6 +108,14 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     }
   }
 
+  $scope.newClass = {
+    name:'',
+    entryCap:'0',
+    weight:'',
+    tires:'',
+    otherRules:[]
+  }
+  $scope.newOtherRule;
 
   $scope.savedReg;
 
@@ -490,6 +529,120 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   //   }
   // }
   // buildNewsController();
+
+  function setClubRules() {
+
+    $http.get('getRules')
+    .then(function(data) {
+      console.log(data);
+      console.log(data.data);
+      if (data.data[0].ruleData != undefined) {
+
+        $scope.clubRules.ruleLists = JSON.parse(data.data[0].ruleData);
+        console.log($scope.clubRules);
+      }
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+
+    $scope.clubRules.inputs.newList = 'KRA ' + ($scope.clubRules.ruleLists.length+1);
+  }
+  setClubRules();
+
+  $scope.editClubRules = function() {
+    $scope.clubRules.inputs.edit = true;
+  }
+  $scope.cancelClubRulesEdit = function() {
+    $scope.clubRules.inputs.edit = false;
+  }
+
+  $scope.newRuleList = function() {
+    $scope.clubRules.inputs.addNewList = true;
+  }
+  $scope.cancelNewRuleList = function() {
+    $scope.clubRules.inputs.addNewList = false;
+  }
+
+  $scope.thisRuleList = function(id) {
+    $scope.clubRules.currentList = id;
+  }
+
+  $scope.addRuleList = function() {
+    $scope.clubRules.ruleLists.push(
+      {
+        id:$scope.clubRules.ruleLists.length,
+        name:$scope.clubRules.inputs.newList,
+        classes:[]
+      }
+    )
+    $scope.clubRules.inputs.newList = 'KRA ' + ($scope.clubRules.ruleLists.length+1);
+    $scope.clubRules.inputs.addNewList = false;
+  }
+
+  $scope.addClassToRuleList = function() {
+    $scope.clubRules.ruleLists[$scope.clubRules.currentList].classes.push(
+      {
+        id:$scope.clubRules.ruleLists[$scope.clubRules.currentList].classes.length,
+        name:$scope.clubRules.inputs.newClass,
+        rules:[]
+      }
+    );
+    $scope.clubRules.currentClass = $scope.clubRules.ruleLists[$scope.clubRules.currentList].classes.length-1;
+    console.log($scope.clubRules);
+  }
+
+  $scope.thisClubRuleClass = function(id) {
+    $scope.clubRules.currentClass = id;
+  }
+
+  $scope.addClubRule = function() {
+    $scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules.push(
+      {
+        rule:$scope.clubRules.inputs.newRule,
+        id:$scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules.length
+      }
+    );
+
+    $scope.clubRules.inputs.newRule = "";
+    console.log($scope.clubRules);
+  }
+
+  $scope.removeClubRule= function(id) {
+
+      // we have an array of objects, we want to remove one object using only the id property
+    // var apps = [{id:34,name:'My App',another:'thing'},{id:37,name:'My New App',another:'things'}];
+
+    // get index of object with id:37
+    var removeIndex = $scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules.map(function(item) { return item.id; }).indexOf(id);
+
+    // remove object
+    $scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules.splice(removeIndex, 1);
+
+    console.log($scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules);
+
+    // $scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules.splice(0,-1*($scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules.length-id))
+  }
+
+
+  $scope.addRule = function() {
+    $scope.newClass.otherRules.push($scope.newOtherRule);
+  }
+
+
+  $scope.saveRuleLists = function() {
+    var ruleLists = $scope.clubRules.ruleLists;
+    var stringifiedData = JSON.stringify(ruleLists);
+    console.log(stringifiedData);
+    $http.post("saveRuleLists",{data:stringifiedData})
+    .then(function(data) {
+      console.log('success');
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+
+  }
 
   $scope.addNewAccount = function() {
 
@@ -926,7 +1079,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     }
     $http.post('saveNews',{news:$scope.news})
     .then(function(res) {
-      // console.log(res);
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
     })
   }
 
@@ -1108,7 +1264,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
                 name: row[j].split(',')[0],
                 results: []
               }
-              if (driver.name == "") {
+              if (driver.name == "" || driver.name == "Position = Point Value") {
 
                 i++
                 classes.push(classObject)

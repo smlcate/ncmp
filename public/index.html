@@ -42,14 +42,14 @@
               <p>{{headerInfo.displayDate}}</p>
               <p style="color:{{todaysEvent.color}};background:rgba(0,0,0,0.5);padding:0 5 0 5px;">{{todaysEvent.name}}</p>
             </div>
-            <div class="headerInfoCell">
+            <!-- <div class="headerInfoCell"> -->
 
-              <a>Track Weather</a>
+              <!-- <a>Track Weather</a>
               <p>{{ weather.feelslike_f }}°f / {{ weather.feelslike_c }}°c</p>
               <p>{{ weather.weather }}</p>
-              <img ng-src="{{weather.icon_url}}" alt="">
+              <img ng-src="{{weather.icon_url}}" alt=""> -->
 
-            </div>
+            <!-- </div> -->
 
             <div class="headerInfoCell" id="signInUpHeaderInfoCell">
 
@@ -69,6 +69,7 @@
 
           <nav id="headerNav">
 
+            <a href="/#!/about" class="headerNavAnc">About</a>
             <a href="/#!/series" class="headerNavAnc">Series</a>
             <a href="/#!/news" class="headerNavAnc">News</a>
             <a href="/#!/calendar" class="headerNavAnc">Schedule</a>
@@ -76,8 +77,7 @@
 
             <a href="/#!/rentalkarts" class="headerNavAnc">Rental Karts</a>
             <!-- <a href="/#!/corporateevents" class="headerNavAnc">Corporate Events</a> -->
-            <a href="/#!/about" class="headerNavAnc">About</a>
-            <a href="/#!/weather" class="headerNavAnc">Weather</a>
+            <!-- <a href="/#!/weather" class="headerNavAnc">Weather</a> -->
 
           </nav>
         </div>

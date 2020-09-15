@@ -19,7 +19,9 @@ var server = {
   members: require('./controllers/members.js'),
   registry: require('./controllers/eventRegistries.js'),
   payments: require('./controllers/payments.js'),
-  points: require('./controllers/points.js')
+  points: require('./controllers/points.js'),
+  rules: require('./controllers/rules.js'),
+
 
 }
 
@@ -42,6 +44,8 @@ app.post('/getImage', server.images.getImage)
 app.get('/getNews', server.news.getNews)
 app.post('/saveNews', server.news.saveNews)
 
+app.post('/saveRuleLists', server.rules.saveRuleLists)
+app.get('/getRules', server.rules.getRules)
 
 app.get('/getAllEventGroups', server.event_groups.getAllEventGroups)
 app.post('/getEventGroups', server.event_groups.getEventGroups)

@@ -157,43 +157,49 @@ app.controller('seriesCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     function buildPreRegistration() {
-      console.log($scope.announcements.events[0]);
+      // console.log($scope.announcements.events[0]);
       // for (var i = 0; i < $scope.announcements.events.length; i++) {
       //
       // }
 
-      $http.post('getEventRegistration',{seriesId:$scope.announcements.events[0].event_group_id})
-      .then(function(res) {
-        console.log(res.data);
-        var reg = res.data;
-        $scope.openRegistrations.push(reg);
-      })
-      .catch(function(err) {
-        console.log(err);
-      })
-      $http.get('getEventEntryLists')
-      .then(function(data) {
-        var lists = [];
-        for (var i = 0; i < data.data.length; i++) {
-          // console.log(JSON.parse(data.data[i].entries))
-          var l = {
-            original:data.data[i],
-            entries: JSON.parse(data.data[i].entries)
-          }
-          lists.push(l);
-          for (var j = 0; j < $scope.events.length; j++) {
-            if (l.original.event_id === $scope.events[j].id) {
-              l.ev = $scope.events[j]
+      if ($scope.announcements) {
+
+        $http.post('getEventRegistration',{seriesId:$scope.announcements.events[0].event_group_id})
+        .then(function(res) {
+          console.log(res.data);
+          var reg = res.data;
+
+          $scope.openRegistrations.push(reg);
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+        $http.get('getEventEntryLists')
+        .then(function(data) {
+          var lists = [];
+          for (var i = 0; i < data.data.length; i++) {
+            // console.log(JSON.parse(data.data[i].entries))
+            var l = {
+              original:data.data[i],
+              entries: JSON.parse(data.data[i].entries)
+            }
+            lists.push(l);
+            for (var j = 0; j < $scope.events.length; j++) {
+              if (l.original.event_id === $scope.events[j].id) {
+                l.ev = $scope.events[j]
+              }
             }
           }
-        }
-        // console.log(lists);
-        $scope.entry_lists = lists;
-        console.log($scope.entry_lists);
-      })
-      .catch(function(err) {
-        console.log(err);
-      })
+          // console.log(lists);
+          $scope.entry_lists = lists;
+          console.log($scope.entry_lists);
+
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      }
+
       // $scope.openRegistrations.push($scope.announcements.events[0]);
 
     }
