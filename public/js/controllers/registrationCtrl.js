@@ -211,9 +211,9 @@ app.controller('registrationCtrl', ['$scope', '$http', '$compile', function($sco
     // console.log($scope.registrationForm);
     if (sessionStorage.user) {
       // console.log(sessionStorage.user);
-      if (JSON.parse(JSON.parse(sessionStorage.user).membership )!= null || $scope.registrationForm.req_member == false) {
+      if (JSON.parse(sessionStorage.user).membership!= null || $scope.registrationForm.req_member == false) {
         // console.log(JSON.parse(sessionStorage.user));
-        var membership = JSON.parse(JSON.parse(sessionStorage.user).membership);
+        var membership = JSON.parse(sessionStorage.user).membership;
         console.log(membership);
         console.log(membership.members);
 

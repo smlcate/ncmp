@@ -198,7 +198,119 @@ a {
   display: flex;
   align-items: center;
 }
+#adminClubScheduleInfoDisplay {
+  display: flex;
+  flex-direction: column;
+}
+#adminClubInfoDisplayScheduleToolsBar {
 
+}
+#adminClubInfoDisplayScheduleDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+#adminClubInfoDisplayScheduleDiv span {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+#adminClubInfoDisplayScheduleDiv span p {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  /* justify-content: space-between; */
+}
+.scheduleRoundPlannerDivs {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  /* width:80%; */
+  /* justify-content: space-around; */
+}
+.scheduleRoundTypeBtnDivs {
+  display: flex;
+  /* justify-content: space-around; */
+  height:50px;
+}
+.scheduleRoundPlannerBtns {
+  padding:0 20 0 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#154498;
+  background:#E1F5FE;
+}
+#scheduleRoundTimeInputs {
+  height: 100px;
+}
+#scheduleRoundTimeInputs span {
+  height: 50px;
+}
+.scheduleRoundClassesDivs {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+.scheduleRoundClassesDivHeaders {
+  display: flex;
+  height: 50px;
+  /* justify-content: center; */
+}
+.scheduleRoundClassesDivHeaders p {
+  display: flex;
+  justify-content: center;
+  width: 200px;
+}
+.scheduleRoundClassesDisplayDivs {
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start ;
+}
+.newScheduleRoundClassesCells {
+  display: flex;
+  /* justify-content: center; */
+}
+.newScheduleRoundClassesCells input {
+  width: 200px;
+}
+.scheduleRoundClassesCells {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 35px;
+}
+.scheduleRoundClassesCells p {
+  width: 200px;
+  /* height: 45px; */
+}
+.scheduleRoundDivs {
+  display: flex;
+  flex-direction:column;
+  /* box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.7); */
+  /* width: 70%; */
+  /* padding:20px; */
+}
+.scheduleRoundGroupDivs {
+  display: flex;
+  align-items: center;
+  /* justify-content:space-between; */
+  height:20px;
+}
+.scheduleRoundGroupCells {
+  display: flex;
+  align-items: center;
+}
+.scheduleRoundEditGroupCells {
+  display: none;
+}
 
 #adminEventsRegistryControlPanelCell {
   display: flex;

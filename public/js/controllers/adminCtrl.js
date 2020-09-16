@@ -65,17 +65,35 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     currentList:0,
     currentClass:0
   };
-  $scope.clubSchedule = {
+  $scope.clubSchedules = {
     schedules:[
       {
+        id:0,
         name:'KRA 1',
-        classes:[]
+        days:[{
+          rounds:[]
+        }]
       }
     ],
     inputs: {
+      edit:false,
       newClass:'',
-      newSchedule:''
-    }
+      newRoundType:'Practice',
+      newTime:'',
+      interval:7,
+      intervalLap:false,
+      intervalTime:true,
+      roundStart:'',
+      newSchedule:'',
+      addNewSchedule:false,
+      roundGroups:[],
+      newGroupClasses:'',
+      newGroupTime:'',
+      newGroupNotes:''
+    },
+    currentSchedule:0,
+    currentRound:0,
+    currentDay:0
   }
 
   $scope.registry = {
@@ -314,6 +332,30 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     // console.log(stack);
 
   }
+
+  function AdjTime(t) {
+    console.log('hit this function');
+    if (t.getUTCHours()-5 < 0) {
+      n = 24-(5-t.getUTCHours());
+      console.log(t.getUTCMinutes());
+      if (t.getUTCMinutes() < 10) {
+        console.log('hit here');
+        return n+':'+'0'+t.getUTCMinutes()+'0';
+
+      } else {
+
+        return n+':'+t.getUTCMinutes()+'0';
+      }
+    } else  {
+      if (t.getUTCMinutes() < 10) {
+        console.log('hit here');
+        return t.getUTCHours()-5+':0'+t.getUTCMinutes()+'0';
+      } else {
+        return t.getUTCHours()-5+':'+t.getUTCMinutes()+'0';
+      }
+    }
+  }
+
   function lookAtKeys(arr) {
     var eventKeys = [];
 
@@ -362,17 +404,33 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
 
   }
   function makeTimePretty(t) {
-    var h = t.slice(0,-6);
-    var m = t.slice(3,-3);
+    console.log(t);
+    var h, m;
+    var splitTime;
+    if (t.length > 6) {
+       h = t.slice(0,-6);
+       m = t.slice(3,-3);
+    } else {
+      splitTime = t.split(':');
+      h = Number(splitTime[0])
+      m = splitTime[1]
+      if (m.length > 2) {
+        m = m.slice(0,-1)
+      }
+    }
+    console.log(h);
     var append = 'am';
     if (h>12) {
       h = h-12;
       append = 'pm';
     } else if(h===12) {
       append = 'pm'
+    } else if(h == 0) {
+      h = 12;
     }
     return h + ':' + m + append;
   }
+
   function buildEvents(arr) {
 
     comparedStack = lookAtKeys(arr);
@@ -550,6 +608,12 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   }
   setClubRules();
 
+  function setClubSchedules() {
+    $scope.clubSchedules.inputs.newSchedule = 'KRA ' + ($scope.clubSchedules.schedules.length+1);
+
+  }
+  setClubSchedules();
+
   $scope.editClubRules = function() {
     $scope.clubRules.inputs.edit = true;
   }
@@ -624,12 +688,6 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     // $scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules.splice(0,-1*($scope.clubRules.ruleLists[$scope.clubRules.currentList].classes[$scope.clubRules.currentClass].rules.length-id))
   }
 
-
-  $scope.addRule = function() {
-    $scope.newClass.otherRules.push($scope.newOtherRule);
-  }
-
-
   $scope.saveRuleLists = function() {
     var ruleLists = $scope.clubRules.ruleLists;
     var stringifiedData = JSON.stringify(ruleLists);
@@ -643,6 +701,213 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     })
 
   }
+
+
+
+  $scope.editClubSchedules = function() {
+    $scope.clubSchedules.inputs.edit = true;
+  }
+  $scope.cancelClubSchedulesEdit = function() {
+    $scope.clubSchedules.inputs.edit = false;
+  }
+
+  $scope.newClubSchedule = function() {
+    $scope.clubSchedules.inputs.addNewSchedule = true;
+  }
+  $scope.cancelNewSchedule = function() {
+    $scope.clubSchedules.inputs.addNewSchedule = false;
+  }
+
+  $scope.addSchedule = function() {
+    $scope.clubSchedules.schedules.push(
+      {
+        id:$scope.clubSchedules.length,
+        name:$scope.clubSchedules.inputs.newSchedule,
+        rounds:[]
+      }
+    )
+    $scope.clubSchedules.inputs.newSchedule = 'KRA ' + ($scope.clubSchedules.schedules.length+1);
+    $scope.clubSchedules.inputs.addNewSchedule = false;
+  }
+
+  $scope.selectNewRoundType = function(t) {
+
+    $('.scheduleRoundPlannerBtns').css('background','#E1F5FE').css('color','#154498')
+    $('#scheduleRound'+t+'PlannerBtn').css('background','#154498').css('color','#E1F5FE');
+
+    $scope.clubSchedules.inputs.newRoundType = t;
+
+  }
+
+  function addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes*60000);
+  }
+
+  function makeTimeEditable(time) {
+
+    var editableTime = AdjTime(time).split(':')
+    if (editableTime[0].toString().length < 2) {
+      editableTime[0] = "0"+editableTime[0];
+    }
+    if (editableTime[1].toString().length < 2) {
+      editableTime[1] = "0"+editableTime[1];
+    }
+    if (editableTime[1].toString().length > 2) {
+      editableTime[1] = editableTime[1].toString().slice(0,-1);
+    }
+    return editableTime;
+  }
+  $scope.applyScheduleGroup = function() {
+    var editableTime = makeTimeEditable($scope.clubSchedules.inputs.newGroupTime)
+    var group = {
+      id:  $scope.clubSchedules.inputs.roundGroups.length+1,
+      classes:$scope.clubSchedules.inputs.newGroupClasses,
+      prettyTime:makeTimePretty(AdjTime($scope.clubSchedules.inputs.newGroupTime)),
+      laps:$scope.clubSchedules.inputs.newGroupLaps+1,
+      time:editableTime[0] + ':' + editableTime[1],
+      notes:$scope.clubSchedules.inputs.newGroupNotes
+    }
+    console.log(group.time);
+    $scope.clubSchedules.inputs.roundGroups.push(group);
+
+
+    if ($scope.clubSchedules.inputs.intervalTime) {
+      $scope.clubSchedules.inputs.newGroupTime = addMinutes($scope.clubSchedules.inputs.newGroupTime,$scope.clubSchedules.inputs.interval)
+    } else {
+
+    }
+
+    console.log($scope.clubSchedules);
+
+  }
+
+  $scope.changeScheduleInterval = function() {
+    var round = {
+      id: $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds.length+1,
+      roundType:$scope.clubSchedules.inputs.newRoundType,
+      groups:$scope.clubSchedules.inputs.roundGroups,
+      intervalType:'',
+      interval:$scope.clubSchedules.inputs.interval
+    }
+    if ($scope.clubSchedules.inputs.intervalLap) {
+      round.intervalType = 'lap';
+    } else if ($scope.clubSchedules.inputs.intervalTime) {
+      round.intervalType = 'time';
+    }
+
+    // $scope.clubSchedules.inputs.newGroupClasses = round.groups[0].classes;
+    var newRound = [];
+    var editableTime;
+    for (var i = 0; i < round.groups.length; i++) {
+      if (round.intervalType = 'time') {
+
+        if (i > 0) {
+          editableTime = makeTimeEditable(addMinutes($scope.clubSchedules.inputs.roundStart,($scope.clubSchedules.inputs.interval)))
+          editableTime = editableTime[0]+':'+editableTime[1]
+        } else {
+          editableTime = makeTimeEditable($scope.clubSchedules.inputs.roundStart);
+          editableTime = editableTime[0]+':'+editableTime[1]
+        }
+        console.log(editableTime);
+
+        newRound.push({
+          id:newRound.length+1,
+          classes:round.groups[i].classes,
+          time:editableTime,
+          prettyTime:makeTimePretty(AdjTime($scope.clubSchedules.inputs.newGroupTime)),
+          notes:$scope.clubSchedules.inputs.newGroupNotes
+        })
+
+      }
+      // var multItt;
+      if (i == round.groups.length-1) {
+        $scope.clubSchedules.inputs.newGroupTime = addMinutes($scope.clubSchedules.inputs.newGroupTime,$scope.clubSchedules.inputs.interval*(i+1))
+
+      }
+      // if (i == 0) {
+      //   multItt = 0;
+      // } else {
+      //
+      // }
+    }
+    $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds[$scope.clubSchedules.currentRound] = newRound;
+    $scope.clubSchedules.inputs.roundGroups = newRound;
+
+
+  }
+
+  $scope.addRoundToSchedule = function() {
+
+    var round = {
+      id: $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds.length+1,
+      roundType:$scope.clubSchedules.inputs.newRoundType,
+      groups:$scope.clubSchedules.inputs.roundGroups,
+      intervalType:'',
+      interval:$scope.clubSchedules.inputs.interval
+    }
+    if ($scope.clubSchedules.inputs.intervalLap) {
+      round.intervalType = 'lap';
+    } else if ($scope.clubSchedules.inputs.intervalTime) {
+      round.intervalType = 'time';
+    }
+    $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds.push(round);
+
+    // $scope.clubSchedules.inputs.newGroupClasses = round.groups[0].classes;
+    var newRound = [];
+    if (round.roundType == 'Practice') {
+      $scope.clubSchedules.inputs.roundStart = $scope.clubSchedules.inputs.newGroupTime;
+      for (var i = 0; i < round.groups.length; i++) {
+        // var multItt;
+        // if (i == 0) {
+        //   multItt = 0;
+        // } else {
+        //
+        // }
+        var editableTime = makeTimeEditable($scope.clubSchedules.inputs.newGroupTime);
+
+        if (i > 0) {
+          editableTime = makeTimeEditable(addMinutes($scope.clubSchedules.inputs.newGroupTime,($scope.clubSchedules.inputs.interval)))
+          editableTime = editableTime[0]+':'+editableTime[1]
+        } else {
+          editableTime = editableTime[0]+':'+editableTime[1]
+        }
+
+        newRound.push({
+          id:newRound.length+1,
+          classes:round.groups[i].classes,
+          time:editableTime,
+          prettyTime:makeTimePretty(AdjTime($scope.clubSchedules.inputs.newGroupTime)),
+          notes:$scope.clubSchedules.inputs.newGroupNotes
+        })
+        $scope.clubSchedules.inputs.newGroupTime = addMinutes($scope.clubSchedules.inputs.newGroupTime,$scope.clubSchedules.inputs.interval);
+      }
+      $scope.clubSchedules.inputs.roundGroups = newRound;
+    } else if(round.roundType == 'Qualifying') {
+      for (var i = 0; i < round.groups.length; i++) {
+        newRound.push({
+          id:newRound.length+1,
+          classes:round.groups[i].classes,
+          laps:round.interval,
+          notes:$scope.clubSchedules.inputs.newGroupNotes
+        })
+      }
+      $scope.selectNewRoundType('Races');
+      $scope.clubSchedules.inputs.intervalLap = true;
+      $scope.clubSchedules.inputs.intervalTime = false;
+
+      $scope.clubSchedules.inputs.roundGroups = newRound;
+    }
+
+    $scope.clubSchedules.currentRound ++;
+  }
+
+
+  $scope.addRule = function() {
+    $scope.newClass.otherRules.push($scope.newOtherRule);
+  }
+
+
+
 
   $scope.addNewAccount = function() {
 
@@ -851,7 +1116,13 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     function AdjTime(t) {
       if (t.getUTCHours()-5 < 0) {
         n = 24-(5-t.getUTCHours());
-        return n+':'+t.getUTCMinutes()+'0';
+        if (t.getUTCMinutes() < 10) {
+          return n+':'+'0'+t.getUTCMinutes()+'0';
+
+        } else {
+
+          return n+':'+t.getUTCMinutes()+'0';
+        }
       } else  {
         return t.getUTCHours()-5+':'+t.getUTCMinutes()+'0';
       }
@@ -1458,7 +1729,13 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     function AdjTime(t) {
       if (t.getUTCHours()-5 < 0) {
         n = 24-(5-t.getUTCHours());
-        return n+':'+t.getUTCMinutes()+'0';
+        if (t.getUTCMinutes() < 10) {
+          return n+':'+'0'+t.getUTCMinutes()+'0';
+
+        } else {
+
+          return n+':'+t.getUTCMinutes()+'0';
+        }
       } else  {
         return t.getUTCHours()-5+':'+t.getUTCMinutes()+'0';
       }
@@ -1623,7 +1900,13 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     function AdjTime(t) {
       if (t.getUTCHours()-5 < 0) {
         n = 24-(5-t.getUTCHours());
-        return n+':'+t.getUTCMinutes()+'0';
+        if (t.getUTCMinutes() < 10) {
+          return n+':'+'0'+t.getUTCMinutes()+'0';
+
+        } else {
+
+          return n+':'+t.getUTCMinutes()+'0';
+        }
       } else  {
         return t.getUTCHours()-5+':'+t.getUTCMinutes()+'0';
       }
