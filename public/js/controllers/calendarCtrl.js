@@ -19,6 +19,8 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
   // console.log($scope.announcements);
 
+  $scope.miniCalendarBuilt = false;
+
   $scope.selectedMonth = $scope.date.month;
   $scope.selectedYear = $scope.date.year;
   $scope.selectedDate = $scope.date.date;
@@ -47,8 +49,6 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
     var curMonthDays = monthDays[$scope.selectedMonth];
     var prevMonthDays;
-
-    console.log($scope.selectedMonth);
 
     if ($scope.selectedMonth === 0) {
       prevMonthDays = monthDays[11];
@@ -332,105 +332,110 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
   function buildMiniCalendar() {
 
-    var d = new Date();
+    if ($scope.miniCells.length == 0) {
+
+      var d = new Date();
 
 
 
-    // console.log(d)
+      // console.log(d)
 
-    var date = {
-      month: 0,
-      day: 0,
-      year: d.getYear()-100+2000
-    }
-
-    for (var i = 0; i < 12; i++) {
-
-      var monthStartDay = new Date(monthNames[date.month] + " 1," + date.year).getDay();
-      // console.log(monthStartDay);
-
-      date.month++;
-
-      var cell = {
-        month: i,
-        month_name: monthNames[i],
-        mcells: []
+      var date = {
+        month: 0,
+        day: 0,
+        year: d.getYear()-100+2000
       }
 
-      var precount = 0;
+      for (var i = 0; i < 12; i++) {
 
-      for (var j = 0; j < 42; j++) {
+        var monthStartDay = new Date(monthNames[date.month] + " 1," + date.year).getDay();
+        // console.log(monthStartDay);
 
-        if (date.day === 35) {
-          date.day = 0;
+        date.month++;
+
+        var cell = {
+          month: i,
+          month_name: monthNames[i],
+          mcells: []
         }
 
-        date.day++;
+        var precount = 0;
 
-        var day = j - precount + 1;
-        var month = i + 1;
+        for (var j = 0; j < 42; j++) {
 
-        if (JSON.stringify(day).length === 1) {
-          day = '0'+ day.toString();
-        }
-        if (i.length === 1) {
-          month = '0'+ month.toString();
-          // console.log(month);
-        }
-
-        var mcell = {
-          color: 'white',
-          date: 'null'
-        }
-
-        // console.log(month);
-
-        if (day >= 1) {
-
-          mcell.date = date.year + '-' + month + '-' + day
-
-        }
-
-        if (j%7 === 1) {
-          mcell.color = 'lightpink';
-        }
-
-        if (day > monthDays[i]) {
-          mcell.date = null;
-        }
-
-        if (j < monthStartDay || j > monthDays[i] + precount-1) {
-          mcell.color = 'lightgrey';
-          mcell.date = null;
-        }
-        if (j < monthStartDay) {
-          precount ++;
-        }
-
-        for (var k = 0; k < $scope.events.length; k++) {
-          // console.log(mcell.date)
-          // console.log($scope.events[k].date.slice(0,-14))
-          var m = Number($scope.events[k].date.slice(5,-17))
-          var d = $scope.events[k].date.slice(7,-14)
-          var eventDate = $scope.events[k].date.slice(0,-19) + m + d;
-          // console.log(eventDate);
-          if (mcell.date === eventDate) {
-            // console.log(mcell.date);
-            mcell.color = $scope.events[k].color
+          if (date.day === 35) {
+            date.day = 0;
           }
+
+          date.day++;
+
+          var day = j - precount + 1;
+          var month = i + 1;
+
+          if (JSON.stringify(day).length === 1) {
+            day = '0'+ day.toString();
+          }
+          if (i.length === 1) {
+            month = '0'+ month.toString();
+            // console.log(month);
+          }
+
+          var mcell = {
+            color: 'white',
+            date: 'null'
+          }
+
+          // console.log(month);
+
+          if (day >= 1) {
+
+            mcell.date = date.year + '-' + month + '-' + day
+
+          }
+
+          if (j%7 === 1) {
+            mcell.color = 'lightpink';
+          }
+
+          if (day > monthDays[i]) {
+            mcell.date = null;
+          }
+
+          if (j < monthStartDay || j > monthDays[i] + precount-1) {
+            mcell.color = 'lightgrey';
+            mcell.date = null;
+          }
+          if (j < monthStartDay) {
+            precount ++;
+          }
+
+          for (var k = 0; k < $scope.events.length; k++) {
+            // console.log(mcell.date)
+            // console.log($scope.events[k].date.slice(0,-14))
+            var m = Number($scope.events[k].date.slice(5,-17))
+            var d = $scope.events[k].date.slice(7,-14)
+            var eventDate = $scope.events[k].date.slice(0,-19) + m + d;
+            // console.log(eventDate);
+            if (mcell.date === eventDate) {
+              // console.log(mcell.date);
+              mcell.color = $scope.events[k].color
+            }
+          }
+
+          // console.log(mcell);
+
+          cell.mcells.push(mcell)
+
         }
 
-        // console.log(mcell);
+        $scope.miniCells.push(cell)
 
-        cell.mcells.push(mcell)
+        // console.log(cell);
 
       }
 
-      $scope.miniCells.push(cell)
-
-      // console.log(cell);
-
     }
+    $scope.miniCalendarBuilt = true;
 
   }
 
