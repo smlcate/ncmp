@@ -41,6 +41,66 @@ a {
   height: 90px;
   width: 150px;
 }
+
+
+#adminManagerControl {
+  flex-direction:row;
+}
+.adminManagerControlDivs {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.adminManagerControlDivs p {
+  width: 70px;
+}
+.adminManagerControlDivs span {
+  display: flex;
+  align-items: center;
+}
+#adminManagerControlAccountListDiv {
+  /* position: absolute; */
+  display: none;
+  flex-direction: column;
+  width: 100%;
+}
+.adminManagerRegisterMembershipDriverCells {
+  display: flex;
+  flex-direction: column;
+}
+.adminManagerRegisterMembershipDriverCells p {
+  width: 50px;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 5px;
+}
+.adminManagerControlRegisterRacersSearchDivs {
+  /* width: 300px; */
+}
+.adminManagerControlRegisterRacersSearchDivs input {
+  width: 230px;
+}
+#adminManagerControlRegisterRacersDriverListDiv {
+  /* position: absolute; */
+  display: none;
+  flex-direction: column;
+  width: 100%;
+}
+#adminManagerControlRegisterRacersDriverListDiv a {
+  width: 100%;
+}
+#adminManagerControlRegisterRacersClassesListDiv {
+  /* position: absolute; */
+  display: none;
+  flex-direction: column;
+  width: 100%;
+}
+#adminManagerControlRegisterRacersClassesListDiv a {
+  width: 100%;
+}
+/* .adminManagerControlRegisterRacersDriverListDiv */
+
+
 #adminSettingsControl {
   /*padding: 30px;*/
   /*width: 100%;*/
@@ -387,6 +447,17 @@ a {
 }
 .registriesOptionListCells {
   display: flex;
+  font-size: 160%;
+}
+.registriesOptionListCells span {
+  display: flex;
+}
+.registriesOptionListCells p {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.registriesOptionListCells span  p {
+  padding-right: 20px;
 }
 .registriesMembersCellEntriesDisplays {
 
@@ -2127,6 +2198,7 @@ align-items: center;
   background-repeat: no-repeat;
   background-position: center;
   padding: 30px;
+  height: 80vh;
   /* background-color: rgba(0, 0, 0, 0.5); */
 }
 #accntCreationForm {
@@ -2168,12 +2240,13 @@ align-items: center;
 }
 .loginForms {
   display: flex;
-  width: 80%;
-  padding: 50px;
+  /* width: 80%; */
+  /* height: 400px; */
+  padding: 30px;
   flex-direction: column;
   background: rgba(224, 244, 254, 0.85);
   /* padding-left: 50px; */
-  border:1px solid #154498;
+  /* border:1px solid #154498; */
   box-shadow: 0px 0px 3px 1px  rgba(25, 89, 167, 0.7);
   border-radius: 4px;
 }
@@ -2198,8 +2271,8 @@ align-items: center;
 .loginForms button {
   width: 140px;
   height: 60px;
-  border-radius: 2px;
-  border-width:5px;
+  border-radius: 4px;
+  border-width:2px;
   border-color: #154498;
   color: #154498;
   font-size: 150%;
@@ -2232,6 +2305,9 @@ align-items: center;
   /* justify-content: center;
   align-content: center; */
 }
+#loginParentDisplay {
+  height: 80vh;
+}
 #emailErrorMessage {
   width:200px;
 }
@@ -2239,11 +2315,11 @@ align-items: center;
   width:250px;
 }
 #newAccountLoginForms {
-  width: 80%;
-  padding: 70px;
+  /* width: 80%; */
+  /* padding: 70px; */
   /* font-size: 140%; */
   background: rgba(224, 244, 254, 0.85);
-  padding-left: 50px;
+  /* padding-left: 50px; */
   /* border:1px solid black; */
   box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.85);
   border-radius: 4px;

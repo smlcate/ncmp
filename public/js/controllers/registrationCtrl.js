@@ -132,7 +132,7 @@ app.controller('registrationCtrl', ['$scope', '$http', '$compile', function($sco
       //
       //   console.log($scope.regForm);
         // console.log($scope.regForm);
-        $http.post('buyRegistration', {token: result.token, member:$scope.membership, data:$scope.regForm, eventId:$scope.registrationForm.eventId, price: $scope.costs.total})
+        $http.post('buyRegistration', {token: result.token, member:$scope.regForm.membership, data:$scope.regForm, eventId:$scope.registrationForm.eventId, price: $scope.costs.total})
         .then(function(res) {
 
           console.log(res);
@@ -143,6 +143,7 @@ app.controller('registrationCtrl', ['$scope', '$http', '$compile', function($sco
       }
     });
   });
+
 
   $scope.newDriver = function() {
     // console.log($scope.regForm.drivers);
@@ -209,13 +210,31 @@ app.controller('registrationCtrl', ['$scope', '$http', '$compile', function($sco
 
   function init() {
     // console.log($scope.registrationForm);
+    if ($scope.registrationForm == null || $scope.registrationForm == undefined && sessionStorage.registration) {
+
+      $scope.registrationForm = JSON.parse(sessionStorage.registration);
+
+    }
     if (sessionStorage.user) {
-      // console.log(sessionStorage.user);
-      if (JSON.parse(sessionStorage.user).membership!= null || $scope.registrationForm.req_member == false) {
+      console.log(JSON.parse(sessionStorage.user).membership);
+      if (JSON.parse(sessionStorage.user).membership != "null" || JSON.parse(sessionStorage.user).membership!= null || $scope.registrationForm.req_member == false) {
         // console.log(JSON.parse(sessionStorage.user));
-        var membership = JSON.parse(sessionStorage.user).membership;
+        var membership = JSON.parse(JSON.parse(sessionStorage.user).membership);
         console.log(membership);
+
         console.log(membership.members);
+        var compiledMembers = [];
+        if (membership.members.length > 1) {
+
+          for (var i = 0; i < membership.members.length; i++) {
+            if (membership.members[i].fName == "") {
+              i = membership.members.length;
+            } else {
+              compiledMembers.push(membership.members[i]);
+            }
+          }
+          membership.members = compiledMembers;
+        }
 
         if ( membership.members.length === 1) {
 
@@ -528,8 +547,13 @@ app.controller('registrationCtrl', ['$scope', '$http', '$compile', function($sco
             console.log($scope.regForm.drivers);
 
             var html = (
-              '<div class="driverInfoRegFormCells" id="'+$scope.regForm.drivers.length+'DriverInfoRegFormCell"><span><p ng-if="temp.isMember==false" style="color:#154498;width:auto;padding-right:20px;">Temporary Member</p><h3>Driver '+$scope.regForm.drivers.length+'</h3></span><span class="driverNameInputSpans"><p>Name</p><input type="text" name="" value="" id="driverName'+$scope.regForm.drivers.length+'input" ng-model="regForm.drivers['+($scope.regForm.drivers.length-1)+'].name">      <p style="color:red;font-size:200%;width:20px;">*</p><div id="registryNoticeDivs"><p>You must have a working transponder and kart number to be scored. Transponders can be registered and rented at at the front counter, but doing it here will save you some time, and it is fine to use the same transponder for multiple classes.</p></div></span><div class="driverInfoContainers" id="'+$scope.regForm.drivers.length+'DriverInfoContainer"><div class="classSelectContainers" id="'+$scope.regForm.drivers.length+'classSelectContainer"><div class="classSelectContainerDivs"><span id="availableClassesHeader"><p>Available Classes</p><p style="color:red;font-size:200%;width:20px;">*</p></span><div class="selectedClasses" id="" ng-repeat="cl in registrationForm.classes['+($scope.regForm.drivers.length-1)+']"><span><p>{{cl.name}}</p></span></div><div class="classSelectDivs" id="classSelectDiv">'+classes+'</div></div><div class="selectedClassesInfoDivs" id="'+$scope.regForm.drivers.length+'selectedClassInfoDiv"><span><p>Rent Transponder</p><input type="checkbox" ng-model="regForm.drivers['+($scope.regForm.drivers.length-1)+'].rent_transponder" ng-change="changeTransponder('+($scope.regForm.drivers.length-1)+')"><p>+$'+$scope.registrationForm.trans_rental_price+'</p></span><h3>Selected Classes</h3></div></div>'
+              '<div class="driverInfoRegFormCells" id="'+$scope.regForm.drivers.length+'DriverInfoRegFormCell"><span><p ng-if="temp.isMember==false" style="color:#154498;width:auto;padding-right:20px;">Temporary Member</p><h3>Driver '+$scope.regForm.drivers.length+'</h3></span><span class="driverNameInputSpans"><p>Name</p><input type="text" name="" value="" id="driverName'+$scope.regForm.drivers.length+'input" ng-model="regForm.drivers['+($scope.regForm.drivers.length-1)+'].name">      <p style="color:red;font-size:200%;width:20px;">*</p><div id="registryNoticeDivs">'
             )
+            if (j == 0) {
+              html += '<p>You must have a working transponder and kart number to be scored. Transponders can be registered and rented at at the front counter, but doing it here will save you some time, and it is fine to use the same transponder for multiple classes.</p>'
+            }
+
+            html += '</div></span><div class="driverInfoContainers" id="'+$scope.regForm.drivers.length+'DriverInfoContainer"><div class="classSelectContainers" id="'+$scope.regForm.drivers.length+'classSelectContainer"><div class="classSelectContainerDivs"><span id="availableClassesHeader"><p>Available Classes</p><p style="color:red;font-size:200%;width:20px;">*</p></span><div class="selectedClasses" id="" ng-repeat="cl in registrationForm.classes['+($scope.regForm.drivers.length-1)+']"><span><p>{{cl.name}}</p></span></div><div class="classSelectDivs" id="classSelectDiv">'+classes+'</div></div><div class="selectedClassesInfoDivs" id="'+$scope.regForm.drivers.length+'selectedClassInfoDiv"><span><p>Rent Transponder</p><input type="checkbox" ng-model="regForm.drivers['+($scope.regForm.drivers.length-1)+'].rent_transponder" ng-change="changeTransponder('+($scope.regForm.drivers.length-1)+')"><p>+$'+$scope.registrationForm.trans_rental_price+'</p></span><h3>Selected Classes</h3></div></div>'
 
             angular.element($('#driverCardContainer')).append($compile(html)($scope))
 

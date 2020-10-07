@@ -8,14 +8,105 @@
 
   <div id="adminPageNav">
 
-    <a href="" ng-click="changeAdminDisplay('Events')">Events</a>
-    <a href="" ng-click="changeAdminDisplay('Registrations')">Registrations</a>
-    <a href="" ng-click="changeAdminDisplay('News')">News</a>
-    <a href="" ng-click="changeAdminDisplay('Rules')">KRA Rules/Schedule</a>
-    <a href="" ng-click="changeAdminDisplay('Images')">Images</a>
-    <a href="" ng-click="changeAdminDisplay('Results')">Results</a>
-    <a href="" ng-click="changeAdminDisplay('Accounts')">Accounts/Drivers</a>
-    <a href="" ng-click="changeAdminDisplay('Settings')">Settings</a>
+    <a href="" class="adminDisplayBtns" id="adminManagerDisplayBtn" ng-click="changeAdminDisplay('Manager')">Manager</a>
+    <a href="" class="adminDisplayBtns" id="adminEventsDisplayBtn" ng-click="changeAdminDisplay('Events')">Events</a>
+    <a href="" class="adminDisplayBtns" id="adminRegistrationsDisplayBtn" ng-click="changeAdminDisplay('Registrations')">Registrations</a>
+    <a href="" class="adminDisplayBtns" id="adminNewsDisplayBtn" ng-click="changeAdminDisplay('News')">News</a>
+    <a href="" class="adminDisplayBtns" id="adminRulesDisplayBtn" ng-click="changeAdminDisplay('Rules')">KRA Rules/Schedule</a>
+    <a href="" class="adminDisplayBtns" id="adminImagesDisplayBtn" ng-click="changeAdminDisplay('Images')">Images</a>
+    <a href="" class="adminDisplayBtns" id="adminResultsDisplayBtn" ng-click="changeAdminDisplay('Results')">Results</a>
+    <a href="" class="adminDisplayBtns" id="adminAccountsDisplayBtn" ng-click="changeAdminDisplay('Accounts')">Accounts/Drivers</a>
+    <a href="" class="adminDisplayBtns" id="adminSettingsDisplayBtn" ng-click="changeAdminDisplay('Settings')">Settings</a>
+
+  </div>
+
+  <div class="adminControlGroups" id="adminManagerControl">
+
+    <!-- <a href="">Register New Accounts</a>
+    <a href="">Register Drivers to Races</a> -->
+
+    <div class="adminManagerControlDivs" id="adminManagerRegisterAccountDiv">
+
+      <h3>New Account</h3>
+
+      <span>
+        <p>Email</p>
+        <input type="text" name="" value="" ng-model="manager.inputs.newAccountEmail">
+      </span>
+      <span>
+        <p>Password</p>
+        <input type="text" name="" value="" ng-model="manager.inputs.newAccountPassword">
+      </span>
+
+      <a href="">Create Account</a>
+
+    </div>
+    <div class="adminManagerControlDivs" id="adminManagerRegisterMembershipDiv">
+
+      <h3>New Membership</h3>
+
+      <span>
+        <p>Account</p>
+        <input type="text" name="" value="" ng-model="manager.inputs.newMembershipAccountInput">
+        <button type="button" name="button" ng-click="openAccountsList()">Accounts</button>
+        <h3 ng-if="manager.inputs.membershipExists" style="color:red;">Already Member</h3>
+      </span>
+      <div class="" id="adminManagerControlAccountListDiv">
+        <div class="adminManagerControlAccountCells" ng-repeat="a in people">
+          <a ng-click="selectAccount(a)">{{a.email}}</a>
+        </div>
+      </div>
+      <div class="adminManagerRegisterMembershipDriverCells">
+
+        <h3>Drivers</h3>
+        <span>
+          <p>Driver</p>
+          <input autocomplete="off" type="text" name="newDriver" value="" ng-model="manager.inputs.newMembershipNewDriver">
+          <a href="" ng-click="addDriverToNewMembership()">Add</a>
+        </span>
+        <p ng-repeat="d in manager.inputs.newMembershipDrivers">{{d}}</p>
+
+      </div>
+      <!-- <a href="">New Driver</a> -->
+
+      <a href="">Save Membership</a>
+
+    </div>
+    <div class="adminManagerControlDivs" id="adminManagerRegisterRacerDiv">
+      <h3>Register Racer</h3>
+      <span>
+        <p>Event</p>
+        <h2 style="color:{{nextEvent.color}};">{{nextEvent.name}}</h2>
+      </span>
+      <span>
+        <p>Driver</p>
+        <div class="adminManagerControlRegisterRacersSearchDivs" id="adminManagerControlRegisterRacersDriverSearchDiv">
+          <input type="text" name="" value="" ng-model="manager.inputs.registerRacerDriverInput">
+          <button type="button" name="button" ng-click="openDriversList()">Drivers</button>
+          <div class="" id="adminManagerControlRegisterRacersDriverListDiv">
+            <div class="adminManagerControlRegisterRacersDriverListDriverCells" ng-repeat="d in drivers">
+              <a ng-click="selectRegisterRacersDriver(d)">{{d.fName}} {{d.lName}}</a>
+            </div>
+          </div>
+        </div>
+      </span>
+      <span>
+        <p>Class(es)</p>
+        <div class="adminManagerControlRegisterRacersSearchDivs" id="adminManagerControlRegisterRacersDriverSearchDiv">
+          <input type="text" name="" value="" ng-model="manager.inputs.registerRacerClassInput">
+          <button type="button" name="button" ng-click="openClassesList()">Classes</button>
+          <input style="width:40px;" type="text" placeholder="##" name="" value="" ng-model="manager.inputs.registerRacerClassNumber">
+          <a href="" ng-click="addClassToRegisterRacers()">Add</a>
+          <div class="adminManagerControlRegisterRacersListDivs" id="adminManagerControlRegisterRacersClassesListDiv">
+            <div class="adminManagerControlRegisterRacersDriverListCells" ng-repeat="c in announcements.banner[0][0].registration.registry_data.classes">
+              <a href="" ng-click="selectRegisterRacersClass(c)">{{c.name}}</a>
+            </div>
+          </div>
+        </div>
+      </span>
+      <p ng-repeat=" c in manager.inputs.registerRacerClasses">{{c.class.name}} #{{c.number}}</p>
+      <a href="">Register</a>
+    </div>
 
   </div>
 
@@ -180,142 +271,164 @@
 
         <div id="adminClubInfoDisplayScheduleToolsBar">
 
-          <a href="">Add Day</a>
+          <a href="" ng-click="addDayToSchedule()">Add Day</a>
 
         </div>
         <div class="" id="adminClubInfoDisplayScheduleDiv">
+
 
           <span>
             <h2>{{clubSchedules.schedules[clubSchedules.currentSchedule].name}}</h2>
             <a href="">Edit</a>
           </span>
 
-          <div class="scheduleRoundDivs" ng-repeat="r in clubSchedules.schedules[clubSchedules.currentSchedule].days[clubSchedules.currentDay].rounds">
+          <div class="scheduleDayDivs" ng-repeat="d in clubSchedules.schedules[clubSchedules.currentSchedule].days">
 
-            <h3 ng-if="r.roundType == 'Practice'">{{r.roundType + ' ' + r.id}}</h3>
-            <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'">{{r.roundType}}</h3>
-
-
-
-
-            <div class="scheduleRoundGroupDivs" ng-repeat="g in r.groups">
-
-              <p ng-if="r.roundType == 'Qualifying' || r.roundType == 'Practice'" style="width:80px">Group {{g.id}}</p>
-              <p ng-if="r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'" style="width:80px">Race {{g.id}}</p>
-
-              <p style="min-width:350px">{{g.classes}}</p>
-              <p ng-if="g.time" style="width:80px">{{g.prettyTime}}</p>
-              <p ng-if="g.laps" style="width:80px">{{g.laps}} Laps</p>
-
-              <p>{{g.notes}}</p>
-
-            </div>
-
-          </div>
-
-          <div class="scheduleRoundPlannerDivs" id="">
-
-            <div class="scheduleRoundTypeBtnDivs" id="">
-
-              <a id="scheduleRoundPracticePlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Practice')">
-
-                <h3>Practice</h3>
-
-              </a>
-              <a id="scheduleRoundQualifyingPlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Qualifying')">
-
-                <h3>Qualifying</h3>
-
-              </a>
-              <a id="scheduleRoundHeatsPlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Heats')">
-
-                <h3>Heats</h3>
-
-              </a>
-              <a id="scheduleRoundPrefinalsPlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Prefinals')">
-
-                <h3>Pre-Finals</h3>
-
-              </a>
-              <a id="scheduleRoundRacesPlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Races')">
-
-                <h3>Races</h3>
-
-              </a>
-
-            </div>
-
-            <div class="" id="scheduleRoundTimeInputs">
-
+            <span>
+              <h2>Day {{d.id}}</h2>
+              <a href="" ng-click="editThisScheduleDay()">Edit</a>
+            </span>
+            <div class="scheduleDayHeaderDivs">
               <span>
-                <p>Round Start</p>
-                <input type="time" name="" value="" ng-model="clubSchedules.inputs.roundStart">
+                <h3>Day Header</h3>
+                <a href="" ng-if="d.header == '' && clubSchedules.inputs.editHeader == false" ng-click="editThisScheduleDayHeader()">Add Header</a>
+                <a href="" ng-if="d.header != '' && clubSchedules.inputs.editHeader == false" ng-click="editThisScheduleDayHeader()">Edit</a>
+                <a href="" ng-if="clubSchedules.inputs.editHeader == true" ng-click="cancelThisScheduleDayHeaderEdit()">Cancel</a>
+              </span>
+              <span ng-if="clubSchedules.inputs.editHeader == true">
+                <textarea type="text" name="" value="{{d.header}}" ng-model="clubSchedules.inputs.newDayHeader"></textarea>
+                <a href="" ng-click="applyScheduleDayHeader()">Apply</a>
               </span>
 
-              <span>
-                <p>Intervals</p>
-                <p>Amount</p>
-                <input type="number" name="" value="" ng-change="changeScheduleInterval()" ng-model="clubSchedules.inputs.interval">
-                <!-- <p>Laps</p>
-                <p>Minutes</p> -->
-                <span>
-                  <input type="checkbox" name="" value="" ng-model="clubSchedules.inputs.intervalLap">
-                  <p>Laps</p>
-                </span>
-                <span>
-                  <input type="checkbox" name="" value="" ng-model="clubSchedules.inputs.intervalTime">
-                  <p>Minutes</p>
-                </span>
-              </span>
-
+              <p ng-if="clubSchedules.inputs.editHeader == false">{{d.header}}</p>
 
             </div>
 
-            <div class="scheduleRoundClassesDivs">
+            <div class="scheduleRoundDivs" ng-repeat="r in d.rounds">
 
+              <h3 ng-if="r.roundType == 'Practice'">{{r.roundType + ' ' + r.id}}</h3>
+              <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'">{{r.roundType}}</h3>
 
-              <div class="scheduleRoundClassesDisplayDivs">
+              <div class="scheduleRoundGroupDivs" ng-repeat="g in r.groups">
 
-                <div class="scheduleRoundClassesCells" ng-repeat="g in clubSchedules.inputs.roundGroups">
-                  <a href="" style="width:80px" ng-click="editThisGroup(g)">Group {{g.id}}</a>
-                  <div class="scheduleRoundGroupCells">
-                    <p>{{g.classes}}</p>
-                    <p ng-if="clubSchedules.inputs.intervalTime == true">{{g.prettyTime}}</p>
-                    <p ng-if="g.laps">{{g.laps}} Laps</p>
-                    <p>{{g.notes}}</p>
-                  </div>
-                  <div class="scheduleRoundEditGroupCells">
-                    <input type="text" name="" value="{{g.classes}}">
-                    <input  ng-if="clubSchedules.inputs.intervalTime == true" type="time" name="" value="{{g.time}}">
-                    <input  ng-if="clubSchedules.inputs.intervalLap == true" type="number" name="" value="{{g.laps}}">
-                    <input type="text" name="" value="{{g.notes}}">
-                  </div>
-                </div>
+                <p ng-if="r.roundType == 'Qualifying' || r.roundType == 'Practice'" style="width:80px">Group {{g.id}}</p>
+                <p ng-if="r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'" style="width:80px">Race {{g.id}}</p>
 
-                <div class="scheduleRoundClassesDivHeaders">
+                <p style="min-width:350px">{{g.classes}}</p>
+                <p ng-if="r.intervalType == 'time'" style="width:80px">{{g.prettyTime}}</p>
+                <p ng-if="r.intervalType == 'lap'" style="width:80px">{{g.laps}} Laps</p>
 
-                  <p>Class(es)</p>
-                  <p>Duration/Time</p>
-                  <p>Extra Notes</p>
-
-                </div>
-                <div class="newScheduleRoundClassesCells">
-
-                  <input type="text" name="" value="" placeholder="Class/Class/Class" ng-model="clubSchedules.inputs.newGroupClasses">
-                  <input type="number" ng-if="clubSchedules.inputs.intervalLap == true" name="" value="" ng-model="clubSchedules.inputs.newGroupLaps">
-                  <input type="time" ng-if="clubSchedules.inputs.intervalTime == true" name="" value="" ng-model="clubSchedules.inputs.newGroupTime">
-                  <input type="text" name="" value="" placeholder="Additional Notes" ng-model="clubSchedules.inputs.newGroupNotes">
-                  <a href="" ng-click="applyScheduleGroup()">Apply</a>
-
-                </div>
+                <p>{{g.notes}}</p>
 
               </div>
 
             </div>
 
-            <a href="" ng-click="addRoundToSchedule()">Add Round</a>
+            <div class="scheduleRoundPlannerDivs" id="">
 
+              <div class="scheduleRoundTypeBtnDivs" id="">
+
+                <a id="scheduleRoundPracticePlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Practice')">
+
+                  <h3>Practice</h3>
+
+                </a>
+                <a id="scheduleRoundQualifyingPlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Qualifying')">
+
+                  <h3>Qualifying</h3>
+
+                </a>
+                <a id="scheduleRoundHeatsPlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Heats')">
+
+                  <h3>Heats</h3>
+
+                </a>
+                <a id="scheduleRoundPrefinalsPlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Prefinals')">
+
+                  <h3>Pre-Finals</h3>
+
+                </a>
+                <a id="scheduleRoundRacesPlannerBtn" class="scheduleRoundPlannerBtns" href="" ng-click="selectNewRoundType('Races')">
+
+                  <h3>Races</h3>
+
+                </a>
+
+              </div>
+
+              <div class="" id="scheduleRoundTimeInputs">
+
+                <span>
+                  <p>Round Start</p>
+                  <input type="time" name="" value="" ng-model="clubSchedules.inputs.roundStart">
+                </span>
+
+                <span>
+                  <p>Intervals</p>
+                  <p>Amount</p>
+                  <input type="number" name="" value="" ng-change="changeScheduleInterval()" ng-model="clubSchedules.inputs.interval">
+                  <!-- <p>Laps</p>
+                    <p>Minutes</p> -->
+                    <span>
+                      <input type="checkbox" name="" value="" ng-model="clubSchedules.inputs.intervalLap" ng-change="changeScheduleIntervalType('lap')">
+                      <p>Laps</p>
+                    </span>
+                    <span>
+                      <input type="checkbox" name="" value="" ng-model="clubSchedules.inputs.intervalTime" ng-change="changeScheduleIntervalType('time')">
+                      <p>Minutes</p>
+                    </span>
+                  </span>
+
+
+                </div>
+
+                <div class="scheduleRoundClassesDivs">
+
+
+                  <div class="scheduleRoundClassesDisplayDivs">
+
+                    <div class="scheduleRoundClassesCells" ng-repeat="g in clubSchedules.inputs.roundGroups">
+                      <a href="" style="width:80px" ng-click="editThisGroup(g)">Group {{g.id}}</a>
+                      <div class="scheduleRoundGroupCells">
+                        <p>{{g.classes}}</p>
+                        <p ng-if="clubSchedules.inputs.intervalTime == true">{{g.prettyTime}}</p>
+                        <p ng-if="clubSchedules.inputs.intervalTime == false">{{g.laps}} Laps</p>
+                        <p>{{g.notes}}</p>
+                      </div>
+                      <div class="scheduleRoundEditGroupCells">
+                        <input type="text" name="" value="{{g.classes}}">
+                        <input  ng-if="clubSchedules.inputs.intervalType == 'time'" type="time" name="" value="{{g.time}}">
+                        <input  ng-if="clubSchedules.inputs.intervalType == 'lap'" type="number" name="" value="{{g.laps}}">
+                        <input type="text" name="" value="{{g.notes}}">
+                      </div>
+                    </div>
+
+                    <div class="scheduleRoundClassesDivHeaders">
+
+                      <p>Class(es)</p>
+                      <p>Duration/Time</p>
+                      <p>Extra Notes</p>
+
+                    </div>
+                    <div class="newScheduleRoundClassesCells">
+
+                      <input type="text" name="" value="" placeholder="Class/Class/Class" ng-model="clubSchedules.inputs.newGroupClasses">
+                      <input type="number" ng-if="clubSchedules.inputs.intervalLap == true" name="" value="" ng-model="clubSchedules.inputs.newGroupLaps">
+                      <input type="time" ng-if="clubSchedules.inputs.intervalTime == true" name="" value="" ng-model="clubSchedules.inputs.newGroupTime">
+                      <input type="text" name="" value="" placeholder="Additional Notes" ng-model="clubSchedules.inputs.newGroupNotes">
+                      <a href="" ng-click="applyScheduleGroup()">Apply</a>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <a href="" ng-click="addRoundToSchedule()">Add Round</a>
+
+              </div>
           </div>
+
 
         </div>
 
@@ -463,6 +576,19 @@
 
       </div>
       <div class="" id="extrasRegistriesDisplay">
+
+        <div class="registriesOptionListCells" ng-repeat="pass in selectedRegistrationPasses">
+
+          <span>
+            <p>{{pass.member.fName}} {{pass.member.lName}}</p>
+
+          </span>
+          <p ng-if="pass.oneDay != 0">One Day Passes x {{pass.oneDay}}</p>
+          <p ng-if="pass.twoDay != 0">Two Day Passes x {{pass.twoDay}}</p>
+          <p ng-if="pass.threeDay != 0">Three Day Passes x {{pass.threeDay}}</p>
+
+
+        </div>
 
         <div class="registriesOptionListCells" ng-repeat="ord in selectedRegistrationOption">
 
@@ -717,6 +843,17 @@
 
       <div id="eventGroupDisplay">
 
+        <div class="eventGroupCell" style="background:lightgreen;" ng-click="selectSeries('open')" id="openEventGroupCell">
+
+          <h2>Open Practice</h2>
+
+        </div>
+
+        <div class="eventGroupCell" style="background:lightpink;" ng-click="selectSeries('closed')" id="closedEventGroupCell">
+
+          <h2>Track Closed</h2>
+
+        </div>
 
         <div class="eventGroupCell" ng-click="selectSeries('new')" id="newEventGroupCell">
           <h2>New</h2>
@@ -732,8 +869,56 @@
       </div>
 
       <div id="adminEventsControlContainerDiv">
+        <!-- <div class="adminEventsControlPanels" id="openAndCloseEventsControlPanel">
 
-        <div class="adminEventsControlPanels">
+          <div class="adminEventsControlPanelCells" id="closeEventsControlPanelCell">
+
+            <p>Close Days by -</p>
+
+            <span>
+              <p>Days of Week</p>
+              <input type="checkbox" name="" value="">
+            </span>
+            <div class="closeDaysByIntervalLists">
+              <span>
+                <p>Sunday</p>
+                <input type="checkbox" name="" value="">
+              </span>
+              <span>
+                <p>Monday</p>
+                <input type="checkbox" name="" value="">
+              </span>
+              <span>
+                <p>Tuesday</p>
+                <input type="checkbox" name="" value="">
+              </span>
+              <span>
+                <p>Wednesday</p>
+                <input type="checkbox" name="" value="">
+              </span>
+              <span>
+                <p>Thursday</p>
+                <input type="checkbox" name="" value="">
+              </span>
+              <span>
+                <p>Friday</p>
+                <input type="checkbox" name="" value="">
+              </span>
+              <span>
+                <p>Saturday</p>
+                <input type="checkbox" name="" value="">
+              </span>
+            </div>
+            <span>
+              <p>Months of year</p>
+              <input type="text" name="" value="">
+            </span>
+
+          </div>
+
+        </div> -->
+
+        <div class="adminEventsControlPanels" id="seriesAdminEventsControlPanel">
 
           <div class="adminEventsControlPanelCells"  ng-if="selectedSeries === 'new'">
 

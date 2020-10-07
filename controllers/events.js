@@ -156,7 +156,7 @@ exports.addEvents = function(req, res, next) {
   }
 
   exports.editEvent = function(req, res, next) {
-    console.log('BODY',req.body.events);
+    console.log('BODY',req.body);
     // var newEvent = {
     //   name: req.body.name,
     //   description: req.body.description,
@@ -164,11 +164,11 @@ exports.addEvents = function(req, res, next) {
     // }
     var i = 0;
     var evs = req.body.events;
-    var id = req.body.id+1;
+    var id = req.body.id-1;
     function update() {
 
       console.log(i);
-      console.log(req.body.eventLength);
+      // console.log(req.body.eventLength);
       console.log(evs[i].date);
       if (req.body.type == 'news') {
         id = evs[i].id
@@ -182,7 +182,7 @@ exports.addEvents = function(req, res, next) {
 
         })
         .then(function() {
-          if (req.body.eventLength == i+1) {
+          if (req.body.events.length == i+1) {
             res.send('success')
           } else {
             i++;
@@ -196,7 +196,8 @@ exports.addEvents = function(req, res, next) {
         .update(evs[i])
         .then(function() {
           i++;
-          if (req.body.daysLength === i) {
+          if (req.body.events.length === i) {
+            console.log('success');
             res.send('success')
           } else {
             update();

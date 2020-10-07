@@ -29,9 +29,17 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
   // console.log(sessionStorage);
   $scope.user;
-  if ($scope.user == null && sessionStorage.user != null) {
-    // console.log(sessionStorage.user);
+
+  if (sessionStorage.user == "null") {
+    console.log('hit');
+  } else if($scope.user == null && sessionStorage.user != null) {
+    console.log(sessionStorage.user);
     $scope.user = JSON.parse(sessionStorage.user);
+    $('#signInUpHeaderInfoCell').css('display','none')
+    $('#userHeaderInfoCell').css('display','flex')
+  } else if ($scope.user == null && sessionStorage.user == null) {
+    console.log(sessionStorage.user);
+    // $scope.user = JSON.parse(sessionStorage.user);
     $('#signInUpHeaderInfoCell').css('display','none')
     $('#userHeaderInfoCell').css('display','flex')
   }
@@ -54,7 +62,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
     sessionStorage.user = null;
     $scope.user = null;
-    // console.log(sessionStorage);
+    console.log(sessionStorage);
     $('#signInUpHeaderInfoCell').css('display','flex')
     $('#userHeaderInfoCell').css('display','none')
 
@@ -959,7 +967,12 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     // console.log(e);
     $scope.registrationForm = e.registration.registry_data;
     $scope.registrationForm.eventId = e.id;
-    $scope.registrationForm.eventInfo = e
+    $scope.registrationForm.eventInfo = e;
+
+    console.log($scope.registrationForm);
+    $scope.registrationForm.eventInfo.registration.registry_data.eventInfo = null;
+
+    sessionStorage.registration = JSON.stringify($scope.registrationForm);
 
     function setReg() {
       if ($scope.registrationForm == null || $scope.registrationForm == '') {

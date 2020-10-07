@@ -10,6 +10,7 @@ exports.saveEventRegistry = function(req, res, next) {
   console.log(req.body);
 
   console.log(req.body.registry);
+  // req.body.registry.passes = req.body.passes;
 
   knex('eventRegistry')
   .where({series_id:req.body.series.id})
@@ -182,6 +183,11 @@ exports.buyRegistration = function(req, res, next) {
         console.log('LIST::::::', list)
         console.log('DRIVERS::::::',driverData.drivers);
         console.log('CLASSES:::::::',driverData.classes);
+        if (list.passes) {
+
+        } else {
+          list.passes = [];
+        }
         for (var i = 0; i < driverData.drivers.length; i++) {
           for (var j = 0; j < driverData.drivers[i].classes.length; j++) {
             for (var k = 0; k < list.classes.length; k++) {
@@ -191,7 +197,7 @@ exports.buyRegistration = function(req, res, next) {
               if (list.classes[k].name == driverData.drivers[i].classes[j].name) {
                 console.log(driverData.drivers[i].classes[j]);
                 list.classes[k].list.push({
-                  member_id: list.members.length+1,
+                  member_id: driverData.membership.id,
                   name: driverData.drivers[i].name,
                   transponder: driverData.drivers[i].classes[j].transponder,
                   number: driverData.drivers[i].classes[j].number
@@ -199,7 +205,8 @@ exports.buyRegistration = function(req, res, next) {
 
                 if (i+1 == driverData.drivers.length && j+1 == driverData.drivers[i].classes.length) {
                   var mem = driverData.membership;
-                  mem.id = list.members.length+1
+                  console.log(mem);
+                  // mem.id = list.members.length+1
                   list.members.push(mem)
                   for (var l = 0; l < driverData.options.length; l++) {
                     var opt = driverData.options[l];
@@ -210,6 +217,11 @@ exports.buyRegistration = function(req, res, next) {
                       }
                     }
                   }
+                  list.passes.push({
+                    order:driverData.passes,
+                    member_id:mem.id
+                  })
+                  // list.passes = [];
                   console.log('hit2');
                   knex('entry_list')
                   .where({event_id:req.body.eventId})

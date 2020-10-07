@@ -16,7 +16,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
     day: date.getDay()+1,
     year: date.getFullYear()
   }
-  
+
   // console.log($scope.announcements);
 
   $scope.selectedMonth = $scope.date.month;
@@ -31,12 +31,12 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
   } else if($scope.selectedMonth === 0) {
     $scope.prevMonth_text = monthNames[11];
   }
-  
+
   $scope.event_groups = [];
 
   $('.calendarViews').css('display','none');
   $('#calendarExpandedView').css('display','flex');
-  
+
   $http.get('getAllEventGroups')
   .then(function(res) {
     $scope.event_groups = res.data;
@@ -48,8 +48,10 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
     var curMonthDays = monthDays[$scope.selectedMonth];
     var prevMonthDays;
 
+    console.log($scope.selectedMonth);
+
     if ($scope.selectedMonth === 0) {
-      prevMonthDays = monthDays[12];
+      prevMonthDays = monthDays[11];
     } else {
       prevMonthDays = monthDays[$scope.selectedMonth-1];
     }
@@ -149,7 +151,7 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
         cellBody.date = calendarDay;
         cellBody.day = dayOfWeek;
         cellBody.curMonth = true;
-        // cellBody.backgroundColor = 'lightgrey';  
+        // cellBody.backgroundColor = 'lightgrey';
 
         month_events.push(cellBody)
 
@@ -380,9 +382,9 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
           color: 'white',
           date: 'null'
         }
-        
+
         // console.log(month);
-        
+
         if (day >= 1) {
 
           mcell.date = date.year + '-' + month + '-' + day
@@ -455,21 +457,21 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
 
     } else {
-      
+
       if ($scope.selectedMonth === 10) {
-        
+
         $scope.selectedMonth ++;
-        
+
         $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
         $scope.nextMonth_text = monthNames[0];
-        
+
       } else {
-        
+
         $scope.selectedMonth ++;
-        
+
         $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
         $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
-        
+
       }
 
     }
@@ -492,21 +494,21 @@ app.controller('calendarCtrl', ['$scope', '$http', function($scope, $http) {
 
 
     } else {
-      
+
       if ($scope.selectedMonth === 1) {
-        
+
         $scope.selectedMonth --;
-        
+
         $scope.prevMonth_text = monthNames[11];
         $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
-        
+
       } else {
-        
+
         $scope.selectedMonth --;
-        
+
         $scope.prevMonth_text = monthNames[$scope.selectedMonth-1];
         $scope.nextMonth_text = monthNames[$scope.selectedMonth+1];
-        
+
       }
 
 

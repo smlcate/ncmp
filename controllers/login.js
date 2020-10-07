@@ -55,7 +55,11 @@ exports.signIn = function(req, res, next) {
   .then(function(data) {
     console.log('data', data);
     console.log('auth',auth);
-    bcrypt.compare(auth.password, data[0].hashed_passcode, function(err, acc) {
+    if (data.length == 0) {
+      res.send({success:false, message:'Account does not exist'})
+    } else {
+
+      bcrypt.compare(auth.password, data[0].hashed_passcode, function(err, acc) {
         if (err) {
           console.log(err);
           res.send(err);
@@ -65,7 +69,8 @@ exports.signIn = function(req, res, next) {
 
             user = {
               email: data[0].email,
-              membership: data[0].membership
+              membership: data[0].membership,
+              id:data[0].id
             }
             res.send(user)
 
@@ -76,7 +81,9 @@ exports.signIn = function(req, res, next) {
           // response is OutgoingMessage object that server response http request
           res.send({success: false, message: 'passwords do not match'});
         }
-    });
+      });
+
+    }
     // res.send(login)
     // bcrypt.compare(auth.password,data.hashed_passcode,function(err, res) {
     //   // res.send(rec);
