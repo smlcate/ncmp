@@ -134,10 +134,10 @@
           </div>
           <div class="memberInfoRightDivContainers">
 
-            <div class="memberInfoDivContainers" id="memberInfoDivRightContainer">
+            <!-- <div class="memberInfoDivContainers" id="memberInfoDivRightContainer">
 
               <h3>About</h3>
-              <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[0].about"></textarea>
+              <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[0].about"></textarea> -->
               <!-- <span class="memberInfoSocialSpans">
                 <p>@</p>
                 <input type="text" placeholder="twitter" name="" value="" ng-model="memberForm.members[0].social.twitter">
@@ -146,7 +146,7 @@
                 <p>@</p>
                 <input type="text" placeholder="instagram" name="" value="" ng-model="memberForm.members[0].social.instagram">
               </span> -->
-            </div>
+            <!-- </div> -->
           </div>
         </div>
 
@@ -205,10 +205,10 @@
           </div>
           <div class="memberInfoRightDivContainers">
 
-            <div class="memberInfoDivContainers" id="memberInfoDivRightContainer">
+            <!-- <div class="memberInfoDivContainers" id="memberInfoDivRightContainer">
 
               <h3>About</h3>
-              <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[1].about"></textarea>
+              <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[1].about"></textarea> -->
               <!-- <span class="memberInfoSocialSpans">
                 <p>@</p>
                 <input type="text" placeholder="twitter" name="" value="" ng-model="memberForm.members[0].social.twitter">
@@ -217,8 +217,14 @@
                 <p>@</p>
                 <input type="text" placeholder="instagram" name="" value="" ng-model="memberForm.members[0].social.instagram">
               </span> -->
-            </div>
+            <!-- </div> -->
           </div>
+        </div>
+
+        <div class="" id="memberInfoAddDriverButtonDiv">
+          <button type="button" name="button" ng-if="memberForm.single == false" ng-click="addMember()">Add Member</button>
+          <p>+ $5.00</p>
+
         </div>
 
       </div>
@@ -285,8 +291,8 @@
 
           <div class="memberInfoDivContainers" id="memberInfoDivRightContainer">
 
-            <h3>About</h3>
-            <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[0].about"></textarea>
+            <!-- <h3>About</h3>
+            <textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members[0].about"></textarea> -->
 
             <div id="singleMemContactDiv">
               <span>
@@ -328,9 +334,16 @@
       </div>
     </div>
 
+
   </div>
 
-  <button type="button" name="button" ng-if="memberForm.single == false" ng-click="addMember()">Add Member</button>
+  <div class="membersPageBottomBars">
+
+    <button type="button" name="button" ng-click="goToCheckout()">Checkout</button>
+
+  </div>
+
+
   <!-- <div class="formDisplays">
     <!-- <p>Hello, why should you become a KRA member?</p>
     <p>KRA Members are elligiable to sign up for KRA Series Events! Non-members may sign up, but there will be a small one-time member fee.</p> -->
@@ -588,7 +601,7 @@
     </span>
 
   </div> -->
-  <div class="membershipFormDisplays" id="membershipFormPaymentDiv">
+
 
     <!-- <span>
       <p>Card Holders Name</p>
@@ -610,21 +623,102 @@
 
     <!-- <button type="button" name="button" ng-click="pay()">Pay</button> -->
 
-    <form action="/charge" method="post" id="payment-form">
-      <div class="form-row">
-        <label for="card-element">
-          Credit or debit card
-        </label>
-        <div id="card-element">
-          <!-- a Stripe Element will be inserted here. -->
+    <div class="checkoutForms" id="membershipCheckoutForm">
+
+      <a href="" ng-click="backToMembership()">Back</a>
+
+      <div class="checkoutFormCartLists" id="membershipCheckoutFormCartList">
+
+        <div class="checkoutFormCartCells" ng-if="memberForm.family == true" ng-repeat="mem in memberForm.members track by $index">
+
+          <div class="checkoutFormCartCellHeaders">
+
+            <h3>{{mem.fName}} {{mem.lName}}</h3>
+
+            <h3 ng-if="memberForm.single == true && $index == 0"><b>+ ${{costs[0]}}</b></h3>
+            <h3 ng-if="memberForm.family == true && $index == 1"><b>+ ${{costs[1]}}</b></h3>
+            <h3 ng-if="memberForm.family == true && $index > 1"><b>+ ${{costs[$index]}}</b></h3>
+
+          </div>
+          <div class="checkoutFormCartCellDisplays">
+
+            <div class="checkoutFormCartCellDisplayClassCells" ng-if="class.name != ''"  ng-repeat="class in mem.classes">
+              <p>{{class.name}}</p>
+
+              <p ng-if="class.number && class.number != ''">#{{class.number}}</p>
+              <p ng-if="class.number == ''">#N/A</p>
+
+
+              <p ng-if="class.transponder && class.transponder != ''">Trans. {{class.transponder}}</p>
+              <p ng-if="class.transponder == '' || class.transponder == null">Trans. N/A</p>
+
+              <p ng-if="class.chassis != ''">{{class.chassis}}</p>
+            </div>
+
+          </div>
+
+
+        </div>
+        <div class="checkoutFormCartCells" ng-if="memberForm.single == true">
+
+          <div class="checkoutFormCartCellHeaders">
+
+            <p>{{memberForm.members[0].fName}} {{memberForm.members[0].lName}}</p>
+
+            <h3><b>+ ${{costs[0]}}</b></h3>
+
+
+          </div>
+          <div class="checkoutFormCartCellDisplays">
+
+            <div class="checkoutFormCartCellDisplayClassCells" ng-if="class.name != ''"  ng-repeat="class in memberForm.members[0].classes">
+
+              <p>{{class.name}}</p>
+
+              <p ng-if="class.number && class.number != ''">#{{class.number}}</p>
+              <p ng-if="class.number == ''">#N/A</p>
+
+
+              <p ng-if="class.transponder && class.transponder != ''">Trans. {{class.transponder}}</p>
+              <p ng-if="class.transponder == '' || class.transponder == null">Trans. N/A</p>
+
+              <p ng-if="class.chassis != ''">{{class.chassis}}</p>
+
+            </div>
+
+          </div>
+
+
         </div>
 
-        <!-- Used to display form errors -->
-        <div id="card-errors" role="alert"></div>
       </div>
 
-      <button>Submit Payment</button>
-    </form>
+      <div class="" id="totalMembershipCostsBar">
+
+        <p>Tax +${{tax}}</p>
+        <p>Total: ${{totalCost}}</p>
+
+      </div>
+
+      <div class="membershipFormDisplays" id="membershipFormPaymentDiv">
+
+        <form action="/charge" method="post" id="payment-form">
+          <div class="form-row">
+            <label for="card-element">
+              Credit or debit card
+            </label>
+            <div id="card-element">
+              <!-- a Stripe Element will be inserted here. -->
+            </div>
+
+            <!-- Used to display form errors -->
+            <div id="card-errors" role="alert"></div>
+          </div>
+
+          <button>Purchase Membership</button>
+        </form>
+      </div>
+
     <!-- <form action="/charge" method="POST"> -->
       <!-- <input type="submit" name="" value=""> -->
       <!-- <script

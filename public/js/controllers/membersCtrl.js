@@ -37,6 +37,10 @@ app.controller('membersCtrl', ['$scope', '$http', '$compile', function($scope, $
     }]
   }
 
+  $scope.costs = [];
+  $scope.totalCost = 0;
+  // $scope.tax = 0;
+
   $scope.selectFile = function(input,m,single) {
     // console.log(input.target.files)
     if (input.target.files && input.target.files[0]) {
@@ -94,7 +98,7 @@ app.controller('membersCtrl', ['$scope', '$http', '$compile', function($scope, $
     // var html = '<div class="memberInfoDivs"><div class="memberInfoDivContainers"><div class="memberInfoTopInputs"><div class="memberPictureInputDivs">      <input type="file" alt="no image selected" onchange="angular.element(this).scope().selectFile(event,'+($scope.memberForm.members.length-1)+')" /><img class="memberImagePreviews" id="memberImagePreview'+($scope.memberForm.members.length-1)+'" src="#" alt="Select Image" /></div><div class="memberInfoIdInputDivs"> <input class="memberNameInputs" type="text" name="" placeholder="First Name" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].fName"><input class="memberNameInputs" type="text" name="" placeholder="Last Name" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].lName"><span id="initAndBdaySpan"><input type="text" name="" id="memberMidInitInput"  placeholder="Mid Init" value=""ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].mName"><input type="date" name="" placeholder="Birthday" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].bDay"></span></div></div><div class="memberInfoBottomInputs" id="memberInfoBottomInput'+($scope.memberForm.members.length-1)+'"><div class="memberClassSelectInputDivs" id="memberClassSelectInputDiv'+($scope.memberForm.members.length-1)+'"><select class="memberClassSelectInput"><option class="memberClassOptions" value="{{cl.name}}" ng-repeat="cl in memberForm.class_choices" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes[0].name">{{cl.name}}</option></select><input type="number" class="memberKartNumberInputs" placeholder="##" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes[0].number"><input type="text" name="" placeholder="chassis" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes[0].chassis"></div></div><button type="button" name="" ng-click="addMemberClass('+($scope.memberForm.members.length-1)+')">+</button></div><div class="memberInfoDivContainers" id="memberInfoDivRightContainer"><h3>About</h3><textarea type="textarea" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].about"></textarea><span class="memberInfoSocialSpans"><p>@</p><input type="text" placeholder="twitter" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].social.twitter"></span><span class="memberInfoSocialSpans"><p>@</p><input type="text" placeholder="instagram" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].social.instagram"></span></div></div>'
 
 
-    var html = '<div class="famMemDriverCell"><div class="memberInfoLeftDivContainers"><h2>Driver '+$scope.memberForm.members.length+'</h2><div class="memberInfoTopInputs"><span class="memberInfoIdInputDivs"><div class="memberPictureInputDivs"><img class="memberImagePreviews" alt="No Image Selected" id="memberImagePreview'+($scope.memberForm.members.length-1)+'" src="../images/placeholder-profile-pic.png" alt="Select Image" /><input type="file" alt="no image selected" onchange="angular.element(this).scope().selectFile(event,'+($scope.memberForm.members.length-1)+')" /></div><div class="memberInfoIdInputNameDivs"><span><input class="memberNameInputs" type="text" name="" placeholder="First Name" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].fName"><p style="color:red;width:10px;">*</p></span><span><input class="memberNameInputs" type="text" name="" placeholder="Last Name" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].lName"><p style="color:red;width:10px;">*</p></span><span class="initAndBdaySpans"><input class="initInputs" type="text" name="" id=""  placeholder="M" value=""ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].mName"><span><p>Birthday</p><input type="date" name="" placeholder="Birthday" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].bDay"></span></span></div></span><div class="memberInfoBottomInputs" id="memberInfoBottomInput'+($scope.memberForm.members.length-1)+'"><h3>Class Info</h3><div class="memberClassSelectInputDivs" id="'+($scope.memberForm.members.length-1)+'memberClassSelectInputDiv'+($scope.memberForm.members.length-1)+'"><button type="button" ng-if="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].name.length > 0" name="button" ng-click="deleteMemClass('+($scope.memberForm.members.length-1)+',0)">X</button><select class="memberClassSelectInput" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].name"><option class="memberClassOptions" value="{{cl.name}}" ng-repeat="cl in memberForm.class_choices" >{{cl.name}}</option></select><input type="number" class="memberKartNumberInputs" id="memberKartNumberInput" placeholder="##" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].number"><input type="text" placeholder="Transponder" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].transponder"><input type="text" name="" placeholder="chassis" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].chassis"></div></div><button type="button" class="addMemberClassButtons" name="" ng-if="memberForm.members['+($scope.memberForm.members.length-1)+'].classes[0] && memberForm.members['+($scope.memberForm.members.length-1)+'].classes[0].name.length != 0" ng-click="addMemberClass('+($scope.memberForm.members.length-1)+',0)">+</button></div></div><div class="memberInfoRightDivContainers"><div class="memberInfoDivContainers" id="memberInfoDivRightContainer"><h3>About</h3><textarea type="textarea" id="" class="memberInfoAboutInputs" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].about"></textarea></div></div></div>'
+    var html = '<div class="famMemDriverCell"><div class="memberInfoLeftDivContainers"><h2>Driver '+$scope.memberForm.members.length+'</h2><div class="memberInfoTopInputs"><span class="memberInfoIdInputDivs"><div class="memberPictureInputDivs"><img class="memberImagePreviews" alt="No Image Selected" id="memberImagePreview'+($scope.memberForm.members.length-1)+'" src="../images/placeholder-profile-pic.png" alt="Select Image" /><input type="file" alt="no image selected" onchange="angular.element(this).scope().selectFile(event,'+($scope.memberForm.members.length-1)+')" /></div><div class="memberInfoIdInputNameDivs"><span><input class="memberNameInputs" type="text" name="" placeholder="First Name" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].fName"><p style="color:red;width:10px;">*</p></span><span><input class="memberNameInputs" type="text" name="" placeholder="Last Name" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].lName"><p style="color:red;width:10px;">*</p></span><span class="initAndBdaySpans"><input class="initInputs" type="text" name="" id=""  placeholder="M" value=""ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].mName"><span><p>Birthday</p><input type="date" name="" placeholder="Birthday" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].bDay"></span></span></div></span><div class="memberInfoBottomInputs" id="memberInfoBottomInput'+($scope.memberForm.members.length-1)+'"><h3>Class Info</h3><div class="memberClassSelectInputDivs" id="'+($scope.memberForm.members.length-1)+'memberClassSelectInputDiv'+($scope.memberForm.members.length-1)+'"><button type="button" ng-if="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].name.length > 0" name="button" ng-click="deleteMemClass('+($scope.memberForm.members.length-1)+',0)">X</button><select class="memberClassSelectInput" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].name"><option class="memberClassOptions" value="{{cl.name}}" ng-repeat="cl in memberForm.class_choices" >{{cl.name}}</option></select><input type="number" class="memberKartNumberInputs" id="memberKartNumberInput" placeholder="##" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].number"><input type="text" placeholder="Transponder" name="" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].transponder"><input type="text" name="" placeholder="chassis" value="" ng-model="memberForm.members['+($scope.memberForm.members.length-1)+'].classes['+($scope.memberForm.members.length-1)+'].chassis"></div></div><button type="button" class="addMemberClassButtons" name="" ng-if="memberForm.members['+($scope.memberForm.members.length-1)+'].classes[0] && memberForm.members['+($scope.memberForm.members.length-1)+'].classes[0].name.length != 0" ng-click="addMemberClass('+($scope.memberForm.members.length-1)+',0)">+</button></div></div><div class="memberInfoRightDivContainers"></div></div>'
 
     angular.element($('#familyMemberInfoDiv')).append($compile(html)($scope))
 
@@ -457,6 +461,75 @@ app.controller('membersCtrl', ['$scope', '$http', '$compile', function($scope, $
     // var c = $scope.class;
     // $scope.selectedClasses.push(c)
 
+  }
+
+  $scope.goToCheckout = function() {
+    var failed = false;
+    if ($scope.memberForm.single == true) {
+      if ($scope.memberForm.members[0].fName != '' && $scope.memberForm.members[0].lName != '') {
+        $scope.costs.push('50.00');
+        $scope.totalCost = 50;
+
+        $('.memberDivContainers').css('display','none');
+        $('.membersPageBottomBars').css('display','none');
+
+        $('.checkoutForms').css('display','flex');
+        // $scope.tax = ($scope.totalCost * 0.07).toFixed(2);
+        $scope.totalCost = ($scope.totalCost).toFixed(2);
+      }
+    } else {
+      for (var i = 0; i < $scope.memberForm.members.length; i++) {
+        if ($scope.memberForm.members[i].fName != '' && $scope.memberForm.members[i].lName != '') {
+          $scope.costs.push('0.00','65.00');
+          $scope.totalCost = 65;
+          if ($scope.memberForm.members.length > 2 && i >= $scope.memberForm.members.length - 1) {
+            for (var j = 0; j < $scope.memberForm.members.length - 2; j++) {
+              $scope.costs.push('5.00')
+              $scope.totalCost += 5;
+            }
+            if (failed == false) {
+              $('.memberDivContainers').css('display','none');
+              $('.membersPageBottomBars').css('display','none');
+
+              $('.checkoutForms').css('display','flex');
+              // $scope.tax = ($scope.totalCost * 0.07).toFixed(2);
+              $scope.totalCost = ($scope.totalCost).toFixed(2);
+            }
+          } else if(i >= $scope.memberForm.members.length - 1 && failed == false) {
+
+            $('.memberDivContainers').css('display','none');
+            $('.membersPageBottomBars').css('display','none');
+
+            $('.checkoutForms').css('display','flex');
+            // $scope.tax = ($scope.totalCost * 0.07).toFixed(2);
+            $scope.totalCost = ($scope.totalCost).toFixed(2);
+          }
+        } else {
+          failed = true;
+          i = $scope.memberForm.length;
+        }
+      }
+    }
+    for (var i = 0; i < $scope.memberForm.members.length; i++) {
+      var newClasses = [];
+      for (var j = 0; j < $scope.memberForm.members[i].classes.length; j++) {
+        if ($scope.memberForm.members[i].classes[j] && $scope.memberForm.members[i].classes[j].name != '') {
+          newClasses.push($scope.memberForm.members[i].classes[j]);
+        }
+      }
+      $scope.memberForm.members[i].classes = newClasses;
+    }
+    console.log($scope.costs);
+    console.log($scope.memberForm);
+  }
+
+  $scope.backToMembership = function() {
+    $('.memberDivContainers').css('display','flex');
+    $('.membersPageBottomBars').css('display','flex');
+
+    $('.checkoutForms').css('display','none');
+    $scope.costs = [];
+    $scope.totalCost = 0;
   }
 
   $scope.test = function() {
