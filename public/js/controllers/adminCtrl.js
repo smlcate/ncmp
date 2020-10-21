@@ -619,6 +619,19 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   // }
   // buildNewsController();
 
+  $scope.createAccount = function() {
+    $scope.newAccount.email = $scope.manager.inputs.newAccountEmail;
+    $scope.newAccount.password = $scope.manager.inputs.newAccountPassword;
+
+    $http.post('/signUp', {auth:$scope.newAccount})
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
   $scope.openAccountsList = function() {
 
     // console.log('hit');
