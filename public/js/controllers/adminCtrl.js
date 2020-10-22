@@ -1996,6 +1996,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   $scope.saveEventEdit = function(req, res, next) {
 
     function AdjTime(t) {
+
       if (t.getUTCHours()-5 < 0) {
         n = 24-(5-t.getUTCHours());
         if (t.getUTCMinutes() < 10) {
@@ -2050,6 +2051,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         thisEvent.event_key = eventKey;
       }
       info.events.push(thisEvent);
+      console.log(info.events);
       if (i+1 === $scope.controller.daysLength) {
         update()
       }
@@ -2167,6 +2169,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     var eventKey = Math.floor((Math.random() * 100)) + c.info.name[1] + c.info.name[0];
 
     function AdjTime(t) {
+      console.log(t);
       if (t.getUTCHours()-5 < 0) {
         n = 24-(5-t.getUTCHours());
         if (t.getUTCMinutes() < 10) {
