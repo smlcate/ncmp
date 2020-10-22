@@ -169,8 +169,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
   }
 
   $scope.controller = {
-    startTime: new Date('8:00'),
-    endTime: new Date('20:00'),
+    // startTime: new Date('8:00'),
+    // endTime: new Date('20:00'),
     daysLength:1,
     info: {
 
@@ -476,8 +476,8 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
         sortedStack[i].display_date = makeDatePretty(sortedStack[i].date)
 
       }
-      sortedStack[i].display_start = makeTimePretty(sortedStack[i].start);
-      sortedStack[i].display_end = makeTimePretty(sortedStack[i].end)
+      // sortedStack[i].display_start = makeTimePretty(sortedStack[i].start);
+      // sortedStack[i].display_end = makeTimePretty(sortedStack[i].end)
 
     }
     $scope.events = sortedStack;
@@ -1359,8 +1359,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
             name: e.name,
             date: m + '/' + nd + '/' + y,
             color: e.color,
-            start: e.start,
-            end: e.end,
+            // start: e.start,
+            // end: e.end,
 
             display_end: e.display_end,
             event_key: e.event_key,
@@ -1381,7 +1381,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
             if ((f-t)+1 > 1) {
               event.display_date = day + ' ' + month + ', ' + date + '-' + edate;
-              event.display_start = null;
+              // event.display_start = null;
             }
 
             date += i;
@@ -1404,19 +1404,19 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
             } else {
               event.display_start = (AdjTime($scope.news.delayedUntil).slice(0,-3) - 12) + (AdjTime($scope.news.delayedUntil).slice(2)) + 'pm'
             }
-            // if (AdjTime(c.info.endTime).slice(0,-3)<12) {
-            //   e.display_end = AdjTime(c.info.endTime) + 'am'
-            // } else {
-            //   e.display_end = (AdjTime(c.info.endTime).slice(0,-3) - 12) + (AdjTime(c.info.endTime).slice(2)) + 'pm'
-            // }
+            if (AdjTime(c.info.endTime).slice(0,-3)<12) {
+              e.display_end = AdjTime(c.info.endTime) + 'am'
+            } else {
+              e.display_end = (AdjTime(c.info.endTime).slice(0,-3) - 12) + (AdjTime(c.info.endTime).slice(2)) + 'pm'
+            }
             event.display_end = e.display_end;
 
           } else {
             event.display_start = e.display_start;
             event.display_end = e.display_end;
           }
-            // eventInfo.display_start = makeTimePretty(AdjTime(c.startTime));
-            // eventInfo.display_end = makeTimePretty(AdjTime(c.endTime));
+            eventInfo.display_start = makeTimePretty(AdjTime(c.startTime));
+            eventInfo.display_end = makeTimePretty(AdjTime(c.endTime));
 
           evs.push(event);
         }
@@ -2207,8 +2207,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         name: c.info.eventName,
         date: m + '/' + nd + '/' + y,
         color: eventInfo.color,
-        start: AdjTime(c.info.startTime),
-        end: AdjTime(c.info.endTime),
+        // start: AdjTime(c.info.startTime),
+        // end: AdjTime(c.info.endTime),
         event_key: eventKey,
         image: $scope.selectedPhoto.id
       }
@@ -2228,19 +2228,19 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     if (c.daysLength > 1) {
       eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + edate;
-      eventInfo.display_start = null;
+      // eventInfo.display_start = null;
     } else {
       // console.log(makeTimePretty(AdjTime(c.startTime)));
-      if (AdjTime(c.info.startTime).slice(0,-3)<12) {
-        eventInfo.display_start = AdjTime(c.info.startTime) + 'am'
-      } else {
-        eventInfo.display_start = (AdjTime(c.info.startTime).slice(0,-3) - 12) + (AdjTime(c.info.startTime).slice(2)) + 'pm'
-      }
-      if (AdjTime(c.info.endTime).slice(0,-3)<12) {
-        eventInfo.display_end = AdjTime(c.info.endTime) + 'am'
-      } else {
-        eventInfo.display_end = (AdjTime(c.info.endTime).slice(0,-3) - 12) + (AdjTime(c.info.endTime).slice(2)) + 'pm'
-      }
+      // if (AdjTime(c.info.startTime).slice(0,-3)<12) {
+      //   eventInfo.display_start = AdjTime(c.info.startTime) + 'am'
+      // } else {
+      //   eventInfo.display_start = (AdjTime(c.info.startTime).slice(0,-3) - 12) + (AdjTime(c.info.startTime).slice(2)) + 'pm'
+      // }
+      // if (AdjTime(c.info.endTime).slice(0,-3)<12) {
+      //   eventInfo.display_end = AdjTime(c.info.endTime) + 'am'
+      // } else {
+      //   eventInfo.display_end = (AdjTime(c.info.endTime).slice(0,-3) - 12) + (AdjTime(c.info.endTime).slice(2)) + 'pm'
+      // }
       // eventInfo.display_start = makeTimePretty(AdjTime(c.startTime));
       // eventInfo.display_end = makeTimePretty(AdjTime(c.endTime));
     }
