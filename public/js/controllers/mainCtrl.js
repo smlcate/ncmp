@@ -801,10 +801,10 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         }
         return h + ':' + m + append;
       }
-      for (var i = 0; i < announcements.events.length; i++) {
-        announcements.events[i].display_start=makeTimePretty(announcements.events[i].start);
-        announcements.events[i].display_end=makeTimePretty(announcements.events[i].end);
-      }
+      // for (var i = 0; i < announcements.events.length; i++) {
+      //   announcements.events[i].display_start=makeTimePretty(announcements.events[i].start);
+      //   announcements.events[i].display_end=makeTimePretty(announcements.events[i].end);
+      // }
       announcements.banner.push(announcements.events);
       $scope.announcements = announcements;
       // console.log();

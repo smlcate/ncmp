@@ -1381,7 +1381,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
             if ((f-t)+1 > 1) {
               event.display_date = day + ' ' + month + ', ' + date + '-' + edate;
-              // event.display_start = null;
+              event.display_start = null;
             }
 
             date += i;
@@ -1446,8 +1446,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
           name: e.name,
           date: m + '/' + nd + '/' + y,
           color: e.color,
-          start: e.start,
-          end: e.end,
+          // start: e.start,
+          // end: e.end,
           event_key: e.event_key,
           event_group_id:e.event_group_id,
           image: e.image
