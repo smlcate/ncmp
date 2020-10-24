@@ -211,6 +211,18 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
     // console.log($scope.nextEvent);
   }
 
+  $http.get('getSchedules')
+  .then(function(data) {
+    console.log(data.data);
+    if (data.data.length > 0) {
+      $scope.clubSchedules.schedules = JSON.parse(data.data[0].schedule_data);
+      console.log($scope.clubSchedules);
+    }
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+
   $http.get('getMembers')
   .then(function(data) {
     $scope.people = data.data;
@@ -884,6 +896,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   $scope.applyScheduleNameEdit = function() {
     $scope.clubSchedules.inputs.editTitle = false;
     $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].name = $scope.clubSchedules.inputs.newScheduleTitle;
+    console.log($scope.clubSchedules);
   }
 
   $scope.selectNewRoundType = function(t) {
@@ -1239,6 +1252,17 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         rounds:[]
       }
     )
+  }
+
+  $scope.saveSchedule = function() {
+    $http.post('saveSchedules',{schedules:$scope.clubSchedules.schedules})
+    .then(function(res) {
+      // console.log(res.data);
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   }
 
 

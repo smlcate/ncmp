@@ -21,7 +21,7 @@ var server = {
   payments: require('./controllers/payments.js'),
   points: require('./controllers/points.js'),
   rules: require('./controllers/rules.js'),
-
+  schedules: require('./controllers/schedules.js'),
 
 }
 
@@ -46,6 +46,11 @@ app.post('/saveNews', server.news.saveNews)
 
 app.post('/saveRuleLists', server.rules.saveRuleLists)
 app.get('/getRules', server.rules.getRules)
+
+app.post('/saveSchedules', server.schedules.saveSchedules)
+app.get('/getSchedules', server.schedules.getSchedules)
+
+
 
 app.get('/getAllEventGroups', server.event_groups.getAllEventGroups)
 app.post('/getEventGroups', server.event_groups.getEventGroups)
