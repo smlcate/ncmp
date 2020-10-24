@@ -278,8 +278,14 @@
 
 
           <span>
-            <h2>{{clubSchedules.schedules[clubSchedules.currentSchedule].name}}</h2>
-            <a href="">Edit</a>
+            <h2 ng-if="clubSchedules.inputs.editTitle == false">{{clubSchedules.schedules[clubSchedules.currentSchedule].name}}</h2>
+            <a ng-if="clubSchedules.inputs.editTitle == false" href="" ng-click="editScheduleName()">Edit</a>
+            <input ng-if="clubSchedules.inputs.editTitle == true" type="text" name="" value="" ng-model="clubSchedules.inputs.newScheduleTitle">
+
+            <a ng-if="clubSchedules.inputs.editTitle == true" href="" ng-click="cancelScheduleNameEdit()">Cancel</a>
+            <p ng-if="clubSchedules.inputs.editTitle == true">|</p>
+            <a ng-if="clubSchedules.inputs.editTitle == true" href="" ng-click="applyScheduleNameEdit()">Apply</a>
+
           </span>
 
           <div class="scheduleDayDivs" ng-repeat="d in clubSchedules.schedules[clubSchedules.currentSchedule].days">
@@ -288,6 +294,18 @@
               <h2>Day {{d.id}}</h2>
               <a href="" ng-click="editThisScheduleDay()">Edit</a>
             </span>
+            <div class="scheduleStartEndDivs">
+
+              <span>
+                <p>Gates Open:</p>
+                <input type="time" name="" value="" ng-model="clubSchedules.inputs.gatesOpen">
+              </span>
+              <span>
+                <p>Gates Closed:</p>
+                <input type="time" name="" value="" ng-model="clubSchedules.inputs.gatesClosed">
+              </span>
+
+            </div>
             <div class="scheduleDayHeaderDivs">
               <span>
                 <h3>Day Header</h3>
@@ -304,27 +322,37 @@
 
             </div>
 
-            <div class="scheduleRoundDivs" ng-repeat="r in d.rounds">
+            <div class="scheduleRoundDivs" id="{{r.id}}scheduleRoundDiv" ng-repeat="r in d.rounds">
 
-              <h3 ng-if="r.roundType == 'Practice'">{{r.roundType + ' ' + r.id}}</h3>
-              <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'">{{r.roundType}}</h3>
+              <div class="scheduleRoundDivInfoDivs">
 
-              <div class="scheduleRoundGroupDivs" ng-repeat="g in r.groups">
+                <span>
+                  <h3 ng-if="r.roundType == 'Practice'">{{r.roundType + ' ' + r.id}}</h3>
+                  <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'">{{r.roundType}}</h3>
+                  <h3>|</h3>
+                  <p>{{r.prettyRoundStart}}</p>
+                  <h3>|</h3>
+                  <a href="" ng-click="editScheduleRound(r)">Edit</a>
 
-                <p ng-if="r.roundType == 'Qualifying' || r.roundType == 'Practice'" style="width:80px">Group {{g.id}}</p>
-                <p ng-if="r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'" style="width:80px">Race {{g.id}}</p>
+                </span>
 
-                <p style="min-width:350px">{{g.classes}}</p>
-                <p ng-if="r.intervalType == 'time'" style="width:80px">{{g.prettyTime}}</p>
-                <p ng-if="r.intervalType == 'lap'" style="width:80px">{{g.laps}} Laps</p>
+                <div class="scheduleRoundGroupDivs" ng-repeat="g in r.groups">
 
-                <p>{{g.notes}}</p>
+                  <p ng-if="r.roundType == 'Qualifying' || r.roundType == 'Practice'" style="width:80px">Group {{g.id}}</p>
+                  <p ng-if="r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'" style="width:80px">Race {{g.id}}</p>
+                  <p style="min-width:350px">{{g.classes}}</p>
+                  <p ng-if="r.intervalType == 'time'" style="width:80px">{{g.prettyTime}}</p>
+                  <p ng-if="r.intervalType == 'lap'" style="width:80px">{{g.laps}} Laps</p>
+
+                  <p>{{g.notes}}</p>
+
+                </div>
 
               </div>
 
             </div>
 
-            <div class="scheduleRoundPlannerDivs" id="">
+            <div class="scheduleRoundPlannerDivs" id="" ng-if="clubSchedules.inputs.addingRound == true">
 
               <div class="scheduleRoundTypeBtnDivs" id="">
 
@@ -360,7 +388,7 @@
 
                 <span>
                   <p>Round Start</p>
-                  <input type="time" name="" value="" ng-model="clubSchedules.inputs.roundStart">
+                  <input type="time" name="" value="" ng-model="clubSchedules.inputs.roundStart" ng-change="setRoundStart()">
                 </span>
 
                 <span>
@@ -425,8 +453,12 @@
                 </div>
 
                 <a href="" ng-click="addRoundToSchedule()">Add Round</a>
+                <a href="" ng-click="cancelAddingRound()">Cancel</a>
 
               </div>
+
+              <a href="" ng-if="clubSchedules.inputs.addingRound == false" ng-click="newScheduleRound()">New Round</a>
+
           </div>
 
 

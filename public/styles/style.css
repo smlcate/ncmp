@@ -282,6 +282,12 @@ a {
   padding-right: 10px;
   /* justify-content: space-between; */
 }
+.scheduleStartEndDivs {
+  display: flex;
+}
+.scheduleStartEndDivs span {
+  padding-left: 30px;
+}
 .scheduleRoundPlannerDivs {
   display: flex;
   flex-direction: column;
@@ -357,6 +363,13 @@ a {
   /* box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.7); */
   /* width: 70%; */
   /* padding:20px; */
+}
+.scheduleRoundDivs span {
+  display: flex;
+}
+.scheduleRoundDivInfoDivs {
+  display: flex;
+  flex-direction: column;
 }
 .scheduleRoundGroupDivs {
   display: flex;

@@ -1,4 +1,4 @@
-app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
+app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $http,$compile) {
 
   var monthNames =  ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
@@ -101,6 +101,12 @@ app.controller('adminCtrl',  ['$scope', '$http', function($scope, $http) {
     inputs: {
       edit:false,
       editHeader:false,
+      editTitle:false,
+      editSchedule:true,
+      newScheduleTitle:'',
+      gatesOpen:new Date(1970,0,1,7,0,0),
+      gatesClosed:new Date(1970,0,1,20,0,0),
+      addingRound:false,
       newClass:'',
       newRoundType:'Practice',
       newTime:'',
@@ -868,6 +874,18 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $scope.clubSchedules.inputs.addNewSchedule = false;
   }
 
+  $scope.editScheduleName = function() {
+    $scope.clubSchedules.inputs.editTitle = true;
+    $scope.clubSchedules.inputs.newScheduleTitle = $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].name
+  }
+  $scope.cancelScheduleNameEdit = function() {
+    $scope.clubSchedules.inputs.editTitle = false
+  }
+  $scope.applyScheduleNameEdit = function() {
+    $scope.clubSchedules.inputs.editTitle = false;
+    $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].name = $scope.clubSchedules.inputs.newScheduleTitle;
+  }
+
   $scope.selectNewRoundType = function(t) {
 
     $('.scheduleRoundPlannerBtns').css('background','#E1F5FE').css('color','#154498')
@@ -907,6 +925,118 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $scope.clubSchedules.inputs.editHeader = false;
   }
 
+  $scope.editScheduleRound = function(r) {
+    console.log(r);
+    $('.scheduleRoundDivs .scheduleRoundDivInfoDivs').css('display','flex');
+    $("#" + r.id + "scheduleRoundDiv .scheduleRoundDivInfoDivs").css('display','none');
+    $(".scheduleRoundPlannerDivs").css('display','none');
+
+    var html = "<div class='scheduleRoundPlannerDivs' id=''><div class='scheduleRoundTypeBtnDivs' id=''><a id='scheduleRoundPracticePlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Practice' + ")'><h3>Practice</h3></a><a id='scheduleRoundQualifyingPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Qualifying' + ")'><h3>Qualifying</h3></a><a id='scheduleRoundHeatsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Heats' + ")'><h3>Heats</h3></a><a id='scheduleRoundPrefinalsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Prefinals' + ")'><h3>Pre-Finals</h3></a><a id='scheduleRoundRacesPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Races' + ")'><h3>Races</h3></a></div><div class='' id='scheduleRoundTimeInputs'><span><p>Round Start</p><input type='time' name='' value='' ng-model='clubSchedules.inputs.roundStart' ng-change='setRoundStart()'></span><span><p>Intervals</p><p>Amount</p><input type='number' name='' value='' ng-change='changeScheduleInterval()' ng-model='clubSchedules.inputs.interval'><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalLap' ng-change='changeScheduleIntervalType('lap')'><p>Laps</p></span><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalTime' ng-change='changeScheduleIntervalType('time')'><p>Minutes</p></span></span></div><div class='scheduleRoundClassesDivs'><div class='scheduleRoundClassesDisplayDivs'><div class='scheduleRoundClassesCells' ng-repeat='g in clubSchedules.inputs.roundGroups'><a href='' style='width:80px' ng-click='editThisGroup(g)'>Group {{g.id}}</a><div class='scheduleRoundGroupCells'><p>{{g.classes}}</p><p ng-if='clubSchedules.inputs.intervalTime == true'>{{g.prettyTime}}</p><p ng-if='clubSchedules.inputs.intervalTime == false'>{{g.laps}} Laps</p><p>{{g.notes}}</p></div><div class='scheduleRoundEditGroupCells'><input type='text' name='' value='{{g.classes}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='time' name='' value='{{g.time}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='number' name='' value='{{g.laps}}'><input type='text' name='' value='{{g.notes}}'></div></div><div class='scheduleRoundClassesDivHeaders'><p>Class(es)</p><p>Duration/Time</p><p>Extra Notes</p></div><div class='newScheduleRoundClassesCells'><input type='text' name='' value='' placeholder='Class/Class/Class' ng-model='clubSchedules.inputs.newGroupClasses'><input type='number' ng-if='clubSchedules.inputs.intervalLap == true' name='' value='' ng-model='clubSchedules.inputs.newGroupLaps'><input type='time' ng-if='clubSchedules.inputs.intervalTime == true' name='' value='' ng-model='clubSchedules.inputs.newGroupTime'><input type='text' name='' value='' placeholder='Additional Notes' ng-model='clubSchedules.inputs.newGroupNotes'><a href='' ng-click='applyScheduleGroup()'>Apply</a></div></div></div><a href='' ng-click='addEditToSchedule()'>Apply Edit</a></div>";
+
+    angular.element($('#'+r.id+'scheduleRoundDiv')).append($compile(html)($scope))
+
+
+    $scope.clubSchedules.currentRound = r.id-1;
+    $scope.clubSchedules.inputs.roundStart = r.roundStart;
+    $scope.clubSchedules.inputs.roundGroups = r.groups;
+    $scope.clubSchedules.inputs.interval = r.interval;
+    $scope.clubSchedules.inputs.roundGroups = [];
+
+    for (var i = 0; i < r.groups.length; i++) {
+      $scope.clubSchedules.inputs.roundGroups.push(r.groups[i]);
+    }
+    $scope.clubSchedules.inputs.newGroupTime = r.time;
+
+    console.log(r.groups);
+    console.log($scope.clubSchedules.inputs.roundGroups);
+    if (r.intervalType == 'lap') {
+      $scope.clubSchedules.inputs.intervalLap = true;
+    } else {
+      $scope.clubSchedules.inputs.intervalTime = true;
+
+    }
+
+
+  }
+
+  $scope.addEditToSchedule = function() {
+    $('.scheduleRoundDivs .scheduleRoundDivInfoDivs').css('display','flex');
+    $("#" + $scope.clubSchedules.currentRound + "scheduleRoundDiv .scheduleRoundDivInfoDivs").css('display','flex');
+    var round = {
+      id: $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds.length+1,
+      roundType:$scope.clubSchedules.inputs.newRoundType,
+      groups:$scope.clubSchedules.inputs.roundGroups,
+      intervalType:'',
+      interval:$scope.clubSchedules.inputs.interval,
+      roundStart:$scope.clubSchedules.inputs.roundStart,
+      prettyRoundStart:makeTimePretty(AdjTime($scope.clubSchedules.inputs.roundStart))
+    }
+    if ($scope.clubSchedules.inputs.intervalLap) {
+      round.intervalType = 'lap';
+    } else if ($scope.clubSchedules.inputs.intervalTime) {
+      round.intervalType = 'time';
+    }
+
+    // $scope.clubSchedules.inputs.newGroupClasses = round.groups[0].classes;
+    var newGroups = [];
+    if (round.roundType == 'Practice') {
+      $scope.clubSchedules.inputs.roundStart = $scope.clubSchedules.inputs.newGroupTime;
+      for (var i = 0; i < round.groups.length; i++) {
+        // var multItt;
+        // if (i == 0) {
+        //   multItt = 0;
+        // } else {
+        //
+        // }
+        if ($scope.clubSchedules.inputs.newGroupTime) {
+
+          var editableTime = makeTimeEditable($scope.clubSchedules.inputs.newGroupTime);
+
+          if (i > 0) {
+            editableTime = makeTimeEditable(addMinutes($scope.clubSchedules.inputs.newGroupTime,($scope.clubSchedules.inputs.interval)))
+            editableTime = editableTime[0]+':'+editableTime[1]
+          } else {
+            editableTime = editableTime[0]+':'+editableTime[1]
+          }
+
+        }
+
+
+        newGroups.push({
+          id:newGroups.length+1,
+          classes:round.groups[i].classes,
+          time:editableTime,
+          prettyTime:$scope.clubSchedules.inputs.newGroupTime,
+          notes:$scope.clubSchedules.inputs.newGroupNotes
+        })
+        if ($scope.clubSchedules.inputs.newGroupTime) {
+
+          $scope.clubSchedules.inputs.newGroupTime = addMinutes($scope.clubSchedules.inputs.newGroupTime,$scope.clubSchedules.inputs.interval);
+
+        }
+      }
+      $scope.clubSchedules.inputs.roundGroups = newGroups;
+    } else if(round.roundType == 'Qualifying') {
+      for (var i = 0; i < round.groups.length; i++) {
+        newGroups.push({
+          id:newGroups.length+1,
+          classes:round.groups[i].classes,
+          laps:round.interval,
+          notes:$scope.clubSchedules.inputs.newGroupNotes
+        })
+      }
+      $scope.selectNewRoundType('Races');
+      $scope.clubSchedules.inputs.intervalLap = true;
+      $scope.clubSchedules.inputs.intervalTime = false;
+
+      $scope.clubSchedules.inputs.roundGroups = newGroups;
+    }
+
+    $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds[$scope.clubSchedules.currentRound] = round;
+
+    // $scope.clubSchedules.currentRound ++;
+  }
+
   $scope.applyScheduleGroup = function() {
     var editableTime = makeTimeEditable($scope.clubSchedules.inputs.newGroupTime)
     var group = {
@@ -929,6 +1059,14 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     // console.log($scope.clubSchedules);
 
+  }
+
+  $scope.newScheduleRound = function() {
+    $scope.clubSchedules.inputs.addingRound = true;
+
+  }
+  $scope.cancelAddingRound = function() {
+    $scope.clubSchedules.inputs.addingRound = false;
   }
 
   $scope.changeScheduleIntervalType = function(t) {
@@ -1022,6 +1160,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   }
 
+  $scope.setRoundStart = function() {
+    $scope.changeScheduleInterval();
+  }
+
   $scope.addRoundToSchedule = function() {
 
     var round = {
@@ -1029,7 +1171,9 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       roundType:$scope.clubSchedules.inputs.newRoundType,
       groups:$scope.clubSchedules.inputs.roundGroups,
       intervalType:'',
-      interval:$scope.clubSchedules.inputs.interval
+      interval:$scope.clubSchedules.inputs.interval,
+      roundStart:$scope.clubSchedules.inputs.roundStart,
+      prettyRoundStart:makeTimePretty(AdjTime($scope.clubSchedules.inputs.roundStart))
     }
     if ($scope.clubSchedules.inputs.intervalLap) {
       round.intervalType = 'lap';
