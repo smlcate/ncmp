@@ -330,26 +330,26 @@
                   <h3 ng-if="r.roundType == 'Practice' && r.kidKart == false">{{r.roundType + ' ' + r.id}}</h3>
                   <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'  && r.kidKart == false">{{r.roundType}}</h3>
                   <h3 ng-if="r.kidKart == true">Kid Kart</h3>
-                  <h3>|</h3>
-                  <p>{{r.prettyRoundStart}}</p>
+                  <h3 ng-if="(r.roundType == 'Practice' || r.roundType == 'Qualifying') && r.kidKart == false">|</h3>
+                  <p ng-if="(r.roundType == 'Practice' || r.roundType == 'Qualifying') && r.kidKart == false">{{r.prettyRoundStart}}</p>
                   <h3>|</h3>
                   <a href="" ng-click="editScheduleRound(r)">Edit</a>
 
                 </span>
 
-                <p>{{r.roundInfo}}</p>
+                <p ng-if="r.roundInfo" class="roundInfoDisplays">{{r.roundInfo}}</p>
 
                 <div class="scheduleRoundKidKartDivs" ng-repeat="i in r.kidKartInfo track by $index">
-                  <p>- {{i}}</p>
+                  <p ng-if="i">- {{i}}</p>
                 </div>
 
                 <div class="scheduleRoundGroupDivs" ng-if="r.kidKart == false" ng-repeat="g in r.groups">
 
                   <p ng-if="r.roundType == 'Qualifying' || r.roundType == 'Practice'" style="width:80px">Group {{g.id}}</p>
                   <p ng-if="r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'" style="width:80px">Race {{g.id}}</p>
-                  <p style="min-width:350px">{{g.classes}}</p>
-                  <p ng-if="r.intervalType == 'time'" style="width:80px">{{g.prettyTime}}</p>
-                  <p ng-if="r.intervalType == 'lap'" style="width:80px">{{g.laps}} Laps</p>
+                  <p style="min-width:420px">{{g.classes}}</p>
+                  <p ng-if="r.intervalType == 'time'" style="width:80px;display:flex;justify-content:flex-end;padding-right:20px;">{{g.prettyTime}}</p>
+                  <p ng-if="r.intervalType == 'lap'" style="width:80px;display:flex;justify-content:flex-end;padding-right:20px;">{{g.laps}} Laps</p>
 
                   <p>{{g.notes}}</p>
 

@@ -366,12 +366,15 @@ a {
 .scheduleRoundDivs {
   display: flex;
   flex-direction:column;
+  padding: 20px;
   /* box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.7); */
   /* width: 70%; */
   /* padding:20px; */
 }
 .scheduleRoundDivs span {
   display: flex;
+  height: 30px;
+  /* margin-bottom: -30px; */
 }
 .scheduleRoundDivInfoDivs {
   display: flex;
@@ -389,6 +392,14 @@ a {
 }
 .scheduleRoundEditGroupCells {
   display: none;
+}
+.roundInfoDisplays {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 30px;
+}
+.scheduleRoundKidKartDivs {
+  height: 30px;
 }
 
 #adminEventsRegistryControlPanelCell {
