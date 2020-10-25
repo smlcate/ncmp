@@ -39,7 +39,7 @@ exports.saveSchedules = function(req, res, send) {
   })
   .catch(function(err) {
     console.log(err);
-    res.send(err);
+    // res.send(err);
   })
 
   res.send('success')

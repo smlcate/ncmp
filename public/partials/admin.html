@@ -327,9 +327,9 @@
               <div class="scheduleRoundDivInfoDivs">
 
                 <span>
-                  <h3 ng-if="r.roundType == 'Practice' && r.kidKartInfo == undefined">{{r.roundType + ' ' + r.id}}</h3>
-                  <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'  && r.kidKartInfo == undefined">{{r.roundType}}</h3>
-                  <h3 ng-if="r.kidKartInfo.length > 0">Kid Kart</h3>
+                  <h3 ng-if="r.roundType == 'Practice' && r.kidKart == false">{{r.roundType + ' ' + r.id}}</h3>
+                  <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'  && r.kidKart == false">{{r.roundType}}</h3>
+                  <h3 ng-if="r.kidKart == true">Kid Kart</h3>
                   <h3>|</h3>
                   <p>{{r.prettyRoundStart}}</p>
                   <h3>|</h3>
@@ -337,11 +337,13 @@
 
                 </span>
 
+                <p>{{r.roundInfo}}</p>
+
                 <div class="scheduleRoundKidKartDivs" ng-repeat="i in r.kidKartInfo track by $index">
                   <p>- {{i}}</p>
                 </div>
 
-                <div class="scheduleRoundGroupDivs" ng-if="kidKart != true" ng-repeat="g in r.groups">
+                <div class="scheduleRoundGroupDivs" ng-if="r.kidKart == false" ng-repeat="g in r.groups">
 
                   <p ng-if="r.roundType == 'Qualifying' || r.roundType == 'Practice'" style="width:80px">Group {{g.id}}</p>
                   <p ng-if="r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'" style="width:80px">Race {{g.id}}</p>
@@ -391,15 +393,15 @@
 
               <span>
                 <p>Round Info</p>
-                <textarea id="roundInfoTextarea" name="name" rows="8" cols="80"></textarea>
+                <textarea id="roundInfoTextarea" ng-model="clubSchedules.inputs.roundInfo" name="name" rows="8" cols="80"></textarea>
               </span>
 
               <span>
                 <p>Kid Kart</p>
-                <input type="checkbox" name="" value="" ng-model="clubSchedules.inputs.kidkart">
+                <input type="checkbox" name="" value="" ng-model="clubSchedules.inputs.kidKart">
               </span>
 
-              <div ng-if="clubSchedules.inputs.kidkart" class="scheduleRoundKidKartInputs">
+              <div ng-if="clubSchedules.inputs.kidKart" class="scheduleRoundKidKartInputs">
 
                 <span ng-repeat="i in clubSchedules.inputs.kidKartInfo track by $index">
 
@@ -415,7 +417,7 @@
 
               </div>
 
-              <div ng-if="clubSchedules.inputs.kidkart == false" class="" id="scheduleRoundTimeInputs">
+              <div ng-if="clubSchedules.inputs.kidKart == false" class="" id="scheduleRoundTimeInputs">
 
                 <span>
                   <p>Round Start</p>
@@ -441,7 +443,7 @@
 
                 </div>
 
-                <div ng-if="clubSchedules.inputs.kidkart == false" class="scheduleRoundClassesDivs">
+                <div ng-if="clubSchedules.inputs.kidKart == false" class="scheduleRoundClassesDivs">
 
 
                   <div class="scheduleRoundClassesDisplayDivs">
