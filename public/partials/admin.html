@@ -327,8 +327,9 @@
               <div class="scheduleRoundDivInfoDivs">
 
                 <span>
-                  <h3 ng-if="r.roundType == 'Practice'">{{r.roundType + ' ' + r.id}}</h3>
-                  <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'">{{r.roundType}}</h3>
+                  <h3 ng-if="r.roundType == 'Practice' && r.kidKartInfo == undefined">{{r.roundType + ' ' + r.id}}</h3>
+                  <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'  && r.kidKartInfo == undefined">{{r.roundType}}</h3>
+                  <h3 ng-if="r.kidKartInfo.length > 0">Kid Kart</h3>
                   <h3>|</h3>
                   <p>{{r.prettyRoundStart}}</p>
                   <h3>|</h3>
@@ -336,7 +337,11 @@
 
                 </span>
 
-                <div class="scheduleRoundGroupDivs" ng-repeat="g in r.groups">
+                <div class="scheduleRoundKidKartDivs" ng-repeat="i in r.kidKartInfo track by $index">
+                  <p>- {{i}}</p>
+                </div>
+
+                <div class="scheduleRoundGroupDivs" ng-if="kidKart != true" ng-repeat="g in r.groups">
 
                   <p ng-if="r.roundType == 'Qualifying' || r.roundType == 'Practice'" style="width:80px">Group {{g.id}}</p>
                   <p ng-if="r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'" style="width:80px">Race {{g.id}}</p>
@@ -384,7 +389,33 @@
 
               </div>
 
-              <div class="" id="scheduleRoundTimeInputs">
+              <span>
+                <p>Round Info</p>
+                <textarea id="roundInfoTextarea" name="name" rows="8" cols="80"></textarea>
+              </span>
+
+              <span>
+                <p>Kid Kart</p>
+                <input type="checkbox" name="" value="" ng-model="clubSchedules.inputs.kidkart">
+              </span>
+
+              <div ng-if="clubSchedules.inputs.kidkart" class="scheduleRoundKidKartInputs">
+
+                <span ng-repeat="i in clubSchedules.inputs.kidKartInfo track by $index">
+
+                  <a href="">X</a>
+                  <p>- {{i}}</p>
+
+                </span>
+                <span>
+                  <p>-</p>
+                  <input type="text" placeholder="Info 1" name="" value="" ng-model="clubSchedules.inputs.kidKartInfoInput">
+                  <a href="" ng-click="addKidKartInfo()">+</a>
+                </span>
+
+              </div>
+
+              <div ng-if="clubSchedules.inputs.kidkart == false" class="" id="scheduleRoundTimeInputs">
 
                 <span>
                   <p>Round Start</p>
@@ -410,7 +441,7 @@
 
                 </div>
 
-                <div class="scheduleRoundClassesDivs">
+                <div ng-if="clubSchedules.inputs.kidkart == false" class="scheduleRoundClassesDivs">
 
 
                   <div class="scheduleRoundClassesDisplayDivs">

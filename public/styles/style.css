@@ -314,6 +314,12 @@ a {
   color:#154498;
   background:#E1F5FE;
 }
+#roundInfoTextarea {
+  width: 400px;
+  height: 35px;
+  font-size: 110%;
+  padding: 5px;
+}
 #scheduleRoundTimeInputs {
   height: 100px;
 }
