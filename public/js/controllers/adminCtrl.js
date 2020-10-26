@@ -220,7 +220,16 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
     console.log(data.data);
     if (data.data.length > 0) {
       $scope.clubSchedules.schedules = JSON.parse(data.data[0].schedule_data);
+
       console.log($scope.clubSchedules);
+
+      for (var i = 0; i < $scope.clubSchedules.schedules.length; i++) {
+        sched = $scope.clubSchedules.schedules[i];
+        sched.gatesOpen = new Date(sched.gatesOpen);
+        sched.gatesClosed = new Date(sched.gatesClosed);
+
+      }
+
     }
   })
   .catch(function(err) {
@@ -941,6 +950,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].header = $scope.clubSchedules.inputs.newDayHeader;
     $scope.clubSchedules.inputs.editHeader = false;
   }
+  $scope.applyScheduleOpenClose = function() {
+    $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen = new Date($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen);
+    $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesClosed = new Date($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesClosed);
+  }
 
   $scope.editScheduleRound = function(r) {
     console.log(r);
@@ -1274,6 +1287,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   }
 
   $scope.saveSchedule = function() {
+    $scope.applyScheduleOpenClose();
     $http.post('saveSchedules',{schedules:$scope.clubSchedules.schedules})
     .then(function(res) {
       // console.log(res.data);

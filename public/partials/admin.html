@@ -298,11 +298,11 @@
 
               <span>
                 <p>Gates Open:</p>
-                <input type="time" name="" value="" ng-model="clubSchedules.inputs.gatesOpen">
+                <input type="time" name="" value="" ng-model="clubSchedules.schedules[clubSchedules.currentSchedule].gatesOpen" ng-change="applyScheduleOpenClose()">
               </span>
               <span>
                 <p>Gates Closed:</p>
-                <input type="time" name="" value="" ng-model="clubSchedules.inputs.gatesClosed">
+                <input type="time" name="" value="" ng-model="clubSchedules.schedules[clubSchedules.currentSchedule].gatesClosed" ng-change="applyScheduleOpenClose()">
               </span>
 
             </div>
