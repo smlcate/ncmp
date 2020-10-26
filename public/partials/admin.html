@@ -253,7 +253,7 @@
 
         <div ng-if="clubSchedules.inputs.edit == true" class="adminClubDisplayEditBars">
           <div class="adminClubDisplayListDivs">
-            <a href="" id="clubSchedules{{l.id}}" ng-repeat="s in clubSchedules.schedules" ng-click="thisSchedule(l.id)">{{s.name}}</a>
+            <a href="" id="clubSchedules{{l.id}}" ng-repeat="s in clubSchedules.schedules" ng-click="thisSchedule(s.id)">{{s.name}}</a>
           </div>
           <a href="" ng-if="clubSchedules.inputs.addNewSchedule == false" ng-click="newClubSchedule()">New List</a>
           <a href="" ng-if="clubSchedules.inputs.addNewSchedule == true" ng-click="cancelNewSchedule()">Cancel</a>

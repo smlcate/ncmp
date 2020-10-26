@@ -222,12 +222,14 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
       $scope.clubSchedules.schedules = JSON.parse(data.data[0].schedule_data);
 
       console.log($scope.clubSchedules);
-
+      // var newScheds = [];
       for (var i = 0; i < $scope.clubSchedules.schedules.length; i++) {
         sched = $scope.clubSchedules.schedules[i];
         sched.gatesOpen = new Date(sched.gatesOpen);
         sched.gatesClosed = new Date(sched.gatesClosed);
-
+        // newScheds.push(sched);
+        // i = $scope.clubSchedules.schedules.length;
+        // $scope.clubSchedules.schedules = newScheds;
       }
 
     }
@@ -872,7 +874,12 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   }
 
 
-
+  $scope.thisSchedule = function(id) {
+    $scope.clubSchedules.currentSchedule = id;
+    $scope.clubSchedules.currentDay = 0;
+    $scope.clubSchedules.currentRound = 0;
+    console.log(id);
+  }
   $scope.editClubSchedules = function() {
     $scope.clubSchedules.inputs.edit = true;
   }
@@ -890,13 +897,20 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   $scope.addSchedule = function() {
     $scope.clubSchedules.schedules.push(
       {
-        id:$scope.clubSchedules.length,
+        id:$scope.clubSchedules.schedules.length,
         name:$scope.clubSchedules.inputs.newSchedule,
-        rounds:[]
+        gatesOpen:new Date(1970,0,1,7,0,0),
+        gatesClosed:new Date(1970,0,1,20,0,0),
+        days:[{
+          id:0,
+          roundType:'Practice',
+          rounds:[]
+        }]
       }
     )
     $scope.clubSchedules.inputs.newSchedule = 'KRA ' + ($scope.clubSchedules.schedules.length+1);
     $scope.clubSchedules.inputs.addNewSchedule = false;
+    console.log($scope.clubSchedules.schedules);
   }
 
   $scope.editScheduleName = function() {
@@ -951,8 +965,13 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $scope.clubSchedules.inputs.editHeader = false;
   }
   $scope.applyScheduleOpenClose = function() {
-    $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen = new Date($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen);
-    $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesClosed = new Date($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesClosed);
+    console.log($scope.clubSchedules.currentSchedule);
+    if ($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen) {
+      $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen = new Date($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen);
+    }
+    if ($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesClosed) {
+      $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesClosed = new Date($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesClosed);
+    }
   }
 
   $scope.editScheduleRound = function(r) {
