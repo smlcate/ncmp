@@ -328,7 +328,7 @@
 
                 <span>
                   <h3 ng-if="r.roundType == 'Practice' && r.kidKart == false">{{r.roundType + ' ' + r.id}}</h3>
-                  <h3 ng-if="r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'  && r.kidKart == false">{{r.roundType}}</h3>
+                  <h3 ng-if="r.kidKart == false && r.roundType == 'Qualifying' || r.roundType == 'Races' || r.roundType == 'Prefinals' || r.roundType == 'Heats'">{{r.roundType}}</h3>
                   <h3 ng-if="r.kidKart == true">Kid Kart</h3>
                   <h3 ng-if="(r.roundType == 'Practice' || r.roundType == 'Qualifying') && r.kidKart == false">|</h3>
                   <p ng-if="(r.roundType == 'Practice' || r.roundType == 'Qualifying') && r.kidKart == false">{{r.prettyRoundStart}}</p>
