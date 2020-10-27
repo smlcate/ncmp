@@ -103,6 +103,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
       editHeader:false,
       editTitle:false,
       editSchedule:true,
+      editRound:false,
       newScheduleTitle:'',
       gatesOpen:new Date(1970,0,1,7,0,0),
       gatesClosed:new Date(1970,0,1,20,0,0),
@@ -928,8 +929,21 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   $scope.selectNewRoundType = function(t) {
 
-    $('.scheduleRoundPlannerBtns').css('background','#E1F5FE').css('color','#154498')
-    $('#scheduleRound'+t+'PlannerBtn').css('background','#154498').css('color','#E1F5FE');
+    if ($scope.clubSchedules.inputs.editRound == true) {
+      console.log(t);
+      console.log('hit this');
+      console.log($scope.clubSchedules.currentRound);
+      console.log('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv');
+      $('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv .scheduleRoundPlannerBtns').css('background','#E1F5FE').css('color','#154498')
+      $('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv #scheduleRound'+t+'PlannerBtn').css('background','#154498').css('color','#E1F5FE');
+
+    } else {
+
+      $('.scheduleRoundPlannerBtns').css('background','#E1F5FE').css('color','#154498')
+      $('#scheduleRound'+t+'PlannerBtn').css('background','#154498').css('color','#E1F5FE');
+
+    }
+
 
     $scope.clubSchedules.inputs.newRoundType = t;
 
@@ -976,18 +990,22 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   $scope.editScheduleRound = function(r) {
     console.log(r);
+    $scope.clubSchedules.inputs.editRound = true;
     $('.scheduleRoundDivs .scheduleRoundDivInfoDivs').css('display','flex');
     $("#" + r.id + "scheduleRoundDiv .scheduleRoundDivInfoDivs").css('display','none');
     $(".scheduleRoundPlannerDivs").css('display','none');
 
-    var html = "<div class='scheduleRoundPlannerDivs' id=''><div class='scheduleRoundTypeBtnDivs' id=''><a id='scheduleRoundPracticePlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Practice' + ")'><h3>Practice</h3></a><a id='scheduleRoundQualifyingPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Qualifying' + ")'><h3>Qualifying</h3></a><a id='scheduleRoundHeatsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Heats' + ")'><h3>Heats</h3></a><a id='scheduleRoundPrefinalsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Prefinals' + ")'><h3>Pre-Finals</h3></a><a id='scheduleRoundRacesPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + 'Races' + ")'><h3>Races</h3></a></div><span><p>Round Info</p><textarea id='roundInfoTextarea' name='name' rows='8' cols='80'></textarea></span><span><p>Kid Kart</p><input type='checkbox' name=' value=' ng-model='clubSchedules.inputs.kidKart'></span>  <div ng-if='clubSchedules.inputs.kidKart' class='scheduleRoundKidKartInputs'><span ng-repeat='i in clubSchedules.inputs.kidKartInfo track by $index'><a href='>X</a>  <p>- {{i}}</p></span><span>  <p>-</p><input type='text' placeholder='Info 1' name=' value=' ng-model='clubSchedules.inputs.kidKartInfoInput'><a href=' ng-click='addKidKartInfo()'>+</a></span></div><div class='' id='scheduleRoundTimeInputs'><span><p>Round Start</p><input type='time' name='' value='' ng-model='clubSchedules.inputs.roundStart' ng-change='setRoundStart()'></span><span><p>Intervals</p><p>Amount</p><input type='number' name='' value='' ng-change='changeScheduleInterval()' ng-model='clubSchedules.inputs.interval'><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalLap' ng-change='changeScheduleIntervalType('lap')'><p>Laps</p></span><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalTime' ng-change='changeScheduleIntervalType('time')'><p>Minutes</p></span></span></div><div class='scheduleRoundClassesDivs'><div class='scheduleRoundClassesDisplayDivs'><div class='scheduleRoundClassesCells' ng-repeat='g in clubSchedules.inputs.roundGroups'><a href='' style='width:80px' ng-click='editThisGroup(g)'>Group {{g.id}}</a><div class='scheduleRoundGroupCells'><p>{{g.classes}}</p><p ng-if='clubSchedules.inputs.intervalTime == true'>{{g.prettyTime}}</p><p ng-if='clubSchedules.inputs.intervalTime == false'>{{g.laps}} Laps</p><p>{{g.notes}}</p></div><div class='scheduleRoundEditGroupCells'><input type='text' name='' value='{{g.classes}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='time' name='' value='{{g.time}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='number' name='' value='{{g.laps}}'><input type='text' name='' value='{{g.notes}}'></div></div><div class='scheduleRoundClassesDivHeaders'><p>Class(es)</p><p>Duration/Time</p><p>Extra Notes</p></div><div class='newScheduleRoundClassesCells'><input type='text' name='' value='' placeholder='Class/Class/Class' ng-model='clubSchedules.inputs.newGroupClasses'><input type='number' ng-if='clubSchedules.inputs.intervalLap == true' name='' value='' ng-model='clubSchedules.inputs.newGroupLaps'><input type='time' ng-if='clubSchedules.inputs.intervalTime == true' name='' value='' ng-model='clubSchedules.inputs.newGroupTime'><input type='text' name='' value='' placeholder='Additional Notes' ng-model='clubSchedules.inputs.newGroupNotes'><a href='' ng-click='applyScheduleGroup()'>Apply</a></div></div></div><a href='' ng-click='addEditToSchedule()'>Apply Edit</a></div>";
+    var html = "<div class='scheduleRoundPlannerDivs' id='"+r.id+"ScheduleRoundPlannerDiv'><div class='scheduleRoundTypeBtnDivs' id=''><a id='scheduleRoundPracticePlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Practice') + ")'><h3>Practice</h3></a><a id='scheduleRoundQualifyingPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Qualifying') + ")'><h3>Qualifying</h3></a><a id='scheduleRoundHeatsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Heats') + ")'><h3>Heats</h3></a><a id='scheduleRoundPrefinalsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Prefinals') + ")'><h3>Pre-Finals</h3></a><a id='scheduleRoundRacesPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Races') + ")'><h3>Races</h3></a></div><span><p>Round Info</p><textarea id='roundInfoTextarea' name='name' rows='8' cols='80'></textarea></span><span><p>Kid Kart</p><input type='checkbox' name=' value=' ng-model='clubSchedules.inputs.kidKart'></span>  <div ng-if='clubSchedules.inputs.kidKart' class='scheduleRoundKidKartInputs'><span ng-repeat='i in clubSchedules.inputs.kidKartInfo track by $index'><a href='>X</a>  <p>- {{i}}</p></span><span>  <p>-</p><input type='text' placeholder='Info 1' name=' value=' ng-model='clubSchedules.inputs.kidKartInfoInput'><a href=' ng-click='addKidKartInfo()'>+</a></span></div><div class='' id='scheduleRoundTimeInputs'><span><p>Round Start</p><input type='time' name='' value='' ng-model='clubSchedules.inputs.roundStart' ng-change='setRoundStart()'></span><span><p>Intervals</p><p>Amount</p><input type='number' name='' value='' ng-change='changeScheduleInterval()' ng-model='clubSchedules.inputs.interval'><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalLap' ng-change='changeScheduleIntervalType('lap')'><p>Laps</p></span><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalTime' ng-change='changeScheduleIntervalType('time')'><p>Minutes</p></span></span></div><div class='scheduleRoundClassesDivs'><div class='scheduleRoundClassesDisplayDivs'><div class='scheduleRoundClassesCells' ng-repeat='g in clubSchedules.inputs.roundGroups'><a href='' style='width:80px' ng-click='editThisGroup(g)'>Group {{g.id}}</a><a href='' ng-click='moveGroup(g,"+JSON.stringify("up")+")'>↑</a><a href='' ng-click='moveGroup(g,"+JSON.stringify("down")+")'>↓</a><div class='scheduleRoundGroupCells'><p>{{g.classes}}</p><h3 ng-if='clubSchedules.inputs.intervalTime == true'>{{g.prettyTime}}</h3><h3 ng-if='clubSchedules.inputs.intervalTime == false'>{{g.laps}} Laps</h3><p ng-if='g.notes != "+JSON.stringify("")+"'>{{g.notes}}</p></div><div class='scheduleRoundEditGroupCells'><input type='text' name='' value='{{g.classes}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='time' name='' value='{{g.time}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='number' name='' value='{{g.laps}}'><input type='text' name='' value='{{g.notes}}'></div></div><div class='scheduleRoundClassesDivHeaders'><p>Class(es)</p><p>Duration/Time</p><p>Extra Notes</p></div><div class='newScheduleRoundClassesCells'><input type='text' name='' value='' placeholder='Class/Class/Class' ng-model='clubSchedules.inputs.newGroupClasses'><input type='number' ng-if='clubSchedules.inputs.intervalLap == true' name='' value='' ng-model='clubSchedules.inputs.newGroupLaps'><input type='time' ng-if='clubSchedules.inputs.intervalTime == true' name='' value='' ng-model='clubSchedules.inputs.newGroupTime'><input type='text' name='' value='' placeholder='Additional Notes' ng-model='clubSchedules.inputs.newGroupNotes'><a href='' ng-click='applyScheduleGroup()'>Apply</a></div></div></div><a href='' ng-click='addEditToSchedule()'>Apply Edit</a></div>";
 
     angular.element($('#'+r.id+'scheduleRoundDiv')).append($compile(html)($scope))
 
 
+
     $scope.clubSchedules.currentRound = r.id-1;
-    $scope.clubSchedules.inputs.roundStart = r.roundStart;
+    $scope.clubSchedules.inputs.roundStart = new Date(r.roundStart);
     $scope.clubSchedules.inputs.roundGroups = r.groups;
+    $scope.clubSchedules.inputs.newRoundType = r.roundType;
+
     $scope.clubSchedules.inputs.interval = r.interval;
     $scope.clubSchedules.inputs.roundGroups = [];
     $scope.clubSchedules.inputs.kidKartInfo = r.kidKartInfo;
@@ -1009,20 +1027,91 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     }
 
+    $('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv .scheduleRoundPlannerBtns').css('background','#E1F5FE').css('color','#154498')
+    $('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv #scheduleRound'+r.roundType+'PlannerBtn').css('background','#154498').css('color','#E1F5FE');
+
+  }
+
+  $scope.moveGroup = function(g,d) {
+
+    console.log(g);
+    console.log(d);
+
+    var changingGroups = $scope.clubSchedules.inputs.roundGroups;
+
+    // var groupsToSwitch = [];
+    //
+    // var splitGroups = [[],[]];
+
+    var groupToMove = changingGroups[g.id-1];
+    var groupToSwitch = {};
+
+    var timeToSave = '';
+    var prettyTimeToSave = '';
+
+    if (d == 'up' && g.id != 1) {
+
+      // groupsToSwitch.push(g.id, g.id-1);
+      groupToSwitch = changingGroups[g.id-2];
+
+      changingGroups[g.id-1] = groupToSwitch;
+      changingGroups[g.id-2] = groupToMove;
+
+      timeToSave = groupToSwitch.time;
+      prettyTimeToSave = groupToSwitch.time;
+
+      changingGroups[g.id-1].time = groupToMove.time;
+      changingGroups[g.id-1].prettyTime = groupToMove.prettyTime;
+
+      changingGroups[g.id-2].time = timeToSave;
+      changingGroups[g.id-2].prettyTime = makeTimePretty(prettyTimeToSave);
+
+
+    } else {
+
+      // groupsToSwitch.push(g.id, g.id+1);
+      groupToSwitch = changingGroups[g.id];
+
+      changingGroups[g.id-1] = groupToSwitch;
+      changingGroups[g.id] = groupToMove;
+
+      timeToSave = groupToSwitch.time;
+      prettyTimeToSave = groupToSwitch.time;
+
+      changingGroups[g.id-1].time = groupToMove.time;
+      changingGroups[g.id-1].prettyTime = groupToMove.prettyTime;
+
+      changingGroups[g.id].time = timeToSave;
+      changingGroups[g.id].prettyTime = makeTimePretty(prettyTimeToSave);
+
+
+    }
+
+    for (var i = 0; i < changingGroups.length; i++) {
+
+      changingGroups[i].id = i+1;
+
+    }
+
+    $scope.clubSchedules.inputs.roundGroups = changingGroups;
 
   }
 
   $scope.addEditToSchedule = function() {
     $('.scheduleRoundDivs .scheduleRoundDivInfoDivs').css('display','flex');
     $("#" + $scope.clubSchedules.currentRound + "scheduleRoundDiv .scheduleRoundDivInfoDivs").css('display','flex');
+    $('#'+$scope.clubSchedules.currentRound+'ScheduleRoundPlannerDiv').remove();
+
     var round = {
-      id: $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds.length+1,
+      id: $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds[$scope.clubSchedules.currentRound].id,
       roundType:$scope.clubSchedules.inputs.newRoundType,
       groups:$scope.clubSchedules.inputs.roundGroups,
       intervalType:'',
       interval:$scope.clubSchedules.inputs.interval,
-      roundStart:$scope.clubSchedules.inputs.roundStart,
-      prettyRoundStart:makeTimePretty(AdjTime($scope.clubSchedules.inputs.roundStart))
+      roundStart:new Date($scope.clubSchedules.inputs.roundStart),
+      prettyRoundStart:makeTimePretty(AdjTime($scope.clubSchedules.inputs.roundStart)),
+      kidKart:$scope.clubSchedules.inputs.kidKart,
+      kidKartInfo:$scope.clubSchedules.inputs.kidKartInfo
     }
     if ($scope.clubSchedules.inputs.intervalLap) {
       round.intervalType = 'lap';
@@ -1087,6 +1176,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds[$scope.clubSchedules.currentRound] = round;
 
+    console.log($scope.clubSchedules.schedules);
     // $scope.clubSchedules.currentRound ++;
   }
 
@@ -1140,7 +1230,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   $scope.changeScheduleInterval = function() {
     var round = {
-      id: $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds.length,
+      id: $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds[$scope.clubSchedules.currentRound].id,
       roundType:$scope.clubSchedules.inputs.newRoundType,
       groups:$scope.clubSchedules.inputs.roundGroups,
       intervalType:'',

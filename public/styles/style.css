@@ -360,7 +360,7 @@ a {
   height: 35px;
 }
 .scheduleRoundClassesCells p {
-  width: 200px;
+  min-width: 400px;
   /* height: 45px; */
 }
 .scheduleRoundDivs {
