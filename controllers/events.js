@@ -130,7 +130,7 @@ exports.addEvents = function(req, res, next) {
   }
   exports.removeAllEvents = function(req, res, next) {
     knex('events')
-    .delete()
+    .truncate()
     .then(function() {
       res.send('success')
     })
