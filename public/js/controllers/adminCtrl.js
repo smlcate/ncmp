@@ -2566,11 +2566,20 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     if (typeof(eventInfo.date) != 'string') {
       eventInfo.date = eventInfo.date.toISOString();
     }
+    monthRollover = 0;
     for (var i = 0; i < c.daysLength; i++) {
       var m = Number(eventInfo.date.slice(5,-17));
       var d = eventInfo.date.slice(8,-14);
       var y = eventInfo.date.slice(0,-20);
       var nd = Number(d) + i;
+      console.log(m,d,y,nd);
+      console.log(monthDays[m-1]);
+      if (nd > monthDays[m-1]) {
+        console.log('hit');
+        monthRollover ++;
+        nd = monthRollover;
+        m ++;
+      }
       var event = {
         name: c.info.eventName,
         date: m + '/' + nd + '/' + y,
@@ -2594,10 +2603,12 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     eventInfo.display_date = day + ' ' + month + ', ' + date;
 
-    if (c.daysLength > 1) {
+    if (c.daysLength > 1 && monthRollover == 0) {
       eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + edate;
       // eventInfo.display_start = null;
     } else {
+      eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + (month++) +','+monthRollover;
+
       // console.log(makeTimePretty(AdjTime(c.startTime)));
       // if (AdjTime(c.info.startTime).slice(0,-3)<12) {
       //   eventInfo.display_start = AdjTime(c.info.startTime) + 'am'
