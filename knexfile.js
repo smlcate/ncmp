@@ -30,6 +30,9 @@ module.exports = {
     client: 'pg',
     // The next line is where the application will read that environment variable to connect to the database
     connection: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
     // migrations: {
     //     directory: '/migrations',
     // },
