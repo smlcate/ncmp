@@ -164,7 +164,7 @@ exports.addEvents = function(req, res, next) {
     // }
     var i = 0;
     var evs = req.body.events;
-    var id = req.body.id;
+    var id = req.body.id + i;
     function update() {
 
       console.log(i);

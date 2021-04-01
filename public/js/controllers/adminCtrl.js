@@ -2606,7 +2606,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     if (c.daysLength > 1 && monthRollover == 0) {
       eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + edate;
       // eventInfo.display_start = null;
-    } else {
+    } else if(monthRollover > 0) {
       eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + (month++) +','+monthRollover;
 
       // console.log(makeTimePretty(AdjTime(c.startTime)));
