@@ -2396,22 +2396,67 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       })
     }
 
-
+    var monthRollover = 0;
     for (var i = 0; i < $scope.controller.daysLength; i++) {
       var m = Number(new Date($scope.controller.info.date).getMonth()+1);
       var d = Number(new Date($scope.controller.info.date).getDate());
       var y = Number(new Date($scope.controller.info.date).getYear()+1900);
       var nd = Number(d) + i;
+
+      if (nd > monthDays[m-1]) {
+        console.log('hit');
+        monthRollover ++;
+        nd = monthRollover;
+        m ++;
+      }
+
       thisEvent = {
         name: $scope.controller.info.eventName,
         date: m + '/' + nd + '/' + y,
+        display_date:''
         // color: $scope.controller.info.color,
         // start: AdjTime($scope.controller.info.startTime),
         // end: AdjTime($scope.controller.info.endTime),
         // event_key: eventKey,
         // image: $scope.selectedPhoto.id
       }
+
+      var d = new Date(thisEvent.date).toDateString()
+
+      var day = d.slice(0,-12),
+          month = d.slice(4,-8),
+          date = d.slice(8,-5),
+          edate = Number(d.slice(8,-5))+$scope.controller.daysLength-1
+
+      thisEvent.display_date = day + ' ' + month + ', ' + date;
+
+      if ($scope.controller.daysLength > 1 && monthRollover == 0) {
+        thisEvent.display_date = day + ' ' + month + ', ' + date + '-' + edate;
+        // thisEvent.display_start = null;
+      } else if(monthRollover > 0) {
+        thisEvent.display_date = day + ' ' + month + ', ' + date + '-' + (month++) +','+monthRollover;
+      }
       // console.log(thisEvent);
+      // if ($scope.controller.daysLength > 1 && monthRollover == 0) {
+      //   eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + edate;
+        // eventInfo.display_start = null;
+      // } else if(monthRollover > 0) {
+      //   eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + (month++) +','+monthRollover;
+
+        // console.log(makeTimePretty(AdjTime(c.startTime)));
+        // if (AdjTime(c.info.startTime).slice(0,-3)<12) {
+        //   eventInfo.display_start = AdjTime(c.info.startTime) + 'am'
+        // } else {
+        //   eventInfo.display_start = (AdjTime(c.info.startTime).slice(0,-3) - 12) + (AdjTime(c.info.startTime).slice(2)) + 'pm'
+        // }
+        // if (AdjTime(c.info.endTime).slice(0,-3)<12) {
+        //   eventInfo.display_end = AdjTime(c.info.endTime) + 'am'
+        // } else {
+        //   eventInfo.display_end = (AdjTime(c.info.endTime).slice(0,-3) - 12) + (AdjTime(c.info.endTime).slice(2)) + 'pm'
+        // }
+        // eventInfo.display_start = makeTimePretty(AdjTime(c.startTime));
+        // eventInfo.display_end = makeTimePretty(AdjTime(c.endTime));
+      // }
       if ($scope.controller.daysLength == 1) {
         thisEvent.event_key = null;
       } else {

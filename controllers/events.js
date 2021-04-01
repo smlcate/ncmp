@@ -196,6 +196,7 @@ exports.addEvents = function(req, res, next) {
         .update({
           name:evs[i].name,
           date:evs[i].date,
+          display_date:evs[i].display_date,
           event_key:evs[i].event_key
         })
         .then(function() {
