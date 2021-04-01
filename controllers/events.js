@@ -10,7 +10,7 @@ exports.getData = function(req, res, next) {
   .select('*')
   .orderBy('date')
   .then(function(data) {
-    // console.log(data);
+    console.log(data);
     res.send(data);
   })
   .catch(function(err) {
@@ -164,7 +164,7 @@ exports.addEvents = function(req, res, next) {
     // }
     var i = 0;
     var evs = req.body.events;
-    var id = req.body.id-1;
+    var id = req.body.id;
     function update() {
 
       console.log(i);
@@ -193,7 +193,11 @@ exports.addEvents = function(req, res, next) {
 
         knex('events')
         .where({id:id})
-        .update(evs[i])
+        .update({
+          name:evs[i].name,
+          date:evs[i].date,
+          event_key:evs[i].event_key
+        })
         .then(function() {
           i++;
           if (req.body.events.length === i) {

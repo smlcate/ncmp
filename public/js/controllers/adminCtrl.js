@@ -2389,7 +2389,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     function update() {
       $http.post('editEvent', info)
       .then(function(res) {
-        // console.log(res.data);
+        console.log(res.data);
       })
       .catch(function(err) {
         console.log(err);
@@ -2406,8 +2406,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         name: $scope.controller.info.eventName,
         date: m + '/' + nd + '/' + y,
         // color: $scope.controller.info.color,
-        start: AdjTime($scope.controller.info.startTime),
-        end: AdjTime($scope.controller.info.endTime),
+        // start: AdjTime($scope.controller.info.startTime),
+        // end: AdjTime($scope.controller.info.endTime),
         // event_key: eventKey,
         // image: $scope.selectedPhoto.id
       }
@@ -2420,6 +2420,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       info.events.push(thisEvent);
       console.log(info.events);
       if (i+1 === $scope.controller.daysLength) {
+        console.log('hit');
         update()
       }
     }
@@ -2512,8 +2513,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       $scope.edit.events = 'select';
       $scope.controller.info.eventName = e.name;
       $scope.controller.info.date = new Date(e.date);
-      $scope.controller.info.startTime = new Date(Date.UTC(0,0,0,e.start.slice(0,-6)+5));
-      $scope.controller.info.endTime = new Date(Date.UTC(0,0,0,e.end.slice(0,-6)+16));
+      // $scope.controller.info.startTime = new Date(Date.UTC(0,0,0,e.start.slice(0,-6)+5));
+      // $scope.controller.info.endTime = new Date(Date.UTC(0,0,0,e.end.slice(0,-6)+16));
 
       if (e.display_date.split('-').length==2) {
         var fd = Number(e.display_date.split('-')[0].slice(e.display_date.split('-')[0].length-2))
