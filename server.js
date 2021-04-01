@@ -67,6 +67,7 @@ app.post('/addEntryLists', server.registry.addEntryLists)
 app.post('/buyRegistration', server.registry.buyRegistration)
 app.get('/getEventEntryLists', server.registry.getEventEntryLists)
 app.get('/getMainEventRegistration', server.registry.getMainEventRegistration)
+app.get('/deleteAllEventRegistrations', server.registry.deleteAllEventRegistrations)
 
 
 app.post('/updatePoints', server.points.updatePoints)

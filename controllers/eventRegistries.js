@@ -85,6 +85,18 @@ exports.getEventRegistration = function(req, res, next) {
     console.log(err);
   })
 }
+exports.deleteAllEventRegistrations = function(req, res, next) {
+  console.log('HIT');
+  knex('eventRegistry')
+  .truncate()
+  .then(function() {
+    res.send('success');
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
 exports.addEntryLists = function(req, res, next) {
   console.log(req.body);
 

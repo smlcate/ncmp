@@ -653,6 +653,16 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   // }
   // buildNewsController();
 
+  $scope.deleteAllEventRegistrations = function() {
+    $http.get('deleteAllEventRegistrations')
+    .then(function(res){
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
   $scope.createAccount = function() {
     $scope.newAccount.email = $scope.manager.inputs.newAccountEmail;
     $scope.newAccount.password = $scope.manager.inputs.newAccountPassword;
@@ -995,7 +1005,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $("#" + r.id + "scheduleRoundDiv .scheduleRoundDivInfoDivs").css('display','none');
     $(".scheduleRoundPlannerDivs").css('display','none');
 
-    var html = "<div class='scheduleRoundPlannerDivs' id='"+r.id+"ScheduleRoundPlannerDiv'><div class='scheduleRoundTypeBtnDivs' id=''><a id='scheduleRoundPracticePlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Practice') + ")'><h3>Practice</h3></a><a id='scheduleRoundQualifyingPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Qualifying') + ")'><h3>Qualifying</h3></a><a id='scheduleRoundHeatsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Heats') + ")'><h3>Heats</h3></a><a id='scheduleRoundPrefinalsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Prefinals') + ")'><h3>Pre-Finals</h3></a><a id='scheduleRoundRacesPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Races') + ")'><h3>Races</h3></a></div><span><p>Round Info</p><textarea id='roundInfoTextarea' name='name' rows='8' cols='80'></textarea></span><span><p>Kid Kart</p><input type='checkbox' name=' value=' ng-model='clubSchedules.inputs.kidKart'></span>  <div ng-if='clubSchedules.inputs.kidKart' class='scheduleRoundKidKartInputs'><span ng-repeat='i in clubSchedules.inputs.kidKartInfo track by $index'><a href='>X</a>  <p>- {{i}}</p></span><span>  <p>-</p><input type='text' placeholder='Info 1' name=' value=' ng-model='clubSchedules.inputs.kidKartInfoInput'><a href=' ng-click='addKidKartInfo()'>+</a></span></div><div class='' id='scheduleRoundTimeInputs'><span><p>Round Start</p><input type='time' name='' value='' ng-model='clubSchedules.inputs.roundStart' ng-change='setRoundStart()'></span><span><p>Intervals</p><p>Amount</p><input type='number' name='' value='' ng-change='changeScheduleInterval()' ng-model='clubSchedules.inputs.interval'><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalLap' ng-change='changeScheduleIntervalType('lap')'><p>Laps</p></span><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalTime' ng-change='changeScheduleIntervalType('time')'><p>Minutes</p></span></span></div><div class='scheduleRoundClassesDivs'><div class='scheduleRoundClassesDisplayDivs'><div class='scheduleRoundClassesCells' ng-repeat='g in clubSchedules.inputs.roundGroups'><a href='' style='width:80px' ng-click='editThisGroup(g)'>Group {{g.id}}</a><a href='' ng-click='moveGroup(g,"+JSON.stringify("up")+")'>↑</a><a href='' ng-click='moveGroup(g,"+JSON.stringify("down")+")'>↓</a><div class='scheduleRoundGroupCells'><p>{{g.classes}}</p><h3 ng-if='clubSchedules.inputs.intervalTime == true'>{{g.prettyTime}}</h3><h3 ng-if='clubSchedules.inputs.intervalTime == false'>{{g.laps}} Laps</h3><p ng-if='g.notes != "+JSON.stringify("")+"'>{{g.notes}}</p></div><div class='scheduleRoundEditGroupCells'><input type='text' name='' value='{{g.classes}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='time' name='' value='{{g.time}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='number' name='' value='{{g.laps}}'><input type='text' name='' value='{{g.notes}}'></div></div><div class='scheduleRoundClassesDivHeaders'><p>Class(es)</p><p>Duration/Time</p><p>Extra Notes</p></div><div class='newScheduleRoundClassesCells'><input type='text' name='' value='' placeholder='Class/Class/Class' ng-model='clubSchedules.inputs.newGroupClasses'><input type='number' ng-if='clubSchedules.inputs.intervalLap == true' name='' value='' ng-model='clubSchedules.inputs.newGroupLaps'><input type='time' ng-if='clubSchedules.inputs.intervalTime == true' name='' value='' ng-model='clubSchedules.inputs.newGroupTime'><input type='text' name='' value='' placeholder='Additional Notes' ng-model='clubSchedules.inputs.newGroupNotes'><a href='' ng-click='applyScheduleGroup()'>Apply</a></div></div></div><a href='' ng-click='addEditToSchedule()'>Apply Edit</a></div>";
+    var html = "<div class='scheduleRoundPlannerDivs' id='"+r.id+"ScheduleRoundPlannerDiv'><div class='scheduleRoundTypeBtnDivs' id=''><a id='scheduleRoundPracticePlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Practice') + ")'><h3>Practice</h3></a><a id='scheduleRoundQualifyingPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Qualifying') + ")'><h3>Qualifying</h3></a><a id='scheduleRoundHeatsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Heats') + ")'><h3>Heats</h3></a><a id='scheduleRoundPrefinalsPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Prefinals') + ")'><h3>Pre-Finals</h3></a><a id='scheduleRoundRacesPlannerBtn' class='scheduleRoundPlannerBtns' href='' ng-click='selectNewRoundType(" + JSON.stringify('Races') + ")'><h3>Races</h3></a></div><span><p>Round Info</p><textarea id='roundInfoTextarea' name='name' rows='8' cols='80'></textarea></span><span><p>Kid Kart</p><input type='checkbox' name=' value=' ng-model='clubSchedules.inputs.kidKart'></span>  <div ng-if='clubSchedules.inputs.kidKart' class='scheduleRoundKidKartInputs'><span ng-repeat='i in clubSchedules.inputs.kidKartInfo track by $index'><a href='>X</a>  <p>- {{i}}</p></span><span>  <p>-</p><input type='text' placeholder='Info 1' name=' value=' ng-model='clubSchedules.inputs.kidKartInfoInput'><a href=' ng-click='addKidKartInfo()'>+</a></span></div><div class='' id='scheduleRoundTimeInputs'><span><p>Round Start</p><input type='time' name='' value='' ng-model='clubSchedules.inputs.roundStart' ng-change='setRoundStart()'></span><span><p>Intervals</p><p>Amount</p><input type='number' name='' value='' ng-change='changeScheduleInterval()' ng-model='clubSchedules.inputs.interval'><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalLap' ng-change='changeScheduleIntervalType('lap')'><p>Laps</p></span><span><input type='checkbox' name='' value='' ng-model='clubSchedules.inputs.intervalTime' ng-change='changeScheduleIntervalType('time')'><p>Minutes</p></span></span></div><div class='scheduleRoundClassesDivs'><div class='scheduleRoundClassesDisplayDivs'><div class='scheduleRoundClassesCells' id='{{g.id}}ScheduleRoundClassesCell' ng-repeat='g in clubSchedules.inputs.roundGroups'><a href='' style='width:80px' ng-click='editThisGroup(g)'>Group {{g.id}}</a><a href='' class='applyGroupEditAnchors' style='display:none;' ng-click='applyGroupEdit()'>Apply</a><a href='' ng-click='moveGroup(g,"+JSON.stringify("up")+")'>↑</a><a href='' ng-click='moveGroup(g,"+JSON.stringify("down")+")'>↓</a><div class='scheduleRoundGroupCells'><p>{{g.classes}}</p><h3 ng-if='clubSchedules.inputs.intervalTime == true'>{{g.prettyTime}}</h3><h3 ng-if='clubSchedules.inputs.intervalTime == false'>{{g.laps}} Laps</h3><p ng-if='g.notes != "+JSON.stringify("")+"'>{{g.notes}}</p></div><div class='scheduleRoundEditGroupCells'><input type='text' name='' value='{{g.classes}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'time' + "' type='time' name='' value='{{g.time}}'><input  ng-if='clubSchedules.inputs.intervalType == " + 'lap' + "' type='number' name='' value='{{g.laps}}'><input type='text' name='' value='{{g.notes}}'></div></div><div class='scheduleRoundClassesDivHeaders'><p>Class(es)</p><p>Duration/Time</p><p>Extra Notes</p></div><div class='newScheduleRoundClassesCells'><input type='text' name='' value='' placeholder='Class/Class/Class' ng-model='clubSchedules.inputs.newGroupClasses'><input type='number' ng-if='clubSchedules.inputs.intervalLap == true' name='' value='' ng-model='clubSchedules.inputs.newGroupLaps'><input type='time' ng-if='clubSchedules.inputs.intervalTime == true' name='' value='' ng-model='clubSchedules.inputs.newGroupTime'><input type='text' name='' value='' placeholder='Additional Notes' ng-model='clubSchedules.inputs.newGroupNotes'><a href='' ng-click='applyScheduleGroup()'>Apply</a></div></div></div><a href='' ng-click='addEditToSchedule()'>Apply Edit</a></div>";
 
     angular.element($('#'+r.id+'scheduleRoundDiv')).append($compile(html)($scope))
 
@@ -1029,6 +1039,16 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     $('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv .scheduleRoundPlannerBtns').css('background','#E1F5FE').css('color','#154498')
     $('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv #scheduleRound'+r.roundType+'PlannerBtn').css('background','#154498').css('color','#E1F5FE');
+
+  }
+
+  $scope.editThisGroup = function(g) {
+
+    $('#'+g.id+'ScheduleRoundClassesCell .scheduleRoundGroupCells').css('display','none');
+    $('#'+g.id+'ScheduleRoundClassesCell a').css('display','none');
+
+    $('#'+g.id+'ScheduleRoundClassesCell .scheduleRoundEditGroupCells').css('display','flex');
+    $('#'+g.id+'ScheduleRoundClassesCell .applyGroupEditAnchors').css('display','flex');
 
   }
 
@@ -2678,6 +2698,28 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       }
       $http.post('addEvents', $scope.controller.toAdd)
       .then(function(res) {
+        console.log("HIT");
+        $http.get('getData')
+        .then(function(res) {
+          $scope.events = res.data;
+          // console.log($scope.events);
+          buildEvents($scope.events);
+
+          $scope.eventPreviews = [];
+          // $scope.controller.info.description = s.description;
+          for (var i = 0; i < $scope.events.length; i++) {
+            // console.log($scope.events[i], s.id)
+            if ($scope.events[i].event_group_id == e.event_group_id) {
+              // console.log('hit');
+              $scope.eventPreviews.push($scope.events[i])
+              // console.log($scope.controller.events)
+            }
+          }
+          // console.log($scope.eventPreviews);
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
         // console.log(res)
       })
       .catch(function(err) {
