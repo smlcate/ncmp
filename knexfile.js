@@ -29,7 +29,7 @@ module.exports = {
   production: {
     client: 'pg',
     // The next line is where the application will read that environment variable to connect to the database
-    connection: process.env.DATABASE_URL + '?sslmode=require',
+    connection: process.env.HEROKU_POSTGRESQL_YELLOW_URL + '?sslmode=require',
     // migrations: {
     //     directory: '/migrations',
     // },
