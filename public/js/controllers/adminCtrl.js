@@ -2621,7 +2621,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     if (typeof(eventInfo.date) != 'string') {
       eventInfo.date = eventInfo.date.toISOString();
     }
-    monthRollover = 0;
+    var monthRollover = 0;
+    var nextMonth;
     for (var i = 0; i < c.daysLength; i++) {
       var m = Number(eventInfo.date.slice(5,-17));
       var d = eventInfo.date.slice(8,-14);
@@ -2634,6 +2635,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         monthRollover ++;
         nd = monthRollover;
         m ++;
+        nextMonth = m;
       }
       var event = {
         name: c.info.eventName,
@@ -2656,13 +2658,20 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         date = d.slice(8,-5),
         edate = Number(d.slice(8,-5))+c.daysLength-1
 
+
     eventInfo.display_date = day + ' ' + month + ', ' + date;
 
     if (c.daysLength > 1 && monthRollover == 0) {
-      eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + edate;
+      eventInfo.display_date = day +  + ', ' + month + ' ' + date + '-' + edate;
       // eventInfo.display_start = null;
     } else if(monthRollover > 0) {
-      eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + (month++) +','+monthRollover;
+
+      var newD = new Date(event.date).toDateString();
+
+      var month = newD.slice(4,-8);
+
+
+      eventInfo.display_date = day + ', ' + month + ' '  + date + '-' + monthNames[nextMonth] + ' ' +monthRollover;
 
       // console.log(makeTimePretty(AdjTime(c.startTime)));
       // if (AdjTime(c.info.startTime).slice(0,-3)<12) {
