@@ -2397,6 +2397,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     }
 
     var monthRollover = 0;
+    // var displayDate = '';
     for (var i = 0; i < $scope.controller.daysLength; i++) {
       var m = Number(new Date($scope.controller.info.date).getMonth()+1);
       var d = Number(new Date($scope.controller.info.date).getDate());
@@ -2428,14 +2429,23 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
           date = d.slice(8,-5),
           edate = Number(d.slice(8,-5))+$scope.controller.daysLength-1
 
-      thisEvent.display_date = day + ' ' + month + ', ' + date;
+      if ($scope.controller.daysLength == 1) {
 
-      if ($scope.controller.daysLength > 1 && monthRollover == 0) {
-        thisEvent.display_date = day + ' ' + month + ', ' + date + '-' + edate;
-        // thisEvent.display_start = null;
-      } else if(monthRollover > 0) {
-        thisEvent.display_date = day + ' ' + month + ', ' + date + '-' + (month++) +','+monthRollover;
+        thisEvent.display_date = day + ' ' + month + ', ' + date;
+
+      } else {
+        if (i == 0) {
+
+          if ($scope.controller.daysLength > 1 && monthRollover == 0) {
+            thisEvent.display_date = day + ' ' + month + ', ' + date + '-' + edate;
+            // thisEvent.display_start = null;
+          } else if(monthRollover > 0) {
+            thisEvent.display_date = day + ' ' + month + ', ' + date + '-' + (month++) +','+monthRollover;
+          }
+
+        }
       }
+
       // console.log(thisEvent);
       // if ($scope.controller.daysLength > 1 && monthRollover == 0) {
       //   eventInfo.display_date = day + ' ' + month + ', ' + date + '-' + edate;

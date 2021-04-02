@@ -164,10 +164,11 @@ exports.addEvents = function(req, res, next) {
     // }
     var i = 0;
     var evs = req.body.events;
-    var id = req.body.id + i;
+    var id = req.body.id;
     function update() {
 
-      console.log(i);
+      thisId = id + i;
+      console.log(id);
       // console.log(req.body.eventLength);
       console.log(evs[i].date);
       if (req.body.type == 'news') {
@@ -182,7 +183,7 @@ exports.addEvents = function(req, res, next) {
 
         })
         .then(function() {
-          if (req.body.events.length == i+1) {
+          if (req.body.events.length-1 == i) {
             res.send('success')
           } else {
             i++;
@@ -192,7 +193,7 @@ exports.addEvents = function(req, res, next) {
       } else {
 
         knex('events')
-        .where({id:id})
+        .where({id:thisId})
         .update({
           name:evs[i].name,
           date:evs[i].date,
