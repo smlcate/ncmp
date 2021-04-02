@@ -223,11 +223,11 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
 
   $http.get('getSchedules')
   .then(function(data) {
-    console.log(data.data);
+    // console.log(data.data);
     if (data.data.length > 0) {
       $scope.clubSchedules.schedules = JSON.parse(data.data[0].schedule_data);
 
-      console.log($scope.clubSchedules);
+      // console.log($scope.clubSchedules);
       // var newScheds = [];
       for (var i = 0; i < $scope.clubSchedules.schedules.length; i++) {
         sched = $scope.clubSchedules.schedules[i];
@@ -241,7 +241,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
     }
   })
   .catch(function(err) {
-    console.log(err);
+    // console.log(err);
   })
 
   $http.get('getMembers')
@@ -251,7 +251,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
     // console.log(data);
     for (var i = 0; i < $scope.people.length; i++) {
       $scope.people[i].membership = JSON.parse($scope.people[i].membership);
-      console.log($scope.people[i].membership);
+      // console.log($scope.people[i].membership);
       if ($scope.people[i].membership != null) {
         for (var j = 0; j < $scope.people[i].membership.members.length; j++) {
           if ($scope.people[i].membership.members[j].fName != '') {
@@ -262,19 +262,19 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
       }
     }
 
-    console.log($scope.people);
-    console.log($scope.drivers);
+    // console.log($scope.people);
+    // console.log($scope.drivers);
 
   })
   .catch(function(err) {
-    console.log(err);
+    // console.log(err);
   })
 
   $http.get('getEventEntryLists')
   .then(function(data) {
     var lists = [];
     for (var i = 0; i < data.data.length; i++) {
-      console.log(data.data[i]);
+      // console.log(data.data[i]);
       var l = {
         original:data.data[i],
         entries: JSON.parse(data.data[i].entries)
@@ -286,12 +286,12 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
         }
       }
     }
-    console.log(lists);
+    // console.log(lists);
     $scope.registrations.entry_lists = lists;
 
   })
   .catch(function(err) {
-    console.log(err);
+    // console.log(err);
   })
 
   $('.eventGroupCell').css('border','none');
@@ -336,7 +336,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
 
   // $('.eventCells').on('mousenter', function() {
   //   $(this).css('box-shadow','0px 0px 3px 2px rgba(0,0,0,0.7)');
-  //   console.log('hit');
+    // console.log('hit');
   // })
   // .on('mouseout', function(){
   //   $(this).css('box-shadow','none');
@@ -404,12 +404,12 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
   }
 
   function AdjTime(t) {
-    console.log('hit this function');
+    // console.log('hit this function');
     if (t.getUTCHours()-5 < 0) {
       n = 24-(5-t.getUTCHours());
-      console.log(t.getUTCMinutes());
+      // console.log(t.getUTCMinutes());
       if (t.getUTCMinutes() < 10) {
-        console.log('hit here');
+        // console.log('hit here');
         return n+':'+'0'+t.getUTCMinutes()+'0';
 
       } else {
@@ -418,7 +418,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
       }
     } else  {
       if (t.getUTCMinutes() < 10) {
-        console.log('hit here');
+        // console.log('hit here');
         return t.getUTCHours()-5+':0'+t.getUTCMinutes()+'0';
       } else {
         return t.getUTCHours()-5+':'+t.getUTCMinutes()+'0';
@@ -474,7 +474,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
 
   }
   function makeTimePretty(t) {
-    console.log(t);
+    // console.log(t);
     var h, m;
     var splitTime;
     if (t.length > 6) {
@@ -488,7 +488,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
         m = m.slice(0,-1)
       }
     }
-    console.log(h);
+    // console.log(h);
     var append = 'am';
     if (h>12) {
       h = h-12;
@@ -561,19 +561,19 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
 
     $http.post('addEntryLists',{eventIds: eventIds,objectString:JSON.stringify(entryListObject)})
     .then(function(res) {
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
   }
 
   function buildResults(data) {
 
-    console.log(data);
+    // console.log(data);
     var d = JSON.parse(data.results);
     // var d = JSON.parse(d.data)
-    console.log(d);
+    // console.log(d);
     for (var i = 0; i < d.length; i++) {
       for (var j = 0; j < d[i].drivers.length; j++) {
         for (var k = 0; k < d[i].drivers[j].results.length; k++) {
@@ -621,7 +621,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
   function getPoints() {
     $http.get('getPoints')
     .then(function(data) {
-      console.log(data);
+      // console.log(data);
       $scope.currentPoints = buildResults(data.data[data.data.length-1]);
       // console.log($scope.currentPoints);
     })
@@ -637,20 +637,20 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 })
 
   // function buildNewsController() {
-  //   // console.log('hit');
+    // console.log('hit');
   //   for (var i = 0; i < $scope.eventGroups.length; i++) {
-  //     console.log('hit');
+      // console.log('hit');
   //     var s = $scope.eventGroups[i];
   //     s.events = [];
-  //     console.log(s);
+      // console.log(s);
   //     for (var j = 0; j < $scope.events.length; j++) {
   //       if (s.id == $scope.events[j].event_group_id) {
-  //         // console.log('hit');
+          // console.log('hit');
   //         s.events.push($scope.events[j])
   //       }
   //       if (j == $scope.events.length-1) {
   //         $scope.news.series.push(s);
-  //         console.log($scope.news.series);
+          // console.log($scope.news.series);
   //       }
   //     }
   //
@@ -661,10 +661,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   $scope.deleteAllEventRegistrations = function() {
     $http.get('deleteAllEventRegistrations')
     .then(function(res){
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
   }
 
@@ -674,10 +674,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     $http.post('/signUp', {auth:$scope.newAccount})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
   }
 
@@ -718,7 +718,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   $scope.openDriversList = function() {
 
-    console.log('hit');
+    // console.log('hit');
 
     if ($scope.manager.inputs.searchingDrivers == false) {
       // console.log('switch false');
@@ -787,7 +787,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       }
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
 
     $scope.clubRules.inputs.newList = 'KRA ' + ($scope.clubRules.ruleLists.length+1);
@@ -881,10 +881,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     // console.log(stringifiedData);
     $http.post("saveRuleLists",{data:stringifiedData})
     .then(function(data) {
-      console.log('success');
+      // console.log('success');
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
 
   }
@@ -894,7 +894,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $scope.clubSchedules.currentSchedule = id;
     $scope.clubSchedules.currentDay = 0;
     $scope.clubSchedules.currentRound = 0;
-    console.log(id);
+    // console.log(id);
   }
   $scope.editClubSchedules = function() {
     $scope.clubSchedules.inputs.edit = true;
@@ -926,7 +926,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     )
     $scope.clubSchedules.inputs.newSchedule = 'KRA ' + ($scope.clubSchedules.schedules.length+1);
     $scope.clubSchedules.inputs.addNewSchedule = false;
-    console.log($scope.clubSchedules.schedules);
+    // console.log($scope.clubSchedules.schedules);
   }
 
   $scope.editScheduleName = function() {
@@ -939,16 +939,16 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   $scope.applyScheduleNameEdit = function() {
     $scope.clubSchedules.inputs.editTitle = false;
     $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].name = $scope.clubSchedules.inputs.newScheduleTitle;
-    console.log($scope.clubSchedules);
+    // console.log($scope.clubSchedules);
   }
 
   $scope.selectNewRoundType = function(t) {
 
     if ($scope.clubSchedules.inputs.editRound == true) {
-      console.log(t);
-      console.log('hit this');
-      console.log($scope.clubSchedules.currentRound);
-      console.log('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv');
+      // console.log(t);
+      // console.log('hit this');
+      // console.log($scope.clubSchedules.currentRound);
+      // console.log('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv');
       $('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv .scheduleRoundPlannerBtns').css('background','#E1F5FE').css('color','#154498')
       $('#' + (Number($scope.clubSchedules.currentRound) + 1) + 'ScheduleRoundPlannerDiv #scheduleRound'+t+'PlannerBtn').css('background','#154498').css('color','#E1F5FE');
 
@@ -994,7 +994,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $scope.clubSchedules.inputs.editHeader = false;
   }
   $scope.applyScheduleOpenClose = function() {
-    console.log($scope.clubSchedules.currentSchedule);
+    // console.log($scope.clubSchedules.currentSchedule);
     if ($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen) {
       $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen = new Date($scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].gatesOpen);
     }
@@ -1004,7 +1004,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   }
 
   $scope.editScheduleRound = function(r) {
-    console.log(r);
+    // console.log(r);
     $scope.clubSchedules.inputs.editRound = true;
     $('.scheduleRoundDivs .scheduleRoundDivInfoDivs').css('display','flex');
     $("#" + r.id + "scheduleRoundDiv .scheduleRoundDivInfoDivs").css('display','none');
@@ -1033,8 +1033,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     }
     $scope.clubSchedules.inputs.newGroupTime = r.time;
 
-    console.log(r.groups);
-    console.log($scope.clubSchedules.inputs.roundGroups);
+    // console.log(r.groups);
+    // console.log($scope.clubSchedules.inputs.roundGroups);
     if (r.intervalType == 'lap') {
       $scope.clubSchedules.inputs.intervalLap = true;
     } else {
@@ -1051,7 +1051,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     $scope.clubSchedules.currentGroup = g;
 
-    console.log(g);
+    // console.log(g);
 
     $scope.clubSchedules.inputs.editGroupClasses = g.classes;
 
@@ -1071,7 +1071,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   $scope.applyGroupEdit = function(g) {
 
-    console.log(g);
+    // console.log(g);
 
     g.classes = $scope.clubSchedules.inputs.editGroupClasses;
 
@@ -1091,8 +1091,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   $scope.moveGroup = function(g,d) {
 
-    console.log(g);
-    console.log(d);
+    // console.log(g);
+    // console.log(d);
 
     var changingGroups = $scope.clubSchedules.inputs.roundGroups;
 
@@ -1233,7 +1233,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     $scope.clubSchedules.schedules[$scope.clubSchedules.currentSchedule].days[$scope.clubSchedules.currentDay].rounds[$scope.clubSchedules.currentRound] = round;
 
-    console.log($scope.clubSchedules.schedules);
+    // console.log($scope.clubSchedules.schedules);
     // $scope.clubSchedules.currentRound ++;
   }
 
@@ -1280,7 +1280,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   $scope.addKidKartInfo = function() {
     $scope.clubSchedules.inputs.kidKartInfo.push($scope.clubSchedules.inputs.kidKartInfoInput);
-    console.log($scope.clubSchedules.inputs.kidKartInfoInput);
+    // console.log($scope.clubSchedules.inputs.kidKartInfoInput);
     $scope.clubSchedules.inputs.kidKartInfoInput = '';
 
   }
@@ -1345,7 +1345,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         }
         // $scope.clubSchedules.inputs.roundGroups = $scope.clubSchedules.inputs.roundGroups.map(function(g) {
         //   g.laps = $scope.clubSchedules.inputs.interval;
-        //   console.log(g.laps);
+          // console.log(g.laps);
         //   return g;
         // })
 
@@ -1383,7 +1383,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       kidKart:$scope.clubSchedules.inputs.kidKart,
       roundInfo:$scope.clubSchedules.inputs.roundInfo
     }
-    console.log(round.kidKart);
+    // console.log(round.kidKart);
     if ($scope.clubSchedules.inputs.intervalLap) {
       round.intervalType = 'lap';
     } else if ($scope.clubSchedules.inputs.intervalTime) {
@@ -1457,10 +1457,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $http.post('saveSchedules',{schedules:$scope.clubSchedules.schedules})
     .then(function(res) {
       // console.log(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
   }
 
@@ -1480,7 +1480,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     // .then(function(res) {
     //   var people = res.data;
       var pass = true;
-    //   console.log(people);
+      // console.log(people);
 
       for(var i = 0;i < $scope.people.length;i++) {
         if ($scope.people[i].email === $scope.newAccount.email) {
@@ -1508,7 +1508,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
             // console.log(data);
           })
           .catch(function(err) {
-            console.log(err);
+            // console.log(err);
           })
           // sessionStorage.setItem('user',JSON.stringify(res.data));
           //
@@ -1548,14 +1548,14 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       // console.log(data);
     } )
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
     $http.post('removeAllEvents')
     .then(function(data) {
       // console.log(data);
     } )
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
   }
 
@@ -1872,7 +1872,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         // console.log(res);
       })
       .catch(function(err) {
-        console.log(err);
+        // console.log(err);
       })
     }
     if ($scope.news.type == 'normal') {
@@ -1913,10 +1913,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     }
     $http.post('saveNews',{news:$scope.news})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
   }
 
@@ -2021,7 +2021,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     var passes = [];
 
-    console.log('HIT');
+    // console.log('HIT');
 
     for (var i = 0; i < $scope.selectedRegistration.entries.passes.length; i++) {
       var pass = {
@@ -2041,12 +2041,12 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
           pass.threeDay = $scope.selectedRegistration.entries.passes[i].order[k].amnt_ordered;
         }
       }
-      console.log($scope.people);
+      // console.log($scope.people);
       for (var j = 0; j < $scope.people.length; j++) {
 
-        console.log($scope.people[j].id,$scope.selectedRegistration.entries.passes[i].member_id-1);
+        // console.log($scope.people[j].id,$scope.selectedRegistration.entries.passes[i].member_id-1);
         if ($scope.people[j].id == $scope.selectedRegistration.entries.passes[i].member_id-1) {
-          console.log('match');
+          // console.log('match');
           pass.member = $scope.people[j].membership.members[0];
           j = $scope.people.length;
         }
@@ -2056,13 +2056,13 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     }
     $scope.selectedRegistrationPasses = passes;
-    console.log(passes);
+    // console.log(passes);
     // console.log($scope.selectedRegistrationMembers);
   }
 
   $scope.selectRegistrationList = function(list,index) {
 
-    console.log('HIT');
+    // console.log('HIT');
     $('.registryClassCell').css('background','white');
     $('.registryClassCell h1').css('color','#154498');
     // console.log(index);
@@ -2107,7 +2107,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   $scope.updatePoints = function() {
 
     var fileUpload = document.getElementById("pointsInput");
-    console.log(fileUpload.files  );
+    // console.log(fileUpload.files  );
 
     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
 
@@ -2128,7 +2128,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
           }
           var row = cl.split('\n');
           for (var j = 0; j < row.length; j++) {
-            console.log(row[j]);
+            // console.log(row[j]);
             if (j === 0) {
               classObject.name = row[j].split(',')[0];
               // console.log(classObject.name);
@@ -2150,14 +2150,14 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
                 i++
                 classes.push(classObject)
                 if (i >= fileUpload.files.length-1) {
-                  console.log(classes);
+                  // console.log(classes);
                   var stringData = JSON.stringify(classes)
                   $http.post('updatePoints', {data:stringData})
                   .then(function(res) {
-                    console.log(res.data);
+                    // console.log(res.data);
                   })
                   .catch(function(err) {
-                    console.log(err);
+                    // console.log(err);
                   })
                   return;
                 } else {
@@ -2311,18 +2311,18 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     $http.post('editEventGroup',info)
     .then(function(res) {
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
 
     $http.post('editEventsBySeries', info)
     .then(function(res) {
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
 
   }
@@ -2389,10 +2389,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     function update() {
       $http.post('editEvent', info)
       .then(function(res) {
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch(function(err) {
-        console.log(err);
+        // console.log(err);
       })
     }
 
@@ -2408,7 +2408,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       var thisEvent;
 
       if (nd > monthDays[m-1]) {
-        console.log('hit');
+        // console.log('hit');
         monthRollover ++;
         nd = monthRollover;
         m ++;
@@ -2488,9 +2488,9 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         thisEvent.event_key = eventKey;
       }
       info.events.push(thisEvent);
-      console.log(info.events);
+      // console.log(info.events);
       if (i+1 === $scope.controller.daysLength) {
-        console.log('hit');
+        // console.log('hit');
         update()
       }
     }
@@ -2544,7 +2544,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
 
     addEntryLists();
@@ -2560,7 +2560,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       // console.log(res.data);
     })
     .catch(function(err) {
-      console.log(err);
+      // console.log(err);
     })
   }
 
@@ -2607,7 +2607,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     var eventKey = Math.floor((Math.random() * 100)) + c.info.name[1] + c.info.name[0];
 
     function AdjTime(t) {
-      console.log(t);
+      // console.log(t);
       if (t.getUTCHours()-5 < 0) {
         n = 24-(5-t.getUTCHours());
         if (t.getUTCMinutes() < 10) {
@@ -2645,10 +2645,10 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       var nd = Number(d) + i;
 
       var event;
-      console.log(m,d,y,nd);
-      console.log(monthDays[m-1]);
+      // console.log(m,d,y,nd);
+      // console.log(monthDays[m-1]);
       if (nd > monthDays[m-1]) {
-        console.log('hit');
+        // console.log('hit');
         monthRollover ++;
         nd = monthRollover;
         // m ++;
@@ -2801,17 +2801,17 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
                 // console.log(res);
               })
               .catch(function(err) {
-                console.log(err);
+                // console.log(err);
               })
 
             } else {
-              console.log($scope.eventPreviews);
+              // console.log($scope.eventPreviews);
               $http.post('addEvents', $scope.eventPreviews)
               .then(function(res) {
                 // console.log(res);
               })
               .catch(function(err) {
-                console.log(err);
+                // console.log(err);
               })
             }
             addEntryLists();
@@ -2819,7 +2819,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
         }
       })
       .catch(function(err) {
-        console.log(err);
+        // console.log(err);
       })
 
     } else {
@@ -2841,7 +2841,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       }
       $http.post('addEvents', $scope.controller.toAdd)
       .then(function(res) {
-        console.log("HIT");
+        // console.log("HIT");
         $http.get('getData')
         .then(function(res) {
           $scope.events = res.data;
@@ -2861,12 +2861,12 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
           // console.log($scope.eventPreviews);
         })
         .catch(function(err) {
-          console.log(err);
+          // console.log(err);
         })
         // console.log(res)
       })
       .catch(function(err) {
-        console.log(err);
+        // console.log(err);
       })
       addEntryLists();
 
@@ -2927,11 +2927,11 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
             // console.log($scope.eventPreviews);
           })
           .catch(function(err) {
-            console.log(err);
+            // console.log(err);
           })
         })
         .catch(function(err) {
-          console.log(err);
+          // console.log(err);
         })
 
       }
@@ -2982,7 +2982,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
           // console.log(res.data);
         })
         .catch(function(err) {
-          console.log(err);
+          // console.log(err);
         })
 
         if (urls.length < files.length) {
@@ -3030,7 +3030,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
         })
         .catch(function(err) {
-          console.log(err);
+          // console.log(err);
         })
 
       };
@@ -3109,7 +3109,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $scope.eventGroups = res.data;
   })
   .catch(function(err) {
-    console.log(err);
+    // console.log(err);
   })
 
   $http.get('getImages')
