@@ -2397,6 +2397,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     }
 
     var monthRollover = 0;
+    var nextMonth;
     // var displayDate = '';
     for (var i = 0; i < $scope.controller.daysLength; i++) {
       var m = Number(new Date($scope.controller.info.date).getMonth()+1);
@@ -2404,23 +2405,37 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       var y = Number(new Date($scope.controller.info.date).getYear()+1900);
       var nd = Number(d) + i;
 
+      var thisEvent;
+
       if (nd > monthDays[m-1]) {
         console.log('hit');
         monthRollover ++;
         nd = monthRollover;
         m ++;
+        thisEvent = {
+          name: $scope.controller.info.eventName,
+          date: m + '/' + nd + '/' + y,
+          display_date:''
+          // color: $scope.controller.info.color,
+          // start: AdjTime($scope.controller.info.startTime),
+          // end: AdjTime($scope.controller.info.endTime),
+          // event_key: eventKey,
+          // image: $scope.selectedPhoto.id
+        }
+      } else {
+
+        thisEvent = {
+          name: $scope.controller.info.eventName,
+          date: m + '/' + nd + '/' + y,
+          display_date:''
+          // color: $scope.controller.info.color,
+          // start: AdjTime($scope.controller.info.startTime),
+          // end: AdjTime($scope.controller.info.endTime),
+          // event_key: eventKey,
+          // image: $scope.selectedPhoto.id
+        }
       }
 
-      thisEvent = {
-        name: $scope.controller.info.eventName,
-        date: m + '/' + nd + '/' + y,
-        display_date:''
-        // color: $scope.controller.info.color,
-        // start: AdjTime($scope.controller.info.startTime),
-        // end: AdjTime($scope.controller.info.endTime),
-        // event_key: eventKey,
-        // image: $scope.selectedPhoto.id
-      }
 
       var d = new Date(thisEvent.date).toDateString()
 
@@ -2628,28 +2643,43 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       var d = eventInfo.date.slice(8,-14);
       var y = eventInfo.date.slice(0,-20);
       var nd = Number(d) + i;
+
+      var event;
       console.log(m,d,y,nd);
       console.log(monthDays[m-1]);
       if (nd > monthDays[m-1]) {
         console.log('hit');
         monthRollover ++;
         nd = monthRollover;
-        m ++;
+        // m ++;
         nextMonth = m;
+        event = {
+          name: c.info.eventName,
+          date: (m+1) + '/' + nd + '/' + y,
+          color: eventInfo.color,
+          // start: AdjTime(c.info.startTime),
+          // end: AdjTime(c.info.endTime),
+          event_key: eventKey,
+          image: $scope.selectedPhoto.id
+        }
+        eventInfo.events.push(event);
+      } else {
+
+        event = {
+          name: c.info.eventName,
+          date: m + '/' + nd + '/' + y,
+          color: eventInfo.color,
+          // start: AdjTime(c.info.startTime),
+          // end: AdjTime(c.info.endTime),
+          event_key: eventKey,
+          image: $scope.selectedPhoto.id
+        }
+        if (c.daysLength == 1) {
+          event.event_key = null;
+        }
+        eventInfo.events.push(event);
+
       }
-      var event = {
-        name: c.info.eventName,
-        date: m + '/' + nd + '/' + y,
-        color: eventInfo.color,
-        // start: AdjTime(c.info.startTime),
-        // end: AdjTime(c.info.endTime),
-        event_key: eventKey,
-        image: $scope.selectedPhoto.id
-      }
-      if (c.daysLength == 1) {
-        event.event_key = null;
-      }
-      eventInfo.events.push(event);
     }
     var d = new Date(eventInfo.date).toDateString()
 
@@ -2671,7 +2701,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       var month = newD.slice(4,-8);
 
 
-      eventInfo.display_date = day + ', ' + month + ' '  + date + '-' + monthNames[nextMonth] + ' ' +monthRollover;
+      eventInfo.display_date = day + ', ' + monthNames[nextMonth-1] + ' '  + date + '-' + monthNames[nextMonth] + ' ' +monthRollover;
 
       // console.log(makeTimePretty(AdjTime(c.startTime)));
       // if (AdjTime(c.info.startTime).slice(0,-3)<12) {
