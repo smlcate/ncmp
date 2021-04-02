@@ -2627,7 +2627,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       date: c.info.date,
       dateString: c.info.date.toISOString(),
       display_date: '',
-      image: $scope.selectedPhoto.id,
+      image: $scope.selectedPhoto.id || null,
       color: c.info.color,
       description: c.info.description,
       tag: 'add',
