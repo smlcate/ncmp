@@ -98,7 +98,7 @@ exports.deleteAllEventRegistrations = function(req, res, next) {
   })
 }
 exports.addEntryLists = function(req, res, next) {
-  console.log(req.body);
+  console.log('ENTRY OBJECT', req.body);
 
   var i = 0;
 
@@ -120,7 +120,9 @@ exports.addEntryLists = function(req, res, next) {
       }
     })
     .catch(function(err) {
+
       console.log(err);
+      res.send(err);
     })
 
   }
@@ -146,6 +148,7 @@ exports.addEntryLists = function(req, res, next) {
     })
     .catch(function(err) {
       console.log(err);
+      res.send(err);
     })
 
   }
@@ -154,6 +157,20 @@ exports.addEntryLists = function(req, res, next) {
 
 
   // res.send('success')
+}
+
+exports.removeEntryList = function(req, res, next) {
+  console.log(req.body);
+  knex('entry_list')
+  .where({event_id:req.body.id})
+  .delete()
+  .then(function() {
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
 }
 // exports.getEntryList = function(req, res, next) {
 //

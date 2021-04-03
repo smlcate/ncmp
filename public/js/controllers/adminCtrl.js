@@ -530,10 +530,19 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
 
   function addEntryLists() {
 
-    var eventIds = []
-    for (var i = 0; i < $scope.eventPreviews.length; i++) {
-      eventIds.push($scope.eventPreviews[i].id)
+    var eventIds = [];
+    for (var i = 0; i < $scope.events.length; i++) {
+      // console.log($scope.events[i], s.id)
+      if ($scope.events[i].event_group_id == $scope.selectedSeries.id) {
+        // console.log('hit');
+        // $scope.eventPreviews.push($scope.events[i])
+        eventIds.push($scope.events[i].id);
+        // console.log($scope.controller.events)
+      }
     }
+
+    // for (var i = 0; i < $scope.eventPreviews.length; i++) {
+    // }
     var entryListObject = {
       classes: [],
       members: [],
@@ -561,10 +570,10 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
 
     $http.post('addEntryLists',{eventIds: eventIds,objectString:JSON.stringify(entryListObject)})
     .then(function(res) {
-      // console.log(res.data);
+      console.log(res.data);
     })
     .catch(function(err) {
-      // console.log(err);
+      console.log(err);
     })
   }
 
@@ -657,6 +666,17 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   //   }
   // }
   // buildNewsController();
+
+  $scope.removeEntryList = function(id) {
+    console.log(id);
+    $http.post('/removeEntryList', {id:id})
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
 
   $scope.deleteAllEventRegistrations = function() {
     $http.get('deleteAllEventRegistrations')
@@ -2480,7 +2500,9 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
   $scope.addRegistry = function(s) {
 
-    $scope.registry = {};
+    // $scope.registry = {
+    //   classes:[]
+    // };
 
     $('#adminEventRegistryContainer').css('display','flex');
     $scope.selectedSeries = s;
