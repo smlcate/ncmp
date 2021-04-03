@@ -74,7 +74,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     .then(function(data) {
       // console.log(data);
       $scope.events = data.data;
-      console.log($scope.events);
+      // console.log($scope.events);
 
       giveAnnouncements();
       getPoints();
