@@ -2001,6 +2001,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
     $('.mainRegistryCells').css('background',list.ev.color);
     $('.mainRegistryCells').css('color','black');
 
+    $('#registryViewNav').css('display','flex');
 
     $('#'+index+'registryCell').css('background','#154498','color','#E1F5FE');
     $('#'+index+'registryCell').css('color','#E1F5FE');
@@ -2117,6 +2118,8 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
 
     $('#selectReg'+v+'View').css('background','#154498');
     $('#selectReg'+v+'View').css('color','#E1F5FE');
+
+    $('#registryViewNav').css('display','flex');
 
     // $('.mainRegistryCells').css('color','black');
 

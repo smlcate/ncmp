@@ -406,6 +406,9 @@ a {
   display: flex;
   flex-direction: column;
 }
+#registryViewNav {
+  display: none;
+}
 .adminRegistryDivs {
   width: 100%;
   display: flex;

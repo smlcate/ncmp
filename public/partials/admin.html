@@ -568,6 +568,21 @@
             </span>
 
           </div>
+          <div class="registrySplitters">
+            <h3>Other Options</h3>
+            <span>
+              <p>Option Name</p>
+              <input type="text" name="" value="" ng-model="registry.option.name">
+              <p>Price</p>
+              <input type="number" class="numberInputs" name="" value="" ng-model="registry.option.price">
+              <p>Quantity Option</p>
+              <input type="checkbox" class="" name="" value="" ng-model="registry.option.quantity_option">
+              <p>Quantity Limit</p>
+              <input type="number" class="numberInputs" name="" value="" ng-model="registry.option.quantity_limit">
+
+              <button type="button" name="button" ng-click="addRegistryOption()">Add</button>
+            </span>
+          </div>
         </div>
         <!-- <div class="adminRegistryDivs">
           <p>Start Pre-entry:</p>
@@ -584,19 +599,6 @@
           <p>Month(s)</p>
           <input type="checkbox" name="" value="" ng-model="registry.start_preentry.months">
         </div> -->
-        <h3>Other Options</h3>
-        <span>
-          <p>Option Name</p>
-          <input type="text" name="" value="" ng-model="registry.option.name">
-          <p>Price</p>
-          <input type="number" class="numberInputs" name="" value="" ng-model="registry.option.price">
-          <p>Quantity Option</p>
-          <input type="checkbox" class="" name="" value="" ng-model="registry.option.quantity_option">
-          <p>Quantity Limit</p>
-          <input type="number" class="numberInputs" name="" value="" ng-model="registry.option.quantity_limit">
-
-          <button type="button" name="button" ng-click="addRegistryOption()">Add</button>
-        </span>
         <h3>Classes</h3>
         <span>
           <p>Price $</p>
