@@ -74,7 +74,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     .then(function(data) {
       // console.log(data);
       $scope.events = data.data;
-      // console.log($scope.events);
+      console.log($scope.events);
 
       giveAnnouncements();
       getPoints();
@@ -922,39 +922,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       }
     }
 
-
-
-    // var groupIds = [];
-    //
-    // var groups = [];
-    //
-    // for (var i = 0; i < announcements.events.length; i++) {
-    //
-    //   var push = true;
-    //
-    //   for (var j = 0; j < groupIds.length; j++) {
-    //     if (groupIds[j] === announcements.events[i].event_group_id) {
-    //       push = false;
-    //     }
-    //   }
-    //   if (push) {
-    //     console.log(i)
-    //     // console.log(announcements.events[i].event_group_id)
-    //     groupIds.push(announcements.events[i].event_group_id)
-    //     $http.post('getEventGroups', {id:announcements.events[i].event_group_id})
-    //     .then(function(res) {
-    //       console.log(res);
-    //     })
-    //     .catch(function(err) {
-    //       console.log(err);
-    //     })
-    //   }
-
-    // }
-
-
-
-
   }
 
   $scope.thisBit = function(b) {
@@ -987,47 +954,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     }
     setReg();
 
-
-    // $http.post('getEventRegistration', {seriesId:$scope.selectedBit.event_group_id})
-    // .then(function(data) {
-    //   console.log(data);
-    //   $scope.registrationForm = JSON.parse(data.data.registry_data);
-        //   console.log($scope.registrationForm);
-    //
-    // })
-    // .catch(function(err) {
-    //   console.log(err);
-    // })
-    // $http.post('getEntryList', {seriesId:$scope.selectedBit.event_id})
-    // .then(function(data) {
-    //   $scope.entryList = JSON.parse(data.data.registry_data);
-    //
-    // })
-    // .catch(function(err) {
-    //   console.log(err);
-    // })
   }
 
 
-  // $http.get('api.openweathermap.org/data/2.5/weather?q=NewCastle,IN')
-  // .then(function(res) {
-  //   console.log('Weather info');
-  //   console.console.log(res);
-  //   // var weather = res.data.current_observation;
-  //   // var url = weather.icon_url.slice(4);
-  //   //
-  //   // weather.icon_url = "https" + url;
-  //   //
-  //   // $scope.weather = weather;
-  //
-  //   // console.log($scope.weather);
-  //
-  // })
-  // $http.get('https://api.wunderground.com/api/7c8eaaf84b5e5dd0/forecast10day/q/IN/New_Castle.json')
-  // .then(function(res) {
-  //
-  //   $scope.tenDayForecast = res.data.forecast.simpleforecast.forecastday;
-  //
-  // })
+
 
 }]);

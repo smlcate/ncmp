@@ -11,13 +11,13 @@
       <div ng-if="announcements.events.length > 0" class="welcomeQuickViewContainers" id="welcomeEventQuickView">
         <h2>Upcoming Events</h2>
         <span style="background:{{announcements.events[0].color}};">
-          <p>{{announcements.events[0].name}} - {{announcements.events[0].displayDate}}</p>
+          <p>{{announcements.events[0].name}} - {{announcements.events[0].display_date}}</p>
           <a href="" ng-if="announcements.events[0].openReg == true" ng-click="goToRegistration(announcements.events[0])">Register</a>
         </span>
         <span ng-if="announcements.events[1]" style="background:{{announcements.events[1].color}};">
-          <p>{{announcements.events[1].name}} - {{announcements.events[1].displayDate}}</p>
+          <p>{{announcements.events[1].name}} - {{announcements.events[1].display_date}}</p>
         </span>
-        
+
       </div>
       <div ng-if="announcements.news.length > 0" class="welcomeQuickViewContainers" id="welcomeNewssQuickView">
         <h2>Recent News</h2>
@@ -44,16 +44,16 @@
 
     <!-- Shows each sponsor with link to page -->
     <div id="sponsorContainerView">
-      
+
       <a href="{{sponsor.page_url}}" ng-repeat="sponsor in sponsors">
         <img src="{{sponsor.image_data_url}}" class="sponsorCell">
       </a>
-      
+
     </div>
 
   </div>
 
-  
+
 
 
 
