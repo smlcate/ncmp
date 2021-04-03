@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var stripe = require('stripe')('sk_test_qU6GDXGLTMU9nhpJPF982Ksb')
 exports.buyMembership = function(req, res, next) {
 
-  // console.log(req.body);
+  console.log(req.body);
   var token = req.body.token;
   var member = req.body.member;
   var user = req.body.user;

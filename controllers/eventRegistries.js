@@ -144,6 +144,9 @@ exports.addEntryLists = function(req, res, next) {
         }
       }
     })
+    .catch(function(err) {
+      console.log(err);
+    })
 
   }
 

@@ -1976,7 +1976,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   }
 
   $scope.selectRegistration = function(list, index) {
-    // console.log(list);
+    console.log(list);
     // console.log(index);
     $('.mainRegistryCells').css('background',list.ev.color);
     $('.mainRegistryCells').css('color','black');
@@ -2240,32 +2240,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       $scope.controller.info.description = s.description;
       $scope.eventPreviews = [];
       $scope.edit.events = 'view';
-      $http.post('getEventRegistration', {seriesId:s.id})
-      .then(function(res) {
-        $scope.registry.series_id = s.id;
-        if (res.data != "") {
 
-          // console.log(res.data);
-          var reg = JSON.parse(res.data.registry_data);
-          $scope.savedReg = reg;
-
-          $scope.registry.price_1 = reg.price_1;
-          $scope.registry.price_2 = reg.price_2;
-          $scope.registry.main_registration = reg.main_registration;
-
-          $scope.registry.req_member = reg.req_member;
-          $scope.registry.start_preentry = reg.start_preentry;
-          $scope.registry.options = reg.options;
-          $scope.registry.classes = reg.classes;
-          $scope.registry.passes = reg.passes;
-          $scope.registry.passes.one_day.name = "One Day";
-          $scope.registry.passes.two_day.name = "Two Day";
-          $scope.registry.passes.three_day.name = "Three Day";
-
-          $scope.registry.trans_rental_price = reg.trans_rental_price;
-
-        }
-      })
       for (var i = 0; i < $scope.events.length; i++) {
         // console.log($scope.events[i], s.id)
         if ($scope.events[i].event_group_id == s.id) {
@@ -2498,9 +2473,43 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
   }
 
 
-  $scope.addRegistry = function() {
+  $scope.cancelAddRegistry = function() {
+    $('#adminEventRegistryContainer').css('display','none');
+    $scope.registry = {};
+  }
+
+  $scope.addRegistry = function(s) {
+
+    $scope.registry = {};
 
     $('#adminEventRegistryContainer').css('display','flex');
+    $scope.selectedSeries = s;
+    $http.post('getEventRegistration', {seriesId:s.id})
+    .then(function(res) {
+      $scope.registry.series_id = s.id;
+      if (res.data != "") {
+
+        // console.log(res.data);
+        var reg = JSON.parse(res.data.registry_data);
+        $scope.savedReg = reg;
+
+        $scope.registry.price_1 = reg.price_1;
+        $scope.registry.price_2 = reg.price_2;
+        $scope.registry.main_registration = reg.main_registration;
+
+        $scope.registry.req_member = reg.req_member;
+        $scope.registry.start_preentry = reg.start_preentry;
+        $scope.registry.options = reg.options;
+        $scope.registry.classes = reg.classes;
+        $scope.registry.passes = reg.passes;
+        $scope.registry.passes.one_day.name = "One Day";
+        $scope.registry.passes.two_day.name = "Two Day";
+        $scope.registry.passes.three_day.name = "Three Day";
+
+        $scope.registry.trans_rental_price = reg.trans_rental_price;
+
+      }
+    })
 
   }
   $scope.registryPrice = function() {
