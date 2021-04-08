@@ -286,7 +286,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
         }
       }
     }
-    // console.log(lists);
+    console.log(lists);
     $scope.registrations.entry_lists = lists;
 
   })
@@ -540,7 +540,7 @@ app.controller('adminCtrl',  ['$scope', '$http', '$compile', function($scope, $h
         // console.log($scope.controller.events)
       }
     }
-
+    console.log(eventIds);
     // for (var i = 0; i < $scope.eventPreviews.length; i++) {
     // }
     var entryListObject = {
@@ -2848,7 +2848,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
                 // console.log(err);
               })
             }
-            addEntryLists();
+            // addEntryLists();
           })
         }
       })
@@ -2902,7 +2902,7 @@ $('.adminResultsDriversCells').on('mouseenter', function() {
       .catch(function(err) {
         // console.log(err);
       })
-      addEntryLists();
+      // addEntryLists();
 
     }
 

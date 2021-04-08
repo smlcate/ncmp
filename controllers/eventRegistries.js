@@ -135,6 +135,7 @@ exports.addEntryLists = function(req, res, next) {
     .where({event_id:req.body.eventIds[i]})
     .select('*')
     .then(function(data) {
+      console.log(data);
       if (data.length === 0) {
         addList();
       } else {
