@@ -1,12 +1,17 @@
-require('dotenv').config();
+require('dotenv').config({path: '../.env'});
+// require('../.env');
+const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
+var stripe = require('stripe')(STRIPE_API_KEY);
+// console.log();
+console.log(STRIPE_API_KEY);
 var express = require('express');
 var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
-var stripe = require('stripe')('sk_test_qU6GDXGLTMU9nhpJPF982Ksb')
 exports.buyMembership = function(req, res, next) {
 
+  console.log("API KEY",STRIPE_API_KEY);
   console.log(req.body);
   var token = req.body.token;
   var member = req.body.member;

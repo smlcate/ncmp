@@ -4,7 +4,8 @@ var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
-var stripe = require('stripe')('sk_test_qU6GDXGLTMU9nhpJPF982Ksb')
+
+var stripe = require('stripe')(process.env.STRIPE_API_KEY);
 
 exports.saveEventRegistry = function(req, res, next) {
   console.log(req.body);
