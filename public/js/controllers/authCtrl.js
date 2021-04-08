@@ -1,4 +1,4 @@
-app.controller('authCtrl',  ['$scope', '$http', function($scope, $http) {
+app.controller('authCtrl',  ['$scope', '$http','$window', function($scope, $http, $window) {
 
   $scope.signIn = {
     error:''
@@ -39,6 +39,8 @@ app.controller('authCtrl',  ['$scope', '$http', function($scope, $http) {
           $('#signInUpHeaderInfoCell').css('display','none')
           $('#userHeaderInfoCell').css('display','flex')
           window.location.href = '#!/welcomePage';
+          $window.location.reload();
+
         })
 
       }
@@ -69,7 +71,9 @@ app.controller('authCtrl',  ['$scope', '$http', function($scope, $http) {
 
         $('#signInUpHeaderInfoCell').css('display','none')
 
-        window.location.href = '#!/home'
+        window.location.href = '#!/home';
+        $window.location.reload();
+
 
       }
 

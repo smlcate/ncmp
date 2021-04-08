@@ -650,7 +650,7 @@
     <div class="registriesNavs" id="mainRegistryCellDiv">
 
 
-      <div class="mainRegistryCells" id="{{$index}}registryCell" ng-if="list.entries.classes.length > 0" ng-repeat="list in registrations.entry_lists track by $index" ng-click="selectRegistration(list, $index)" style="background:{{list.ev.color}}">
+      <div class="mainRegistryCells" id="{{$index}}registryCell" ng-if="list.entries.classes.length > 0 && list.ev" ng-repeat="list in registrations.entry_lists track by $index" ng-click="selectRegistration(list, $index)" style="background:{{list.ev.color}}">
 
         <h2>{{list.ev.name}}</h2>
         <!-- <h2>{{list}}</h2> -->
